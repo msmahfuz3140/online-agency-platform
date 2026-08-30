@@ -12,7 +12,6 @@ export function NewsletterSection() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) return;
-    // UI only — no backend yet
     setSubmitted(true);
     setEmail("");
   }
@@ -22,9 +21,9 @@ export function NewsletterSection() {
       <FadeInSection>
         <div className="max-w-xl mx-auto text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Newsletter</p>
-          <h2 className="font-heading text-3xl font-bold">Stay in the loop.</h2>
-          <p className="mt-3 text-sm text-muted-fg">
-            Web dev deep-dives, agency insights, and occasional behind-the-scenes from our projects. Zero spam. Unsubscribe anytime.
+          <h2 className="font-heading text-2xl sm:text-3xl font-bold">Stay in the loop.</h2>
+          <p className="mt-3 text-sm text-muted-fg leading-relaxed">
+            Web dev deep-dives, agency insights, and occasional behind-the-scenes from our projects. Zero spam.
           </p>
 
           {submitted ? (
@@ -34,7 +33,7 @@ export function NewsletterSection() {
               <p className="text-xs text-muted-fg">We&apos;ll be in touch with the good stuff.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="mt-8 flex gap-2">
+            <form onSubmit={handleSubmit} className="mt-7 sm:mt-8 flex flex-col sm:flex-row gap-2.5">
               <input
                 id="newsletter-email"
                 type="email"
@@ -42,10 +41,10 @@ export function NewsletterSection() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                className="flex-1 h-10 px-4 text-sm bg-surface border border-border rounded-lg text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500 transition-colors"
+                className="flex-1 h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-colors"
               />
-              <Button type="submit" variant="primary" size="md">
-                Subscribe
+              <Button type="submit" variant="primary" size="md" className="h-11 w-full sm:w-auto whitespace-nowrap">
+                Subscribe →
               </Button>
             </form>
           )}

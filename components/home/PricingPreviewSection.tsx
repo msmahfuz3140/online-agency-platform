@@ -11,7 +11,14 @@ const plans = [
     name: "Starter",
     price: "$499",
     desc: "Perfect for freelancers and solo founders who need a professional online presence.",
-    features: ["Portfolio or landing page", "Up to 5 pages", "Mobile responsive", "Basic SEO setup", "1 round of revisions", "7-day delivery"],
+    features: [
+      "Portfolio or landing page",
+      "Up to 5 pages",
+      "Mobile responsive",
+      "Basic SEO setup",
+      "1 round of revisions",
+      "7-day delivery",
+    ],
     cta: "Get Started",
     popular: false,
     variant: "secondary" as const,
@@ -20,8 +27,16 @@ const plans = [
     name: "Growth",
     price: "$1,499",
     desc: "For growing businesses that need a full website with CMS, lead capture, and integrations.",
-    features: ["Up to 12 pages", "Headless CMS integration", "Contact forms + CRM", "Advanced SEO", "3 rounds of revisions", "Performance guarantee", "14-day delivery"],
-    cta: "Most Popular",
+    features: [
+      "Up to 12 pages",
+      "Headless CMS integration",
+      "Contact forms + CRM",
+      "Advanced SEO",
+      "3 rounds of revisions",
+      "Performance guarantee",
+      "14-day delivery",
+    ],
+    cta: "Get Started",
     popular: true,
     variant: "primary" as const,
   },
@@ -29,7 +44,14 @@ const plans = [
     name: "Scale",
     price: "Custom",
     desc: "Full-stack SaaS apps, e-commerce, or complex platforms with custom architecture.",
-    features: ["Full-stack application", "Auth + billing system", "Admin dashboard", "API integrations", "Unlimited revisions", "3-month support"],
+    features: [
+      "Full-stack application",
+      "Auth + billing system",
+      "Admin dashboard",
+      "API integrations",
+      "Unlimited revisions",
+      "3-month support",
+    ],
     cta: "Request a Quote",
     popular: false,
     variant: "secondary" as const,
@@ -40,32 +62,37 @@ export function PricingPreviewSection() {
   return (
     <Section id="pricing">
       <FadeInSection>
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Pricing</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold">Transparent pricing.</h2>
-          <p className="mt-4 text-muted-fg max-w-sm mx-auto text-sm">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">Transparent pricing.</h2>
+          <p className="mt-3 sm:mt-4 text-sm text-muted-fg max-w-sm mx-auto">
             No surprise invoices. Fixed-scope packages with clear deliverables.
           </p>
         </div>
       </FadeInSection>
 
-      <StaggerList className="grid md:grid-cols-3 gap-6 items-start">
+      <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 items-start">
         {plans.map((p) => (
           <Card
             key={p.name}
             padding="lg"
-            className={`relative ${p.popular ? "border-primary-500/50 shadow-[0_0_40px_rgba(20,184,160,0.15)]" : ""}`}
+            className={`relative flex flex-col ${
+              p.popular
+                ? "border-primary-500/50 shadow-[0_0_40px_rgba(20,184,160,0.15)] sm:scale-[1.02] lg:scale-[1.03]"
+                : ""
+            }`}
           >
             {p.popular && (
               <div className="absolute -top-3 inset-x-0 flex justify-center">
                 <Badge variant="primary" size="sm">Most Popular</Badge>
               </div>
             )}
+
             <p className="text-xs font-semibold uppercase tracking-widest text-muted-fg">{p.name}</p>
-            <p className="mt-2 font-heading text-4xl font-bold text-foreground">{p.price}</p>
+            <p className="mt-2 font-heading text-3xl sm:text-4xl font-bold text-foreground">{p.price}</p>
             <p className="mt-2 text-xs text-muted-fg leading-relaxed">{p.desc}</p>
 
-            <ul className="mt-6 space-y-2.5">
+            <ul className="mt-5 sm:mt-6 space-y-2.5 flex-1">
               {p.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs text-muted-fg">
                   <svg className="h-4 w-4 text-primary-400 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
@@ -76,7 +103,7 @@ export function PricingPreviewSection() {
               ))}
             </ul>
 
-            <div className="mt-8">
+            <div className="mt-7 sm:mt-8">
               <Button variant={p.variant} className="w-full" asChild>
                 <Link href="/contact">{p.cta}</Link>
               </Button>
@@ -86,7 +113,7 @@ export function PricingPreviewSection() {
       </StaggerList>
 
       <FadeInSection delay={0.2}>
-        <p className="text-center mt-8 text-xs text-muted-fg">
+        <p className="text-center mt-7 sm:mt-8 text-xs text-muted-fg">
           Need something custom?{" "}
           <Link href="/contact" className="text-primary-400 hover:underline">Let&apos;s talk →</Link>
         </p>

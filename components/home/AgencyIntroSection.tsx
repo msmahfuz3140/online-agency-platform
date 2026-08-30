@@ -31,23 +31,23 @@ const highlights = [
 export function AgencyIntroSection() {
   return (
     <Section className="bg-surface/40">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* Left */}
         <FadeInSection from="left">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-3">Who we are</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             A small team with an <span className="gradient-text">outsized impact.</span>
           </h2>
-          <p className="mt-5 text-muted-fg leading-relaxed">
+          <p className="mt-5 text-sm sm:text-base text-muted-fg leading-relaxed">
             Nexora was founded with one goal: to give ambitious businesses the same digital
             quality that was once exclusive to companies with million-dollar budgets. We combine
             thoughtful design, clean engineering, and AI tools to ship products that stand out.
           </p>
-          <p className="mt-4 text-muted-fg leading-relaxed">
+          <p className="mt-4 text-sm sm:text-base text-muted-fg leading-relaxed">
             We work closely with founders, startups, and growing SMBs who want a web presence
             that actually reflects how good their product is — not just a template with a logo swap.
           </p>
-          <div className="mt-8">
+          <div className="mt-7 sm:mt-8">
             <Button variant="secondary" asChild>
               <Link href="/about">Learn about our story →</Link>
             </Button>
@@ -56,7 +56,7 @@ export function AgencyIntroSection() {
 
         {/* Right — highlight grid */}
         <FadeInSection from="right" delay={0.1}>
-          <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {highlights.map((h) => (
               <Card key={h.title} hover padding="md">
                 <span className="text-2xl">{h.icon}</span>
