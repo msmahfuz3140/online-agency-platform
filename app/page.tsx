@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
+import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { ServicesOverviewSection } from "@/components/home/ServicesOverviewSection";
@@ -19,6 +20,7 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <AgencyIntroSection />
+        <WhyChooseUsSection />
         <FeaturedProjectsSection />
         <HowItWorksSection />
         <ServicesOverviewSection />
