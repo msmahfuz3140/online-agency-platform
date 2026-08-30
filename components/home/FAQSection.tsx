@@ -38,10 +38,10 @@ function FAQItem({ q, a }: { q: string; a: string }) {
     <div className="border-b border-border">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-4 py-5 text-left"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left transition-colors hover:text-primary-400"
         aria-expanded={open}
       >
-        <span className="text-sm font-medium text-foreground">{q}</span>
+        <span className="text-sm sm:text-base font-medium text-foreground">{q}</span>
         <motion.span
           animate={{ rotate: open ? 45 : 0 }}
           transition={{ duration: 0.2 }}
@@ -62,7 +62,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
             transition={{ duration: 0.25, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <p className="pb-5 text-sm text-muted-fg leading-relaxed">{a}</p>
+            <p className="pb-5 text-xs sm:text-sm text-muted-fg leading-relaxed">{a}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -75,14 +75,19 @@ export function FAQSection() {
     <Section className="bg-surface/40" id="faq">
       <div className="max-w-3xl mx-auto">
         <FadeInSection>
-          <div className="text-center mb-12">
+          <div className="text-center mb-10 sm:mb-14">
             <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">FAQ</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Common Questions</h2>
+            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+              Frequently Asked <span className="gradient-text">Questions</span>
+            </h2>
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-md mx-auto leading-relaxed">
+              Everything you need to know about our process, pricing, and deliverables.
+            </p>
           </div>
         </FadeInSection>
 
         <FadeInSection delay={0.1}>
-          <div>
+          <div className="divide-y divide-border/50">
             {faqs.map((item) => (
               <FAQItem key={item.q} q={item.q} a={item.a} />
             ))}

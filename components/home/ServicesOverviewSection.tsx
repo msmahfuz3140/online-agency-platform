@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
-import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
@@ -18,15 +17,16 @@ const services = [
 export function ServicesOverviewSection() {
   return (
     <Section className="bg-surface/40" id="services">
+      {/* Centered, balanced header across all screen sizes */}
       <FadeInSection>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-12">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">What We Do</p>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">Services</h2>
-          </div>
-          <Button variant="ghost" asChild className="self-start sm:self-auto">
-            <Link href="/services">All services →</Link>
-          </Button>
+        <div className="text-center mb-10 sm:mb-14">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">What We Do</p>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+            End-to-End <span className="gradient-text">Services</span>
+          </h2>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-xl mx-auto leading-relaxed">
+            From custom design and high-performance development to AI site generation and long-term maintenance.
+          </p>
         </div>
       </FadeInSection>
 
@@ -47,6 +47,15 @@ export function ServicesOverviewSection() {
           </Card>
         ))}
       </StaggerList>
+
+      {/* Centered CTA button at bottom */}
+      <FadeInSection delay={0.2}>
+        <div className="mt-10 sm:mt-12 text-center">
+          <Button variant="ghost" asChild>
+            <Link href="/services">Explore all 13+ services →</Link>
+          </Button>
+        </div>
+      </FadeInSection>
     </Section>
   );
 }

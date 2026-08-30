@@ -50,18 +50,20 @@ export function ClientReviewsSection() {
   return (
     <Section className="bg-surface/40">
       <FadeInSection>
-        <div className="text-center mb-12">
+        <div className="text-center mb-10 sm:mb-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Testimonials</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold">
-            Loved by the teams<br />we build for.
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+            Loved by the teams{" "}
+            <br className="hidden sm:inline" />
+            <span className="gradient-text">we build for.</span>
           </h2>
-          <p className="mt-4 text-muted-fg max-w-md mx-auto text-sm">
-            Real feedback from real clients — not cherry-picked edge cases.
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-md mx-auto leading-relaxed">
+            Real feedback from founders, product leaders, and growing teams worldwide.
           </p>
         </div>
       </FadeInSection>
 
-      <StaggerList className="grid md:grid-cols-2 gap-5">
+      <StaggerList className="grid md:grid-cols-2 gap-4 sm:gap-5">
         {reviews.map((r) => (
           <Card key={r.name} hover padding="lg">
             <StarRating count={r.rating} />

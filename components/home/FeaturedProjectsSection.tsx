@@ -36,15 +36,16 @@ const projects = [
 export function FeaturedProjectsSection() {
   return (
     <Section id="portfolio-preview">
+      {/* Centered, balanced header across all screen sizes */}
       <FadeInSection>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-12">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Our Work</p>
-            <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">Featured Projects</h2>
-          </div>
-          <Button variant="ghost" asChild className="self-start sm:self-auto">
-            <Link href="/portfolio">View all →</Link>
-          </Button>
+        <div className="text-center mb-10 sm:mb-14">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Our Work</p>
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
+            Featured <span className="gradient-text">Projects</span>
+          </h2>
+          <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-xl mx-auto leading-relaxed">
+            A selection of recent websites, web apps, and platforms crafted for ambitious businesses.
+          </p>
         </div>
       </FadeInSection>
 
@@ -74,6 +75,15 @@ export function FeaturedProjectsSection() {
           </Card>
         ))}
       </StaggerList>
+
+      {/* Centered CTA button at bottom */}
+      <FadeInSection delay={0.2}>
+        <div className="mt-10 sm:mt-12 text-center">
+          <Button variant="ghost" asChild>
+            <Link href="/portfolio">View all projects & case studies →</Link>
+          </Button>
+        </div>
+      </FadeInSection>
     </Section>
   );
 }
