@@ -5,6 +5,7 @@ import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { ServicesOverviewSection } from "@/components/home/ServicesOverviewSection";
+import { TeamSection } from "@/components/home/TeamSection";
 import { ClientReviewsSection } from "@/components/home/ClientReviewsSection";
 import { PricingPreviewSection } from "@/components/home/PricingPreviewSection";
 import { FAQSection } from "@/components/home/FAQSection";
@@ -21,6 +22,7 @@ export default function HomePage() {
         <FeaturedProjectsSection />
         <HowItWorksSection />
         <ServicesOverviewSection />
+        <TeamSection />
         <ClientReviewsSection />
         <PricingPreviewSection />
         <FAQSection />
