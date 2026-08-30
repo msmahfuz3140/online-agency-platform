@@ -10,6 +10,7 @@ import { HowItWorksSection } from "@/components/home/HowItWorksSection";
 import { ServicesOverviewSection } from "@/components/home/ServicesOverviewSection";
 import { TeamSection } from "@/components/home/TeamSection";
 import { ClientReviewsSection } from "@/components/home/ClientReviewsSection";
+import { ProjectCostCalculatorSection } from "@/components/home/ProjectCostCalculatorSection";
 import { PricingPreviewSection } from "@/components/home/PricingPreviewSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
@@ -30,6 +31,7 @@ export default function HomePage() {
         <ServicesOverviewSection />
         <TeamSection />
         <ClientReviewsSection />
+        <ProjectCostCalculatorSection />
         <PricingPreviewSection />
         <FAQSection />
         <CTASection />
