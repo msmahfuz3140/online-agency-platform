@@ -19,7 +19,7 @@ export function HeroSection() {
       {/* Grid background */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 
-      {/* Ambient glows — smaller on mobile to avoid overflow */}
+      {/* Ambient glows */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[500px] lg:w-[700px] h-[300px] sm:h-[500px] lg:h-[700px] rounded-full bg-primary-500/10 blur-[80px] sm:blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-0 w-[200px] sm:w-[300px] h-[200px] sm:h-[300px] rounded-full bg-accent-500/8 blur-[80px] sm:blur-[100px] pointer-events-none" />
 
@@ -39,7 +39,7 @@ export function HeroSection() {
               </Badge>
             </motion.div>
 
-            {/* Heading — tighter on small screens */}
+            {/* Heading */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -63,7 +63,7 @@ export function HeroSection() {
               and built to grow your business.
             </motion.p>
 
-            {/* CTA Buttons — stack on mobile, row on sm+ */}
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -78,21 +78,28 @@ export function HeroSection() {
               </Button>
             </motion.div>
 
-            {/* Stats row */}
+            {/* Premium Stats Grid */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5 }}
-              className="mt-8 sm:mt-10 pt-7 sm:pt-8 border-t border-border grid grid-cols-2 sm:grid-cols-4 gap-x-4 gap-y-5 sm:gap-x-6 sm:gap-y-8"
+              className="mt-10 sm:mt-12 pt-8 sm:pt-10 border-t border-border"
             >
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div className="font-heading text-xl sm:text-2xl lg:text-3xl font-bold">
-                    <AnimatedCounter to={s.value} suffix={s.suffix} className="text-primary-400" />
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+                {stats.map((s) => (
+                  <div
+                    key={s.label}
+                    className="flex flex-col items-center justify-center p-3.5 sm:p-4 rounded-2xl bg-surface/70 border border-border/80 hover:border-primary-500/40 hover:bg-surface transition-all duration-200 shadow-sm text-center group"
+                  >
+                    <div className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+                      <AnimatedCounter to={s.value} suffix={s.suffix} className="gradient-text" />
+                    </div>
+                    <p className="mt-1 text-xs text-muted-fg font-medium leading-snug">
+                      {s.label}
+                    </p>
                   </div>
-                  <p className="mt-0.5 text-[11px] sm:text-xs text-muted-fg leading-snug">{s.label}</p>
-                </div>
-              ))}
+                ))}
+              </div>
             </motion.div>
           </div>
 
