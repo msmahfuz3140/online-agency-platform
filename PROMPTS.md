@@ -33,12 +33,18 @@ Do not create the User model or any routes yet — just the connection and Bette
 [x] TypeScript build passes cleanly
 ```
 
-### Prompt 3 — User Model + Auth Routes
+### Prompt 3 — User Model + Auth Routes [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Create the User model in /backend/models with fields: name, email, password (handled by Better Auth), role (enum: "user" | "admin", default "user"), aiCreditsRemaining (Number, default 5).
 Create register, login, and logout routes using Better Auth.
 Do not build any frontend pages yet.
+
+[x] role and aiCreditsRemaining added as Better Auth additionalFields (src/config/auth.ts)
+[x] Auth routes (register/login/logout) handled natively by Better Auth at /api/auth/sign-up/email, /api/auth/sign-in/email, /api/auth/sign-out
+[x] Auth + Admin middleware created (src/middleware/auth.middleware.ts)
+[x] GET /api/user/me route returns user profile with role and aiCreditsRemaining (src/routes/user.routes.ts)
+[x] TypeScript build passes cleanly
 ```
 
 ### Prompt 4 — Design System Foundation (premium, animated)
