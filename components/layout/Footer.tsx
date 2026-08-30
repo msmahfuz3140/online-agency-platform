@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const footerLinks = {
   Services: [
-    { label: "Portfolio Website", href: "/services" },
-    { label: "Business Website", href: "/services" },
-    { label: "SaaS Development", href: "/services" },
-    { label: "UI/UX Design", href: "/services" },
+    { label: "Web & SaaS Development", href: "/services" },
+    { label: "UI/UX & Product Design", href: "/services" },
+    { label: "Cyber Security & Auditing", href: "/services" },
+    { label: "Digital Marketing & SEO", href: "/services" },
     { label: "AI Website Builder", href: "/services" },
   ],
   Company: [
