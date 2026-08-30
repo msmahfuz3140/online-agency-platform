@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 
@@ -56,10 +55,16 @@ const navItems: NavItem[] = [
         icon: "🤖",
         badge: "AI Live",
       },
+      {
+        label: "Component Architecture",
+        href: "/#component-library",
+        desc: "Modular Next.js React component blocks",
+        icon: "🧩",
+      },
     ],
   },
   {
-    label: "Company",
+    label: "Agency",
     children: [
       {
         label: "Who We Are",
@@ -74,16 +79,36 @@ const navItems: NavItem[] = [
         icon: "👨‍💻",
       },
       {
-        label: "Why Choose Us",
+        label: "Project Pathways",
+        href: "/#pathways",
+        desc: "DIY AI vs. Hybrid Polish vs. Enterprise",
+        icon: "🛣️",
+        badge: "Guide",
+      },
+      {
+        label: "Nexora Advantage",
         href: "/#why-choose-us",
         desc: "Affordable pricing, quality & extended support",
         icon: "🏆",
+      },
+      {
+        label: "Agency Comparison",
+        href: "/#comparison",
+        desc: "Nexora vs. Traditional vs. DIY Builders",
+        icon: "⚖️",
+        badge: "Compare",
       },
       {
         label: "Measurable Impact",
         href: "/#impact",
         desc: "Before vs. After client transformation results",
         icon: "📊",
+      },
+      {
+        label: "Client Guarantees",
+        href: "/#guarantees",
+        desc: "100% Code Ownership & 14-day warranty",
+        icon: "💎",
       },
       {
         label: "Client Testimonials",
@@ -96,7 +121,7 @@ const navItems: NavItem[] = [
   { label: "Work", href: "/#portfolio-preview" },
   { label: "Cost Calculator", href: "/#cost-calculator" },
   { label: "Pricing", href: "/#pricing" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Book a Call", href: "/#book-call" },
 ];
 
 export function Navbar() {
@@ -116,10 +141,15 @@ export function Navbar() {
         "pricing",
         "portfolio-preview",
         "services",
+        "component-library",
+        "pathways",
+        "comparison",
         "team",
         "why-choose-us",
         "impact",
+        "guarantees",
         "about",
+        "book-call",
         "faq",
       ];
 
@@ -239,37 +269,37 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-96 p-2 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10"
+                          className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2.5 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10 ${
+                            item.label === "Agency" ? "w-[480px] grid grid-cols-2 gap-1" : "w-96 space-y-1"
+                          }`}
                         >
-                          <div className="space-y-1">
-                            {item.children?.map((child) => (
-                              <Link
-                                key={child.label}
-                                href={child.href}
-                                onClick={() => setActiveDropdown(null)}
-                                className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
-                              >
-                                <span className="h-9 w-9 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
-                                  {child.icon}
-                                </span>
-                                <div className="min-w-0 flex-1">
-                                  <div className="flex items-center justify-between">
-                                    <p className="text-xs font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
-                                      {child.label}
-                                    </p>
-                                    {child.badge && (
-                                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
-                                        {child.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <p className="text-[11px] text-muted-fg leading-snug mt-0.5">
-                                    {child.desc}
+                          {item.children?.map((child) => (
+                            <Link
+                              key={child.label}
+                              href={child.href}
+                              onClick={() => setActiveDropdown(null)}
+                              className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
+                            >
+                              <span className="h-8 w-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
+                                {child.icon}
+                              </span>
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-xs font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
+                                    {child.label}
                                   </p>
+                                  {child.badge && (
+                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
+                                      {child.badge}
+                                    </span>
+                                  )}
                                 </div>
-                              </Link>
-                            ))}
-                          </div>
+                                <p className="text-[10px] text-muted-fg leading-snug mt-0.5 truncate">
+                                  {child.desc}
+                                </p>
+                              </div>
+                            </Link>
+                          ))}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -311,7 +341,7 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile hamburger button — visible only on small screens (<768px) */}
+          {/* Mobile hamburger button */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}

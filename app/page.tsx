@@ -4,7 +4,10 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
 import { TechMarqueeSection } from "@/components/home/TechMarqueeSection";
 import { AiGeneratorDemoSection } from "@/components/home/AiGeneratorDemoSection";
+import { AiComponentLibrarySection } from "@/components/home/AiComponentLibrarySection";
+import { ClientPathwaySection } from "@/components/home/ClientPathwaySection";
 import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
+import { ComparisonMatrixSection } from "@/components/home/ComparisonMatrixSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { ClientImpactSection } from "@/components/home/ClientImpactSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
@@ -17,6 +20,7 @@ import { TrustGuaranteesSection } from "@/components/home/TrustGuaranteesSection
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
+import { FloatingAiAssistant } from "@/components/home/FloatingAiAssistant";
 
 export default function HomePage() {
   return (
@@ -27,7 +31,10 @@ export default function HomePage() {
         <AgencyIntroSection />
         <TechMarqueeSection />
         <AiGeneratorDemoSection />
+        <AiComponentLibrarySection />
+        <ClientPathwaySection />
         <WhyChooseUsSection />
+        <ComparisonMatrixSection />
         <FeaturedProjectsSection />
         <ClientImpactSection />
         <HowItWorksSection />
@@ -42,6 +49,7 @@ export default function HomePage() {
         <NewsletterSection />
       </main>
       <Footer />
+      <FloatingAiAssistant />
     </>
   );
 }
