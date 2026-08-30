@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
+import { TechMarqueeSection } from "@/components/home/TechMarqueeSection";
 import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
 import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
@@ -19,6 +20,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
+        <TechMarqueeSection />
         <AgencyIntroSection />
         <WhyChooseUsSection />
         <FeaturedProjectsSection />
