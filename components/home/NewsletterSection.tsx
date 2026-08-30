@@ -41,7 +41,7 @@ export function NewsletterSection() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
-                className="flex-1 h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-colors"
+                className="w-full sm:flex-1 h-11 px-4 text-sm bg-surface border border-border rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500/30 transition-colors"
               />
               <Button type="submit" variant="primary" size="md" className="h-11 w-full sm:w-auto whitespace-nowrap">
                 Subscribe →
