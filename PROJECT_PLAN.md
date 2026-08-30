@@ -12,8 +12,8 @@ Build order: **Agency Website first (fully working) → then add AI Website Gene
 - [x] Create `/frontend` (Next.js, App Router, TypeScript)
 - [x] Create `/backend` (Express.js)
 - [ ] Setup MongoDB Atlas cluster + connection string
-- [ ] Connect backend to MongoDB via Mongoose
-- [ ] Setup Better Auth in backend (verify Mongoose adapter support first — see PROJECT_CONTEXT.md)
+- [x] Connect backend to MongoDB via Mongoose
+- [x] Setup Better Auth in backend (official @better-auth/mongo-adapter, shares Mongoose connection)
 - [ ] Setup environment variables (.env) for both frontend and backend — DB URI, auth secrets, API keys, Cloudinary keys
 - [x] Install `framer-motion` and `recharts` in `/frontend`
 

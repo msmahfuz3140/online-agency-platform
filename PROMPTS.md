@@ -20,12 +20,17 @@ Initialize the project structure exactly as described in PROJECT_CONTEXT.md:
 Do not add any pages, routes, or models yet. Just the base setup.
 ```
 
-### Prompt 2 — MongoDB + Better Auth Setup
+### Prompt 2 — MongoDB + Better Auth Setup [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 In /backend, connect to MongoDB using Mongoose (use an environment variable MONGODB_URI).
 Set up Better Auth for authentication. Verify Better Auth's Mongoose adapter support first (see PROJECT_CONTEXT.md) — if it's not well supported, tell me before proceeding instead of guessing a workaround.
 Do not create the User model or any routes yet — just the connection and Better Auth base configuration.
+
+[x] Connected to MongoDB via Mongoose (src/config/db.ts)
+[x] Better Auth configured with official @better-auth/mongo-adapter, sharing Mongoose raw client (src/config/auth.ts)
+[x] Auth routes mounted at /api/auth/* in server.ts
+[x] TypeScript build passes cleanly
 ```
 
 ### Prompt 3 — User Model + Auth Routes
