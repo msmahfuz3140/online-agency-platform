@@ -64,39 +64,13 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Agency",
+    label: "Work",
     children: [
       {
-        label: "Who We Are",
-        href: "/#about",
-        desc: "Our story, vision & engineering philosophy",
-        icon: "👥",
-      },
-      {
-        label: "Engineering Team",
-        href: "/#team",
-        desc: "CST Mymensingh Polytechnic Institute team",
-        icon: "👨‍💻",
-      },
-      {
-        label: "Project Pathways",
-        href: "/#pathways",
-        desc: "DIY AI vs. Hybrid Polish vs. Enterprise",
-        icon: "🛣️",
-        badge: "Guide",
-      },
-      {
-        label: "Nexora Advantage",
-        href: "/#why-choose-us",
-        desc: "Affordable pricing, quality & extended support",
-        icon: "🏆",
-      },
-      {
-        label: "Agency Comparison",
-        href: "/#comparison",
-        desc: "Nexora vs. Traditional vs. DIY Builders",
-        icon: "⚖️",
-        badge: "Compare",
+        label: "Featured Projects",
+        href: "/#portfolio-preview",
+        desc: "Recent websites, SaaS dashboards & client case studies",
+        icon: "💼",
       },
       {
         label: "Measurable Impact",
@@ -105,23 +79,58 @@ const navItems: NavItem[] = [
         icon: "📊",
       },
       {
-        label: "Client Guarantees",
-        href: "/#guarantees",
-        desc: "100% Code Ownership & 14-day warranty",
-        icon: "💎",
-      },
-      {
         label: "Client Testimonials",
         href: "/#testimonials",
-        desc: "Real feedback from founders & businesses",
+        desc: "Real feedback from founders & businesses worldwide",
         icon: "💬",
+      },
+      {
+        label: "Agency Comparison",
+        href: "/#comparison",
+        desc: "Nexora Hybrid vs. Traditional vs. DIY Builders",
+        icon: "⚖️",
+        badge: "Compare",
       },
     ],
   },
-  { label: "Work", href: "/#portfolio-preview" },
-  { label: "Cost Calculator", href: "/#cost-calculator" },
-  { label: "Pricing", href: "/#pricing" },
-  { label: "Book a Call", href: "/#book-call" },
+  {
+    label: "Pricing",
+    children: [
+      {
+        label: "Fixed-Tier Packages",
+        href: "/#pricing",
+        desc: "Transparent packages with clear deliverables",
+        icon: "💳",
+      },
+      {
+        label: "Interactive Cost Calculator",
+        href: "/#cost-calculator",
+        desc: "Instant custom price & timeline estimator",
+        icon: "💰",
+        badge: "Instant",
+      },
+      {
+        label: "Project Pathways",
+        href: "/#pathways",
+        desc: "DIY AI vs. Hybrid Polish vs. Bespoke Enterprise",
+        icon: "🛣️",
+      },
+      {
+        label: "Client Guarantees",
+        href: "/#guarantees",
+        desc: "100% Code Ownership & 14-day free warranty",
+        icon: "💎",
+      },
+    ],
+  },
+  {
+    label: "About",
+    href: "/#about",
+  },
+  {
+    label: "Blog",
+    href: "/blog",
+  },
 ];
 
 export function Navbar() {
@@ -222,7 +231,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation Links — visible on md: (768px+) */}
-          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1">
+          <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
             {navItems.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
               const isDropdownOpen = activeDropdown === item.label;
@@ -261,7 +270,7 @@ export function Navbar() {
                       </motion.span>
                     </button>
 
-                    {/* Mega Dropdown Menu */}
+                    {/* Dropdown Menu Panel */}
                     <AnimatePresence>
                       {isDropdownOpen && (
                         <motion.div
@@ -269,37 +278,37 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
-                          className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 p-2.5 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10 ${
-                            item.label === "Agency" ? "w-[480px] grid grid-cols-2 gap-1" : "w-96 space-y-1"
-                          }`}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-88 p-2 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10"
                         >
-                          {item.children?.map((child) => (
-                            <Link
-                              key={child.label}
-                              href={child.href}
-                              onClick={() => setActiveDropdown(null)}
-                              className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
-                            >
-                              <span className="h-8 w-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
-                                {child.icon}
-                              </span>
-                              <div className="min-w-0 flex-1">
-                                <div className="flex items-center justify-between">
-                                  <p className="text-xs font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
-                                    {child.label}
+                          <div className="space-y-1">
+                            {item.children?.map((child) => (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                onClick={() => setActiveDropdown(null)}
+                                className="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
+                              >
+                                <span className="h-8 w-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
+                                  {child.icon}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-xs font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
+                                      {child.label}
+                                    </p>
+                                    {child.badge && (
+                                      <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
+                                        {child.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-[10px] text-muted-fg leading-snug mt-0.5 truncate">
+                                    {child.desc}
                                   </p>
-                                  {child.badge && (
-                                    <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
-                                      {child.badge}
-                                    </span>
-                                  )}
                                 </div>
-                                <p className="text-[10px] text-muted-fg leading-snug mt-0.5 truncate">
-                                  {child.desc}
-                                </p>
-                              </div>
-                            </Link>
-                          ))}
+                              </Link>
+                            ))}
+                          </div>
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -410,7 +419,7 @@ export function Navbar() {
                           className="w-full flex items-center justify-between px-4 py-3 text-sm font-bold text-foreground hover:bg-neutral-800/60 transition-colors"
                         >
                           <span className="flex items-center gap-2">
-                            <span>{item.label === "Services" ? "⚡" : "🏢"}</span>
+                            <span>{item.label === "Services" ? "⚡" : item.label === "Work" ? "💼" : "💳"}</span>
                             <span>{item.label}</span>
                           </span>
                           <motion.span
