@@ -1,8 +1,6 @@
 import { forwardRef } from "react";
-import { motion } from "framer-motion";
-import type { HTMLMotionProps } from "framer-motion";
 
-interface CardProps extends HTMLMotionProps<"div"> {
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   hover?: boolean;
   glass?: boolean;
   padding?: "none" | "sm" | "md" | "lg";
@@ -23,17 +21,17 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
       ? "glass"
       : "bg-surface border-border";
     const hoverClass = hover
-      ? "hover:border-primary-500/40 hover:shadow-[0_8px_32px_rgba(20,184,160,0.12)] hover:-translate-y-0.5"
+      ? "hover:border-primary-500/40 hover:shadow-[0_8px_32px_rgba(20,184,160,0.12)] hover:-translate-y-0.5 cursor-pointer"
       : "";
 
     return (
-      <motion.div
+      <div
         ref={ref}
         className={`${base} ${glassClass} ${hoverClass} ${paddingMap[padding]} ${className}`}
         {...props}
       >
         {children}
-      </motion.div>
+      </div>
     );
   }
 );

@@ -61,13 +61,24 @@ Design: Electric Teal (#14b8a0) + Warm Amber (#f59e0b) + Charcoal neutrals | Hea
 TypeScript build: PASS (0 errors)
 ```
 
-### Prompt 5 — Home Page
+### Prompt 5 — Home Page [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build the Home page in /frontend using the design system components from the previous step.
-Include: hero section, agency intro, featured projects placeholder, client reviews placeholder, how-it-works section, services overview, pricing preview, FAQ, CTA section, newsletter signup form (UI only, no backend yet), footer.
-Wrap each major section in the FadeInSection motion component so it animates in on scroll.
-Use realistic placeholder content, not generic Lorem ipsum.
+[x] Hero section (animated heading, AnimatedCounter stats, project preview cards, dual CTA)
+[x] Agency intro (brand story + 4 highlight cards in StaggerList grid)
+[x] Featured projects (3 project cards with tech badges)
+[x] How-it-works (4-step process with connectors)
+[x] Services overview (6 service cards in StaggerList grid)
+[x] Client reviews (4 testimonials with star ratings)
+[x] Pricing preview (3-tier table with highlighted popular plan)
+[x] FAQ (animated accordion with AnimatePresence)
+[x] CTA section (glow card, dual action buttons)
+[x] Newsletter signup (email form, UI only, no backend)
+[x] Navbar (glassmorphism sticky, animated mobile menu)
+[x] Footer (multi-column links + social icons)
+[x] All sections wrapped in FadeInSection/StaggerList
+[x] TypeScript build: PASS (0 errors)
 ```
 
 ### Prompt 6 — About Page
