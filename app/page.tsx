@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
 import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
 import { TechMarqueeSection } from "@/components/home/TechMarqueeSection";
+import { AiGeneratorDemoSection } from "@/components/home/AiGeneratorDemoSection";
 import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
@@ -22,6 +23,7 @@ export default function HomePage() {
         <HeroSection />
         <AgencyIntroSection />
         <TechMarqueeSection />
+        <AiGeneratorDemoSection />
         <WhyChooseUsSection />
         <FeaturedProjectsSection />
         <HowItWorksSection />
