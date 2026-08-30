@@ -1,89 +1,322 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 
-const navLinks = [
-  { label: "Services", href: "/services" },
-  { label: "Portfolio", href: "/portfolio" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Blog", href: "/blog" },
-  { label: "About", href: "/about" },
+interface DropdownChild {
+  label: string;
+  href: string;
+  desc: string;
+  icon: string;
+  badge?: string;
+}
+
+interface NavItem {
+  label: string;
+  href?: string;
+  children?: DropdownChild[];
+}
+
+const navItems: NavItem[] = [
+  {
+    label: "Services",
+    children: [
+      {
+        label: "Web & SaaS Development",
+        href: "/#services",
+        desc: "Custom Next.js, React, Node.js & SaaS web apps",
+        icon: "💻",
+      },
+      {
+        label: "UI/UX Product Design",
+        href: "/#services",
+        desc: "Figma design systems, wireframes & prototypes",
+        icon: "✨",
+      },
+      {
+        label: "Cyber Security & Audits",
+        href: "/#services",
+        desc: "Penetration testing & OWASP vulnerability audits",
+        icon: "🛡️",
+        badge: "Security",
+      },
+      {
+        label: "Technical SEO & Marketing",
+        href: "/#services",
+        desc: "Organic search growth & conversion optimization",
+        icon: "📈",
+      },
+      {
+        label: "AI Website Generator",
+        href: "/#ai-generator-demo",
+        desc: "Instant live AI web creation from prompts",
+        icon: "🤖",
+        badge: "AI Live",
+      },
+    ],
+  },
+  {
+    label: "Company",
+    children: [
+      {
+        label: "Who We Are",
+        href: "/#about",
+        desc: "Our story, vision & engineering philosophy",
+        icon: "👥",
+      },
+      {
+        label: "Engineering Team",
+        href: "/#team",
+        desc: "CST Mymensingh Polytechnic Institute team",
+        icon: "👨‍💻",
+      },
+      {
+        label: "Why Choose Us",
+        href: "/#why-choose-us",
+        desc: "Affordable pricing, quality & extended support",
+        icon: "🏆",
+      },
+      {
+        label: "Measurable Impact",
+        href: "/#impact",
+        desc: "Before vs. After client transformation results",
+        icon: "📊",
+      },
+      {
+        label: "Client Testimonials",
+        href: "/#testimonials",
+        desc: "Real feedback from founders & businesses",
+        icon: "💬",
+      },
+    ],
+  },
+  { label: "Work", href: "/#portfolio-preview" },
+  { label: "Cost Calculator", href: "/#cost-calculator" },
+  { label: "Pricing", href: "/#pricing" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>("Services");
+  const [activeSection, setActiveSection] = useState<string>("");
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 20);
+
+      const sections = [
+        "cost-calculator",
+        "pricing",
+        "portfolio-preview",
+        "services",
+        "team",
+        "why-choose-us",
+        "impact",
+        "about",
+        "faq",
+      ];
+
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200 && rect.bottom >= 200) {
+            setActiveSection(sectionId);
+            return;
+          }
+        }
+      }
+      if (window.scrollY < 200) {
+        setActiveSection("");
+      }
+    };
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Lock body scroll when mobile menu is open
+  // Lock body scroll on mobile
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    return () => {
+      document.body.style.overflow = "";
+    };
   }, [mobileOpen]);
+
+  const handleMouseEnter = (label: string) => {
+    if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+    setActiveDropdown(label);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 150);
+  };
 
   return (
     <>
+      {/* Floating Capsule Header Container */}
       <motion.header
-        initial={{ y: -80, opacity: 0 }}
+        initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-          scrolled || mobileOpen
-            ? "bg-neutral-950/95 backdrop-blur-xl shadow-lg border-b border-neutral-800"
-            : "bg-transparent"
-        }`}
+        className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4 pointer-events-none"
       >
-        <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div
+          className={`mx-auto max-w-7xl h-14 sm:h-16 rounded-2xl sm:rounded-full px-3.5 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
+            scrolled || mobileOpen
+              ? "bg-neutral-950/90 backdrop-blur-2xl border border-neutral-800 shadow-[0_12px_40px_rgba(0,0,0,0.7)] ring-1 ring-white/5"
+              : "bg-neutral-950/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+          }`}
+        >
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group" onClick={() => setMobileOpen(false)}>
-            <div className="h-8 w-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-[0_0_12px_rgba(20,184,160,0.4)]">
+          <Link
+            href="/"
+            className="flex items-center gap-2.5 group flex-shrink-0"
+            onClick={() => setMobileOpen(false)}
+          >
+            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center shadow-[0_0_16px_rgba(20,184,160,0.5)] group-hover:scale-105 transition-transform duration-200">
               <span className="text-white font-bold text-sm font-heading">N</span>
             </div>
-            <span className="font-heading font-bold text-lg tracking-tight text-foreground group-hover:text-primary-400 transition-colors">
+            <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-foreground group-hover:text-primary-400 transition-colors">
               Nexora
             </span>
           </Link>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-3.5 py-2 text-sm font-medium text-neutral-400 hover:text-white hover:bg-neutral-800/70 rounded-lg transition-all duration-150"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </div>
+          {/* Desktop Navigation Links — visible on md: (768px+) */}
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1">
+            {navItems.map((item) => {
+              const hasChildren = item.children && item.children.length > 0;
+              const isDropdownOpen = activeDropdown === item.label;
 
-          {/* Desktop CTA */}
-          <div className="hidden md:flex items-center gap-3">
+              const isActive =
+                item.href === `/#${activeSection}` ||
+                (hasChildren &&
+                  item.children?.some(
+                    (c) => c.href.includes(activeSection) && activeSection !== ""
+                  ));
+
+              if (hasChildren) {
+                return (
+                  <div
+                    key={item.label}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(item.label)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <button
+                      type="button"
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-all duration-150 ${
+                        isDropdownOpen || isActive
+                          ? "text-white bg-neutral-800/90 shadow-sm"
+                          : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
+                      }`}
+                      aria-expanded={isDropdownOpen}
+                    >
+                      <span>{item.label}</span>
+                      <motion.span
+                        animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="text-[10px] text-neutral-400"
+                      >
+                        ▾
+                      </motion.span>
+                    </button>
+
+                    {/* Mega Dropdown Menu */}
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.18, ease: "easeOut" }}
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-96 p-2 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10"
+                        >
+                          <div className="space-y-1">
+                            {item.children?.map((child) => (
+                              <Link
+                                key={child.label}
+                                href={child.href}
+                                onClick={() => setActiveDropdown(null)}
+                                className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
+                              >
+                                <span className="h-9 w-9 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-lg flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
+                                  {child.icon}
+                                </span>
+                                <div className="min-w-0 flex-1">
+                                  <div className="flex items-center justify-between">
+                                    <p className="text-xs font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
+                                      {child.label}
+                                    </p>
+                                    {child.badge && (
+                                      <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
+                                        {child.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <p className="text-[11px] text-muted-fg leading-snug mt-0.5">
+                                    {child.desc}
+                                  </p>
+                                </div>
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href || "#"}
+                  className={`px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-all duration-150 ${
+                    isActive
+                      ? "text-white bg-neutral-800/90 shadow-sm"
+                      : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* Desktop CTA & Login */}
+          <div className="hidden md:flex items-center gap-2.5">
             <Link
               href="/login"
-              className="text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+              className="text-xs lg:text-sm font-medium text-neutral-300 hover:text-white transition-colors px-2 py-1"
             >
               Log in
             </Link>
-            <Button size="sm" variant="primary" asChild>
-              <Link href="/contact">Get a Quote</Link>
+            <Button
+              size="sm"
+              variant="primary"
+              className="rounded-full px-4 shadow-[0_0_20px_rgba(20,184,160,0.3)] text-xs font-semibold"
+              asChild
+            >
+              <Link href="/contact">Get a Quote →</Link>
             </Button>
           </div>
 
-          {/* Mobile toggle */}
+          {/* Mobile hamburger button — visible only on small screens (<768px) */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
-            className="md:hidden p-2 text-neutral-400 hover:text-white rounded-lg hover:bg-neutral-800 transition-all"
+            className="md:hidden p-2 text-neutral-300 hover:text-white rounded-xl hover:bg-neutral-800 transition-all"
           >
             <div className="w-5 h-5 flex flex-col justify-center gap-[5px]">
               <motion.span
@@ -103,68 +336,126 @@ export function Navbar() {
               />
             </div>
           </button>
-        </nav>
+        </div>
       </motion.header>
 
-      {/* Mobile full-screen overlay menu */}
+      {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <>
-            {/* Dimmed backdrop behind menu (below z-50 header) */}
+            {/* Backdrop */}
             <motion.div
               key="mobile-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/60 md:hidden"
+              className="fixed inset-0 z-40 bg-black/75 md:hidden"
               onClick={() => setMobileOpen(false)}
             />
 
-            {/* Menu panel — slides down from header */}
+            {/* Menu Panel */}
             <motion.div
               key="mobile-menu"
-              initial={{ opacity: 0, y: -12 }}
+              initial={{ opacity: 0, y: -16 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
+              exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.22, ease: "easeOut" }}
-              className="fixed top-16 inset-x-0 z-40 md:hidden"
+              className="fixed top-20 inset-x-0 z-40 md:hidden max-h-[calc(100vh-6rem)] overflow-y-auto px-3"
             >
-              <div className="mx-3 rounded-2xl border border-neutral-800 bg-neutral-950 shadow-[0_24px_64px_rgba(0,0,0,0.6)] overflow-hidden">
-                {/* Nav links */}
-                <nav className="p-3 flex flex-col gap-0.5">
-                  {navLinks.map((link, i) => (
-                    <motion.div
-                      key={link.href}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.18, delay: i * 0.04 }}
-                    >
-                      <Link
-                        href={link.href}
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 rounded-xl transition-all duration-150 group"
+              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/95 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden p-3.5 space-y-1.5 ring-1 ring-white/10">
+                {navItems.map((item) => {
+                  const hasChildren = item.children && item.children.length > 0;
+                  const isExpanded = mobileExpanded === item.label;
+
+                  if (hasChildren) {
+                    return (
+                      <div
+                        key={item.label}
+                        className="rounded-2xl border border-neutral-850 bg-neutral-900/60 overflow-hidden"
                       >
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        {link.label}
-                      </Link>
-                    </motion.div>
-                  ))}
-                </nav>
+                        <button
+                          type="button"
+                          onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
+                          className="w-full flex items-center justify-between px-4 py-3 text-sm font-bold text-foreground hover:bg-neutral-800/60 transition-colors"
+                        >
+                          <span className="flex items-center gap-2">
+                            <span>{item.label === "Services" ? "⚡" : "🏢"}</span>
+                            <span>{item.label}</span>
+                          </span>
+                          <motion.span
+                            animate={{ rotate: isExpanded ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                            className="text-xs text-muted-fg"
+                          >
+                            ▾
+                          </motion.span>
+                        </button>
 
-                {/* Divider */}
-                <div className="h-px bg-neutral-800 mx-3" />
+                        <AnimatePresence initial={false}>
+                          {isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="px-2.5 pb-2.5 space-y-1"
+                            >
+                              {item.children?.map((child) => (
+                                <Link
+                                  key={child.label}
+                                  href={child.href}
+                                  onClick={() => setMobileOpen(false)}
+                                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors"
+                                >
+                                  <span className="text-base p-1.5 rounded-lg bg-surface border border-border flex-shrink-0">
+                                    {child.icon}
+                                  </span>
+                                  <div className="flex-1 min-w-0">
+                                    <p className="font-semibold text-foreground truncate">
+                                      {child.label}
+                                    </p>
+                                    <p className="text-[10px] text-muted-fg truncate mt-0.5">
+                                      {child.desc}
+                                    </p>
+                                  </div>
+                                  {child.badge && (
+                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary-500/20 text-primary-400">
+                                      {child.badge}
+                                    </span>
+                                  )}
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  }
 
-                {/* CTA buttons */}
-                <div className="p-3 flex gap-2">
+                  return (
+                    <Link
+                      key={item.label}
+                      href={item.href || "#"}
+                      onClick={() => setMobileOpen(false)}
+                      className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                    >
+                      <span>{item.label}</span>
+                      <span className="text-xs text-neutral-600">→</span>
+                    </Link>
+                  );
+                })}
+
+                {/* Bottom CTA bar inside mobile menu */}
+                <div className="pt-3 mt-2 border-t border-neutral-800/80 flex gap-2">
                   <Link href="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full text-neutral-300">
+                    <Button variant="ghost" size="sm" className="w-full text-neutral-300 rounded-xl">
                       Log in
                     </Button>
                   </Link>
                   <Link href="/contact" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button variant="primary" size="sm" className="w-full">
-                      Get a Quote
+                    <Button variant="primary" size="sm" className="w-full rounded-xl">
+                      Get a Quote →
                     </Button>
                   </Link>
                 </div>

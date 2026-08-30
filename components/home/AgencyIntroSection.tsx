@@ -30,7 +30,7 @@ const highlights = [
 
 export function AgencyIntroSection() {
   return (
-    <Section className="bg-surface/40">
+    <Section id="about" className="bg-surface/40">
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* Left */}
         <FadeInSection from="left">

@@ -48,7 +48,7 @@ function StarRating({ count }: { count: number }) {
 
 export function ClientReviewsSection() {
   return (
-    <Section className="bg-surface/40">
+    <Section id="testimonials" className="bg-surface/40">
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
           <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Testimonials</p>
