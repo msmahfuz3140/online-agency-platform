@@ -1,8 +1,8 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { HeroSection } from "@/components/home/HeroSection";
-import { TechMarqueeSection } from "@/components/home/TechMarqueeSection";
 import { AgencyIntroSection } from "@/components/home/AgencyIntroSection";
+import { TechMarqueeSection } from "@/components/home/TechMarqueeSection";
 import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
@@ -20,8 +20,8 @@ export default function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
-        <TechMarqueeSection />
         <AgencyIntroSection />
+        <TechMarqueeSection />
         <WhyChooseUsSection />
         <FeaturedProjectsSection />
         <HowItWorksSection />
