@@ -154,6 +154,10 @@ const navItems: NavItem[] = [
     label: "Blog",
     href: "/blog",
   },
+  {
+    label: "Contact",
+    href: "/contact",
+  },
 ];
 
 export function Navbar() {
