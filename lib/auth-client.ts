@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -19,6 +21,7 @@ export interface AuthResponse {
 }
 
 const STORAGE_KEY = "nexora_auth_user";
+export const AUTH_CHANGE_EVENT = "nexora_auth_change";
 
 export function getStoredUser(): UserSession | null {
   if (typeof window === "undefined") return null;
@@ -40,6 +43,9 @@ export function setStoredUser(user: UserSession | null): void {
     }
   } catch (err) {
     console.error("Failed to update stored user:", err);
+  } finally {
+    // Notify all listeners in current window
+    window.dispatchEvent(new CustomEvent(AUTH_CHANGE_EVENT, { detail: user }));
   }
 }
 
@@ -179,4 +185,38 @@ export async function getSession(): Promise<UserSession | null> {
   } catch {
     return getStoredUser();
   }
+}
+
+/**
+ * React hook for instantaneous, reactive auth state subscription
+ */
+export function useCurrentUser() {
+  const [user, setUser] = useState<UserSession | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    setUser(getStoredUser());
+
+    const handler = (e: Event) => {
+      const customEvent = e as CustomEvent<UserSession | null>;
+      setUser(customEvent.detail !== undefined ? customEvent.detail : getStoredUser());
+    };
+
+    const storageHandler = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) {
+        setUser(getStoredUser());
+      }
+    };
+
+    window.addEventListener(AUTH_CHANGE_EVENT, handler);
+    window.addEventListener("storage", storageHandler);
+
+    return () => {
+      window.removeEventListener(AUTH_CHANGE_EVENT, handler);
+      window.removeEventListener("storage", storageHandler);
+    };
+  }, []);
+
+  return { user, isAuthenticated: mounted && !!user };
 }

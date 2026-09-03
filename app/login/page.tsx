@@ -89,10 +89,11 @@ export default function LoginPage() {
       // Success
       toast("success", "Welcome Back! 👋", `Logged in as ${res.user?.name || res.user?.email}`);
 
-      // Small delay for toast visibility before redirect
+      // Small delay for toast visibility, auto-refresh and redirect
       setTimeout(() => {
+        router.refresh();
         router.push("/dashboard");
-      }, 500);
+      }, 400);
     } catch (err: any) {
       console.error("Login submission error:", err);
       setErrors({ general: "Network connection error. Please try again." });

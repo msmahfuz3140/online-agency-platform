@@ -110,10 +110,11 @@ export default function RegisterPage() {
         `Welcome to Nexora, ${formData.name.trim()}! 5 AI credits have been credited.`
       );
 
-      // Brief delay for toast animation
+      // Brief delay for toast animation, auto-refresh and redirect
       setTimeout(() => {
+        router.refresh();
         router.push("/dashboard");
-      }, 500);
+      }, 400);
     } catch (err: any) {
       console.error("Registration error:", err);
       setErrors({ general: "Network connection error. Please try again." });

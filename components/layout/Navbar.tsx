@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
+import { useCurrentUser, signOut } from "@/lib/auth-client";
 
 interface DropdownChild {
   label: string;
@@ -168,6 +169,9 @@ export function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>("Services");
   const [activeSection, setActiveSection] = useState<string>("");
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const profileTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const { user, isAuthenticated } = useCurrentUser();
 
   // Scroll to top automatically when route changes without an in-page hash
   useEffect(() => {
@@ -396,22 +400,148 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop CTA & Login */}
+          {/* Desktop CTA & User Profile */}
           <div className="hidden md:flex items-center gap-2.5">
-            <Link
-              href="/login"
-              className="text-xs lg:text-sm font-medium text-neutral-300 hover:text-white transition-colors px-2 py-1"
-            >
-              Log in
-            </Link>
-            <Button
-              size="sm"
-              variant="primary"
-              className="rounded-full px-4 shadow-[0_0_20px_rgba(20,184,160,0.3)] text-xs font-semibold"
-              asChild
-            >
-              <Link href="/contact">Get a Quote →</Link>
-            </Button>
+            {isAuthenticated && user ? (
+              <div
+                className="relative"
+                onMouseEnter={() => {
+                  if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
+                  setProfileDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  profileTimeoutRef.current = setTimeout(() => {
+                    setProfileDropdownOpen(false);
+                  }, 180);
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+                  className="relative flex items-center justify-center h-9 w-9 rounded-full bg-gradient-to-br from-primary-500/30 via-surface-2 to-surface-1 border border-primary-500/50 hover:border-primary-400 hover:shadow-[0_0_18px_rgba(20,184,160,0.35)] transition-all duration-200 cursor-pointer group"
+                  aria-label="User Account Menu"
+                  aria-expanded={profileDropdownOpen}
+                >
+                  <span className="font-heading text-xs font-bold text-primary-300">
+                    {user.name
+                      ? user.name
+                          .split(" ")
+                          .map((n) => n[0])
+                          .join("")
+                          .toUpperCase()
+                          .slice(0, 2)
+                      : "U"}
+                  </span>
+
+                  {/* Active Online Indicator */}
+                  <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-emerald-500 ring-2 ring-neutral-950" />
+                </button>
+
+                {/* Profile Dropdown Card */}
+                <AnimatePresence>
+                  {profileDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                      transition={{ duration: 0.16, ease: "easeOut" }}
+                      className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800 shadow-[0_24px_70px_rgba(0,0,0,0.85)] ring-1 ring-white/10 p-2.5 z-50 overflow-hidden"
+                    >
+                      {/* User Info Header */}
+                      <div className="p-3 rounded-xl bg-surface-1/90 border border-border/70 mb-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-xs font-bold text-foreground truncate">
+                            {user.name}
+                          </p>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full border border-primary-500/30 bg-primary-500/15 text-primary-300 font-mono capitalize">
+                            {user.role || "User"}
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-muted-fg truncate mt-0.5">{user.email}</p>
+
+                        <div className="mt-2.5 pt-2 border-t border-border/40 flex items-center justify-between text-[11px]">
+                          <span className="text-muted-fg">AI Credits:</span>
+                          <span className="font-bold text-primary-400 font-mono">
+                            ⚡ {user.aiCreditsRemaining ?? 5} / 5
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Dropdown Menu Links */}
+                      <div className="space-y-1">
+                        <Link
+                          href="/dashboard"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                        >
+                          <span className="text-sm">📊</span>
+                          <span className="font-medium">Command Dashboard</span>
+                        </Link>
+
+                        <Link
+                          href="/dashboard#ai-generator"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                        >
+                          <span className="text-sm">⚡</span>
+                          <span className="font-medium">AI Website Generator</span>
+                        </Link>
+
+                        <Link
+                          href="/contact"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                        >
+                          <span className="text-sm">💼</span>
+                          <span className="font-medium">Request Custom Project</span>
+                        </Link>
+
+                        <Link
+                          href="/dashboard#settings"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                        >
+                          <span className="text-sm">⚙️</span>
+                          <span className="font-medium">Account Settings</span>
+                        </Link>
+                      </div>
+
+                      {/* Sign Out Button */}
+                      <div className="mt-2 pt-2 border-t border-border/60">
+                        <button
+                          type="button"
+                          onClick={async () => {
+                            setProfileDropdownOpen(false);
+                            await signOut();
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                        >
+                          <span>🚪</span>
+                          <span className="font-semibold">Sign Out</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="text-xs lg:text-sm font-medium text-neutral-300 hover:text-white transition-colors px-2 py-1"
+                >
+                  Log in
+                </Link>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  className="rounded-full px-4 shadow-[0_0_20px_rgba(20,184,160,0.3)] text-xs font-semibold"
+                  asChild
+                >
+                  <Link href="/contact">Get a Quote →</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile hamburger button */}
@@ -563,17 +693,64 @@ export function Navbar() {
                 })}
 
                 {/* Bottom CTA bar inside mobile menu */}
-                <div className="pt-3 mt-2 border-t border-neutral-800/80 flex gap-2">
-                  <Link href="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button variant="ghost" size="sm" className="w-full text-neutral-300 rounded-xl">
-                      Log in
-                    </Button>
-                  </Link>
-                  <Link href="/contact" className="flex-1" onClick={() => setMobileOpen(false)}>
-                    <Button variant="primary" size="sm" className="w-full rounded-xl">
-                      Get a Quote →
-                    </Button>
-                  </Link>
+                <div className="pt-3 mt-2 border-t border-neutral-800/80">
+                  {isAuthenticated && user ? (
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3 p-3 rounded-xl bg-surface-1 border border-border">
+                        <div className="h-9 w-9 rounded-full bg-primary-500/20 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 flex-shrink-0">
+                          {user.name
+                            ? user.name
+                                .split(" ")
+                                .map((n) => n[0])
+                                .join("")
+                                .toUpperCase()
+                                .slice(0, 2)
+                            : "U"}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-xs font-bold text-foreground truncate">{user.name}</p>
+                          <p className="text-[10px] text-muted-fg truncate">{user.email}</p>
+                        </div>
+                        <span className="text-[10px] text-primary-400 font-mono font-semibold">
+                          ⚡ {user.aiCreditsRemaining ?? 5} cr
+                        </span>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Link
+                          href="/dashboard"
+                          className="flex-1"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          <Button variant="primary" size="sm" className="w-full rounded-xl">
+                            Dashboard →
+                          </Button>
+                        </Link>
+                        <button
+                          onClick={async () => {
+                            setMobileOpen(false);
+                            await signOut();
+                          }}
+                          className="px-4 py-2 rounded-xl text-xs font-semibold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
+                        >
+                          Sign Out
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Link href="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
+                        <Button variant="ghost" size="sm" className="w-full text-neutral-300 rounded-xl">
+                          Log in
+                        </Button>
+                      </Link>
+                      <Link href="/contact" className="flex-1" onClick={() => setMobileOpen(false)}>
+                        <Button variant="primary" size="sm" className="w-full rounded-xl">
+                          Get a Quote →
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </motion.div>
