@@ -135,11 +135,31 @@ Also build the Case Studies page: 2-3 detailed write-ups (problem → solution �
 [x] Routes verified: HTTP 200 OK (/portfolio, /case-studies)
 ```
 
-### Prompt 9 — Pricing + Blog Pages
+### Prompt 9 — Pricing + Blog Pages [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build the Pricing page with a plan comparison table for Free, Pro, and Business tiers. Clearly label Pro/Business as "Coming soon" (no payment integration yet) — do not link them to any checkout flow.
 Build the Blog page: a list view and a single blog post view, using placeholder posts for now.
+
+[x] Pricing Hero section with guarantee badges and transparent tier intro
+[x] Pricing Plans: 3 tiers (Free live at $0, Pro at $49/mo or $799/proj, Business at $199/mo or $2,999/proj)
+[x] Clear "Coming Soon" badges and disabled state on Pro & Business (no payment / checkout link)
+[x] Monthly vs. Per-Project billing toggle with smooth animations
+[x] Full plan feature comparison matrix table (10 feature criteria comparing Free vs Pro vs Business)
+[x] Pricing FAQ section answering common billing and "Coming Soon" questions
+[x] Navbar "Pricing" dropdown updated with "Full Plan Comparison" link to /pricing
+[x] Blog Hero section with Nexora Lab branding, topic filter chips
+[x] Blog List page: Featured article hero card + 3-column article cards grid with tags, reading time, author
+[x] Single Blog Post dynamic route (/blog/[slug]):
+    - Dynamic metadata & generateStaticParams for all posts
+    - Article header with category badge, reading time, publication date, author details
+    - Interactive BlogShareButtons (Copy link, Twitter/X, LinkedIn)
+    - Custom BlogContentRenderer supporting Markdown headings, code blocks with syntax styling and copy button, data tables, and lists
+    - Author bio card with role and avatar
+    - "Continue Reading" recommended articles grid
+    - Blog CTA section linking to discovery call and portfolio
+[x] TypeScript build: PASS (0 errors)
+[x] Routes verified: HTTP 200 OK (/pricing, /blog, /blog/[slug])
 ```
 
 ### Prompt 10 — Contact Page + Backend Route

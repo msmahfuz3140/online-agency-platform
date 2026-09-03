@@ -113,6 +113,13 @@ const navItems: NavItem[] = [
     label: "Pricing",
     children: [
       {
+        label: "Full Plan Comparison",
+        href: "/pricing",
+        desc: "Free AI builder, Pro & Business comparison matrix (Coming Soon)",
+        icon: "💎",
+        badge: "Plans",
+      },
+      {
         label: "Fixed-Tier Packages",
         href: "/#pricing",
         desc: "Transparent packages with clear deliverables",
@@ -135,7 +142,7 @@ const navItems: NavItem[] = [
         label: "Client Guarantees",
         href: "/#guarantees",
         desc: "100% Code Ownership & 14-day free warranty",
-        icon: "💎",
+        icon: "🛡️",
       },
     ],
   },
