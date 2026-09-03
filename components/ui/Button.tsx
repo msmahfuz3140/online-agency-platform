@@ -50,7 +50,7 @@ const sizeStyles: Record<Size, string> = {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(
-    { variant = "primary", size = "md", loading = false, children, className = "", disabled, ...props },
+    { variant = "primary", size = "md", loading = false, children, className = "", disabled, asChild, ...props },
     ref
   ) {
     const base =

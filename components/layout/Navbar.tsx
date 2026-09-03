@@ -125,7 +125,7 @@ const navItems: NavItem[] = [
   },
   {
     label: "About",
-    href: "/#about",
+    href: "/about",
   },
   {
     label: "Blog",
