@@ -15,7 +15,7 @@ const stats = [
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-dvh flex items-center pt-16 overflow-hidden">
+    <section id="hero" className="relative min-h-dvh flex items-center pt-16 overflow-hidden">
       {/* Grid background */}
       <div className="absolute inset-0 bg-grid opacity-30 pointer-events-none" />
 

@@ -30,7 +30,7 @@ Build order: **Agency Website first (fully working) → then add AI Website Gene
 ### A3. Public Website Pages
 - [ ] Home — hero, agency intro, featured projects, client reviews, how it works, services overview, pricing preview, FAQ, CTA, newsletter, footer — each section wrapped in `FadeInSection`
 - [x] About — agency story, mission, vision, founder profile, tech stack, achievements
-- [ ] Services — website development types (portfolio/business/landing/SaaS/e-commerce/web app), other services (UI/UX, redesign, SEO, maintenance, hosting/domain setup) — cards use `StaggerList` on scroll
+- [x] Services — website development types (portfolio/business/landing/SaaS/e-commerce/web app), other services (UI/UX, redesign, SEO, maintenance, hosting/domain setup) — cards use `StaggerList` on scroll
 - [ ] Portfolio — project grid with screenshot (Cloudinary), live demo link, GitHub link, tech stack, description, features
 - [ ] Case Studies — deeper write-ups of 2-3 projects (problem → solution → result)
 - [ ] Pricing — plan comparison table (Free/Pro/Business — clearly labeled "Coming soon" for Pro/Business, no payment link yet)

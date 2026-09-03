@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 
@@ -24,42 +25,49 @@ const navItems: NavItem[] = [
     label: "Services",
     children: [
       {
+        label: "All 13 Specialized Services",
+        href: "/services",
+        desc: "Explore all 13 full-stack, design & AI services",
+        icon: "✨",
+        badge: "13 Services",
+      },
+      {
         label: "Web & SaaS Development",
-        href: "/#services",
+        href: "/services",
         desc: "Custom Next.js, React, Node.js & SaaS web apps",
         icon: "💻",
       },
       {
         label: "UI/UX Product Design",
-        href: "/#services",
+        href: "/services",
         desc: "Figma design systems, wireframes & prototypes",
-        icon: "✨",
+        icon: "🎨",
       },
       {
         label: "Cyber Security & Audits",
-        href: "/#services",
+        href: "/services",
         desc: "Penetration testing & OWASP vulnerability audits",
         icon: "🛡️",
         badge: "Security",
       },
       {
         label: "Technical SEO & Marketing",
-        href: "/#services",
+        href: "/services",
         desc: "Organic search growth & conversion optimization",
         icon: "📈",
       },
       {
-        label: "AI Website Generator",
-        href: "/#ai-generator-demo",
-        desc: "Instant live AI web creation from prompts",
+        label: "AI Solution Development",
+        href: "/services",
+        desc: "Claude Sonnet API & automated web engines",
         icon: "🤖",
         badge: "AI Live",
       },
       {
-        label: "Component Architecture",
-        href: "/#component-library",
-        desc: "Modular Next.js React component blocks",
-        icon: "🧩",
+        label: "Cloud Hosting & Maintenance",
+        href: "/services",
+        desc: "Edge deployment, DNS setup & 24/7 maintenance",
+        icon: "☁️",
       },
     ],
   },
@@ -67,10 +75,17 @@ const navItems: NavItem[] = [
     label: "Work",
     children: [
       {
-        label: "Featured Projects",
-        href: "/#portfolio-preview",
-        desc: "Recent websites, SaaS dashboards & client case studies",
+        label: "Full Portfolio",
+        href: "/portfolio",
+        desc: "All 8+ projects — SaaS, e-commerce, landing pages, portfolios & AI solutions",
         icon: "💼",
+        badge: "8+ Projects",
+      },
+      {
+        label: "Case Studies",
+        href: "/case-studies",
+        desc: "Deep-dive write-ups: problem → solution → measurable result",
+        icon: "📋",
       },
       {
         label: "Measurable Impact",
@@ -93,6 +108,7 @@ const navItems: NavItem[] = [
       },
     ],
   },
+
   {
     label: "Pricing",
     children: [
@@ -134,12 +150,34 @@ const navItems: NavItem[] = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>("Services");
   const [activeSection, setActiveSection] = useState<string>("");
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Scroll to top automatically when route changes without an in-page hash
+  useEffect(() => {
+    if (typeof window !== "undefined" && !window.location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  }, [pathname]);
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    setMobileOpen(false);
+    setActiveDropdown(null);
+    if (pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      if (window.location.hash) {
+        window.history.pushState(null, "", "/");
+      }
+    } else {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => {
@@ -219,8 +257,8 @@ export function Navbar() {
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2.5 group flex-shrink-0"
-            onClick={() => setMobileOpen(false)}
+            className="flex items-center gap-2.5 group flex-shrink-0 cursor-pointer"
+            onClick={handleLogoClick}
           >
             <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center shadow-[0_0_16px_rgba(20,184,160,0.5)] group-hover:scale-105 transition-transform duration-200">
               <span className="text-white font-bold text-sm font-heading">N</span>
@@ -309,6 +347,21 @@ export function Navbar() {
                               </Link>
                             ))}
                           </div>
+                          {item.label === "Services" && (
+                            <div className="mt-2 pt-2 border-t border-neutral-800/80 px-1">
+                              <Link
+                                href="/services"
+                                onClick={() => setActiveDropdown(null)}
+                                className="flex items-center justify-between p-2.5 rounded-xl bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/25 text-primary-400 text-xs font-semibold transition-all group"
+                              >
+                                <span className="flex items-center gap-2">
+                                  <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
+                                  <span>View Complete 13 Services Page</span>
+                                </span>
+                                <span className="group-hover:translate-x-1 transition-transform">→</span>
+                              </Link>
+                            </div>
+                          )}
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -440,6 +493,19 @@ export function Navbar() {
                               transition={{ duration: 0.2 }}
                               className="px-2.5 pb-2.5 space-y-1"
                             >
+                              {item.label === "Services" && (
+                                <Link
+                                  href="/services"
+                                  onClick={() => setMobileOpen(false)}
+                                  className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-400 text-xs font-bold transition-colors mb-1.5"
+                                >
+                                  <span className="flex items-center gap-2">
+                                    <span>⚡</span>
+                                    <span>Go to All 13 Services Page</span>
+                                  </span>
+                                  <span>→</span>
+                                </Link>
+                              )}
                               {item.children?.map((child) => (
                                 <Link
                                   key={child.label}

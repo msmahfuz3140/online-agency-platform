@@ -97,18 +97,42 @@ Match the design system and scroll-animation pattern already established on the 
 [x] Route verified: HTTP 200 OK (/about)
 ```
 
-### Prompt 7 — Services Page
+### Prompt 7 — Services Page [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build the Services page listing: Portfolio Website, Business Website, Landing Page, SaaS Website, E-commerce Website, Web Application, UI/UX Design, Website Redesign, SEO Optimization, Website Maintenance, Hosting Setup, Domain Setup, AI Solution Development.
 Use cards in a grid layout wrapped in StaggerList so they animate in with a stagger effect on scroll, consistent with the design system.
+[x] All 13 services fully listed with icons, descriptions, deliverables & tech stacks
+[x] Category filter tabs (All, Website Development, Design & Optimization, DevOps, AI Solutions)
+[x] StaggerList scroll-entrance animation grid with hover effects
+[x] 4-Step service execution workflow section
+[x] Service FAQ accordion with AnimatePresence
+[x] High-conversion Services CTA section & navigation integration
+[x] TypeScript build: PASS (0 errors)
+[x] Route verified: HTTP 200 OK (/services)
 ```
 
-### Prompt 8 — Portfolio + Case Studies Pages
+### Prompt 8 — Portfolio + Case Studies Pages [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build the Portfolio page: a project grid (StaggerList entrance) where each project shows screenshot, live demo link, GitHub link, tech stack, description, features. Use placeholder project data for now.
 Also build the Case Studies page: 2-3 detailed write-ups (problem → solution → result format).
+
+[x] Portfolio Hero section with AnimatedCounter stats (50+ projects, 100% satisfaction, 13 categories, 48h turnaround)
+[x] Portfolio Grid: 8 placeholder projects — SaaS, E-Commerce, Portfolio, Landing Page, AI Solutions categories
+[x] Category filter pills with AnimatePresence transition (All / SaaS & Web App / E-Commerce / Portfolio / Landing Page / AI Solutions)
+[x] Each project card: icon, name, tagline, description, live demo ↗ + GitHub links, 3 key features (✓ checklist), tech stack badges, year/badge overlays
+[x] Portfolio CTA section linking to Discovery Call + Case Studies
+[x] Navbar "Work" dropdown updated: Full Portfolio → /portfolio, Case Studies → /case-studies
+[x] Case Studies Hero section with amber AnimatedCounter stats (3x revenue, 95% retention, 50+ businesses, 100k+ users)
+[x] 3 Full case studies (Problem → Solution → Result format):
+    - Finflow Inc.: Spreadsheet chaos → Multi-tenant SaaS platform (96% time reduction)
+    - Bloom Co.: Instagram DM orders → E-commerce store (300% revenue growth)
+    - LaunchPad: 1.2% conversion rate → 8.7% landing page (7.25x improvement)
+[x] Each case study: expand/collapse accordion, phase blocks (red/amber/green), quantified results table, tech stack tags, client testimonial blockquote
+[x] Case Studies CTA section with amber glow gradient
+[x] TypeScript build: PASS (0 errors)
+[x] Routes verified: HTTP 200 OK (/portfolio, /case-studies)
 ```
 
 ### Prompt 9 — Pricing + Blog Pages

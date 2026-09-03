@@ -198,10 +198,21 @@ export function ServicesOverviewSection() {
 
       {/* Centered CTA button at bottom */}
       <FadeInSection delay={0.2}>
-        <div className="mt-10 sm:mt-12 text-center">
-          <Button variant="ghost" asChild>
-            <Link href="/services">View detailed service pricing & scope →</Link>
-          </Button>
+        <div className="mt-12 p-6 sm:p-8 rounded-2xl border border-primary-500/30 bg-surface/80 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto shadow-[0_12px_36px_rgba(20,184,160,0.06)]">
+          <div className="text-center sm:text-left">
+            <span className="text-xs font-mono font-semibold text-primary-400">13 SPECIALIZED OFFERINGS</span>
+            <h4 className="font-heading text-lg sm:text-xl font-bold text-foreground mt-0.5">
+              Looking for our complete catalog of services & deliverables?
+            </h4>
+            <p className="text-xs sm:text-sm text-muted-fg mt-1">
+              Explore all 13 development, UI/UX, SEO, cloud, and AI engineering services.
+            </p>
+          </div>
+          <Link href="/services" className="shrink-0">
+            <Button variant="primary" size="md">
+              View All 13 Services →
+            </Button>
+          </Link>
         </div>
       </FadeInSection>
     </Section>
