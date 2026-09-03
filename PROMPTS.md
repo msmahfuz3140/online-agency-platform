@@ -186,12 +186,20 @@ Connect the frontend form to this backend route.
 [x] Live route verified: HTTP 200 OK (/contact on frontend, /api/contact on backend)
 ```
 
-### Prompt 11 — Register/Login Frontend Pages
+### Prompt 11 — Register/Login Frontend Pages [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build the Register and Login pages in /frontend, connected to the Better Auth routes created in Prompt 3.
 Include basic form validation and error messages (inline, not alert()).
 After login, redirect to a placeholder /dashboard route (dashboard itself will be built later).
+
+[x] In /frontend: Auth client helper (lib/auth-client.ts) implementing signUpEmail, signInEmail, signOut, and session persistence
+[x] In /frontend: High-premium Login page (/login) with cyber-glow split layout, demo credentials hint, password show/hide, inline validation, Toast notifications (useToastPortal), and redirect to /dashboard
+[x] In /frontend: High-premium Register page (/register) with 5 free AI credits callout, full name, work email, password strength & confirm password matching, terms agreement, inline errors, and redirect to /dashboard
+[x] In /frontend: Placeholder Dashboard page (/dashboard) with authenticated user greeting, AI generation credits counter (5/5), active sprint cards, deployment status, and Sign Out action
+[x] In /backend: Better Auth endpoints live with fallback dev router handling /api/auth/sign-up/email, /api/auth/sign-in/email, and /api/auth/session
+[x] TypeScript build: PASS (0 errors across entire frontend & backend)
+[x] Live routes verified: HTTP 200 OK (/login, /register, /dashboard)
 ```
 
 ### Prompt 12 — Client Project Request System
