@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -19,7 +19,6 @@ interface FormErrors {
 }
 
 export default function RegisterPage() {
-  const router = useRouter();
   const { toast, ToastPortal } = useToastPortal();
 
   const [formData, setFormData] = useState({
@@ -129,12 +128,14 @@ export default function RegisterPage() {
         `Welcome to Nexora, ${formData.name.trim()}! Please sign in with your credentials to access your workspace.`
       );
 
-      // Brief delay for toast visibility, then redirect to login
-      setTimeout(() => {
-        router.push(
-          `/login?registered=true&email=${encodeURIComponent(formData.email.trim())}`
-        );
-      }, 800);
+      // Success: clear any session remnants, then hard-redirect to login.
+      // A hard redirect (window.location.href) forces a full page reload so
+      // Next.js doesn't carry any stale auth state from the registration
+      // response into the login page.
+      if (typeof window !== "undefined") {
+        window.localStorage.removeItem("nexora_auth_user");
+        window.location.href = `/login?registered=true&email=${encodeURIComponent(formData.email.trim())}`;
+      }
     } catch (err: any) {
       console.error("Registration error:", err);
       setErrors({ general: "Network connection error. Please try again." });

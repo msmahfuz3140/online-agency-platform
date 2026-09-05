@@ -76,21 +76,28 @@ export async function signUpEmail(data: {
       };
     }
 
-    const user: UserSession = body.user || {
-      id: body.id || `usr_${Date.now()}`,
-      name: data.name,
-      email: data.email,
-      role: "user",
-      aiCreditsRemaining: 5,
-    };
-
-    // Clear any auto-assigned session so user must explicitly sign in on the login page
-    await signOut().catch(() => {});
+    // Immediately sign out via the cookie-clearing endpoint so Better Auth
+    // destroys the auto-created session. We do NOT store the user in
+    // localStorage — the user must explicitly sign in on /login.
+    setStoredUser(null);
+    try {
+      await fetch(`${API_BASE_URL}/api/auth/sign-out`, {
+        method: "POST",
+        credentials: "include",
+      });
+    } catch {
+      // Best-effort cookie clear; redirect still proceeds
+    }
 
     return {
       success: true,
-      user,
-      token: body.token,
+      user: body.user || {
+        id: body.id || `usr_${Date.now()}`,
+        name: data.name,
+        email: data.email,
+        role: "user",
+        aiCreditsRemaining: 5,
+      },
     };
   } catch (err: any) {
     console.error("signUpEmail error:", err);
