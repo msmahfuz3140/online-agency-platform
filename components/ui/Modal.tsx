@@ -68,20 +68,20 @@ export function Modal({ open, onClose, title, description, size = "md", children
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ type: "spring", stiffness: 380, damping: 28 }}
-            className={`fixed inset-0 z-50 flex items-center justify-center pointer-events-none px-4`}
+            className={`fixed inset-0 z-50 flex items-center justify-center pointer-events-none p-3 sm:p-4`}
           >
             <div
-              className={`w-full ${sizeMap[size]} bg-surface border border-border rounded-2xl shadow-2xl pointer-events-auto`}
+              className={`w-full ${sizeMap[size]} bg-surface border border-border rounded-2xl shadow-2xl pointer-events-auto max-h-[92vh] flex flex-col overflow-hidden`}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
-              <div className="flex items-start justify-between p-6 border-b border-border">
+              <div className="flex items-start justify-between p-4 sm:p-6 border-b border-border shrink-0">
                 <div>
-                  <h2 id="modal-title" className="text-lg font-semibold text-foreground">
+                  <h2 id="modal-title" className="text-base sm:text-lg font-semibold text-foreground">
                     {title}
                   </h2>
                   {description && (
-                    <p id="modal-description" className="mt-1 text-sm text-muted-fg">
+                    <p id="modal-description" className="mt-1 text-xs sm:text-sm text-muted-fg">
                       {description}
                     </p>
                   )}
@@ -89,7 +89,7 @@ export function Modal({ open, onClose, title, description, size = "md", children
                 <button
                   onClick={onClose}
                   aria-label="Close modal"
-                  className="ml-4 flex-shrink-0 text-muted-fg hover:text-foreground transition-colors rounded-md p-1 hover:bg-neutral-800"
+                  className="ml-3 flex-shrink-0 text-muted-fg hover:text-foreground transition-colors rounded-md p-1 hover:bg-neutral-800"
                 >
                   <svg className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
@@ -99,12 +99,12 @@ export function Modal({ open, onClose, title, description, size = "md", children
 
               {/* Body */}
               {children && (
-                <div className="p-6">{children}</div>
+                <div className="p-4 sm:p-6 overflow-y-auto flex-1">{children}</div>
               )}
 
               {/* Footer */}
               {actions && (
-                <div className="flex items-center justify-end gap-3 px-6 pb-6">
+                <div className="flex items-center justify-end gap-2.5 sm:gap-3 p-4 sm:px-6 sm:pb-6 pt-3 border-t border-border/50 shrink-0">
                   {actions}
                 </div>
               )}

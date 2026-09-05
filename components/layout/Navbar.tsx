@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 import { useCurrentUser, signOut } from "@/lib/auth-client";
+import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 
 interface DropdownChild {
   label: string;
@@ -75,6 +76,20 @@ const navItems: NavItem[] = [
   {
     label: "Work",
     children: [
+      {
+        label: "Our Team",
+        href: "/team",
+        desc: "Meet MD Mahfuzul Haque & the CST engineering leadership team",
+        icon: "👥",
+        badge: "Leadership",
+      },
+      {
+        label: "Admin Executive Hub",
+        href: "/admin",
+        desc: "Role-based executive dashboard, team management & operations",
+        icon: "🛡️",
+        badge: "Executive",
+      },
       {
         label: "Full Portfolio",
         href: "/portfolio",
@@ -283,8 +298,8 @@ export function Navbar() {
             </span>
           </Link>
 
-          {/* Desktop Navigation Links — visible on md: (768px+) */}
-          <nav className="hidden md:flex items-center gap-1 lg:gap-1.5">
+          {/* Desktop Navigation Links — visible on lg: (1024px+) */}
+          <nav className="hidden lg:flex items-center gap-1 lg:gap-1.5">
             {navItems.map((item) => {
               const hasChildren = item.children && item.children.length > 0;
               const isDropdownOpen = activeDropdown === item.label;
@@ -400,11 +415,14 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Desktop CTA & User Profile */}
-          <div className="hidden md:flex items-center gap-2.5">
+          {/* Desktop CTA & User Profile — visible on lg: (1024px+) */}
+          <div className="hidden lg:flex items-center gap-2.5">
             {isAuthenticated && user ? (
-              <div
-                className="relative"
+              <>
+                <WorkspaceSwitcher current="website" />
+
+                <div
+                  className="relative"
                 onMouseEnter={() => {
                   if (profileTimeoutRef.current) clearTimeout(profileTimeoutRef.current);
                   setProfileDropdownOpen(true);
@@ -469,13 +487,46 @@ export function Navbar() {
 
                       {/* Dropdown Menu Links */}
                       <div className="space-y-1">
+                        {/* Admin links if staff */}
+                        {(["superadmin", "admin", "manager", "developer", "support", "editor"].includes((user.role || "").toLowerCase()) ||
+                          user.email?.toLowerCase().includes("mahfuz")) && (
+                          <div className="mb-2 pb-2 border-b border-white/[0.08] space-y-1">
+                            <Link
+                              href="/admin"
+                              onClick={() => setProfileDropdownOpen(false)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                            >
+                              <span className="text-sm">🛡️</span>
+                              <span>Admin Executive Hub</span>
+                            </Link>
+
+                            <Link
+                              href="/admin/team"
+                              onClick={() => setProfileDropdownOpen(false)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-200 hover:text-white hover:bg-neutral-900 transition-colors"
+                            >
+                              <span className="text-sm">👥</span>
+                              <span>Team Members & Roles</span>
+                            </Link>
+
+                            <Link
+                              href="/admin/workspace"
+                              onClick={() => setProfileDropdownOpen(false)}
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-200 hover:text-white hover:bg-neutral-900 transition-colors"
+                            >
+                              <span className="text-sm">⚡</span>
+                              <span>Personal Workspace</span>
+                            </Link>
+                          </div>
+                        )}
+
                         <Link
                           href="/dashboard"
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">📊</span>
-                          <span className="font-medium">Command Dashboard</span>
+                          <span className="font-medium">Client Dashboard</span>
                         </Link>
 
                         <Link
@@ -523,7 +574,8 @@ export function Navbar() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+                </div>
+              </>
             ) : (
               <>
                 <Link
@@ -544,35 +596,63 @@ export function Navbar() {
             )}
           </div>
 
-          {/* Mobile hamburger button */}
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            className="md:hidden p-2 text-neutral-300 hover:text-white rounded-xl hover:bg-neutral-800 transition-all"
-          >
-            <div className="w-5 h-5 flex flex-col justify-center gap-[5px]">
-              <motion.span
-                animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.22 }}
-                className="block h-0.5 w-5 bg-current rounded-full origin-center"
-              />
-              <motion.span
-                animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
-                transition={{ duration: 0.18 }}
-                className="block h-0.5 w-5 bg-current rounded-full"
-              />
-              <motion.span
-                animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
-                transition={{ duration: 0.22 }}
-                className="block h-0.5 w-5 bg-current rounded-full origin-center"
-              />
-            </div>
-          </button>
+          {/* Mobile & Tablet Right Cluster (< 1024px) */}
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            {isAuthenticated && user ? (
+              <>
+                <WorkspaceSwitcher current="website" compact={true} align="right" />
+
+                <button
+                  type="button"
+                  onClick={() => setMobileOpen(!mobileOpen)}
+                  className="relative flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-br from-primary-500/30 to-surface-1 border border-primary-500/40 text-primary-300 font-bold text-xs shadow-sm hover:scale-105 transition-transform"
+                  aria-label="User Account Menu"
+                >
+                  {user.name
+                    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+                    : "MH"}
+                  <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-1 ring-black" />
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/request-project"
+                className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-primary-500/15 border border-primary-500/30 text-primary-300 hover:bg-primary-500/25 transition-all shadow-sm"
+              >
+                Brief ↗
+              </Link>
+            )}
+
+            {/* Mobile hamburger button */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="p-2 text-neutral-300 hover:text-white rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-all cursor-pointer"
+            >
+              <div className="w-4 h-4 flex flex-col justify-center gap-[4px]">
+                <motion.span
+                  animate={mobileOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="block h-0.5 w-4 bg-current rounded-full origin-center"
+                />
+                <motion.span
+                  animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+                  transition={{ duration: 0.15 }}
+                  className="block h-0.5 w-4 bg-current rounded-full"
+                />
+                <motion.span
+                  animate={mobileOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="block h-0.5 w-4 bg-current rounded-full origin-center"
+                />
+              </div>
+            </button>
+          </div>
         </div>
       </motion.header>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile & Tablet Full-Screen Luxury Drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -583,174 +663,222 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/75 md:hidden"
+              className="fixed inset-0 z-40 bg-black/85 backdrop-blur-2xl lg:hidden"
               onClick={() => setMobileOpen(false)}
             />
 
             {/* Menu Panel */}
             <motion.div
               key="mobile-menu"
-              initial={{ opacity: 0, y: -16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-              className="fixed top-20 inset-x-0 z-40 md:hidden max-h-[calc(100vh-6rem)] overflow-y-auto px-3"
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
+              className="fixed inset-0 z-40 lg:hidden pt-20 sm:pt-24 px-3 sm:px-6 pb-6 overflow-y-auto flex flex-col justify-between"
             >
-              <div className="rounded-3xl border border-neutral-800 bg-neutral-950/95 backdrop-blur-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden p-3.5 space-y-1.5 ring-1 ring-white/10">
-                {navItems.map((item) => {
-                  const hasChildren = item.children && item.children.length > 0;
-                  const isExpanded = mobileExpanded === item.label;
-
-                  if (hasChildren) {
-                    return (
-                      <div
-                        key={item.label}
-                        className="rounded-2xl border border-neutral-850 bg-neutral-900/60 overflow-hidden"
-                      >
-                        <button
-                          type="button"
-                          onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
-                          className="w-full flex items-center justify-between px-4 py-3 text-sm font-bold text-foreground hover:bg-neutral-800/60 transition-colors"
-                        >
-                          <span className="flex items-center gap-2">
-                            <span>{item.label === "Services" ? "⚡" : item.label === "Work" ? "💼" : "💳"}</span>
-                            <span>{item.label}</span>
-                          </span>
-                          <motion.span
-                            animate={{ rotate: isExpanded ? 180 : 0 }}
-                            transition={{ duration: 0.2 }}
-                            className="text-xs text-muted-fg"
-                          >
-                            ▾
-                          </motion.span>
-                        </button>
-
-                        <AnimatePresence initial={false}>
-                          {isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: "auto", opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="px-2.5 pb-2.5 space-y-1"
-                            >
-                              {item.label === "Services" && (
-                                <Link
-                                  href="/services"
-                                  onClick={() => setMobileOpen(false)}
-                                  className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-400 text-xs font-bold transition-colors mb-1.5"
-                                >
-                                  <span className="flex items-center gap-2">
-                                    <span>⚡</span>
-                                    <span>Go to All 13 Services Page</span>
-                                  </span>
-                                  <span>→</span>
-                                </Link>
-                              )}
-                              {item.children?.map((child) => (
-                                <Link
-                                  key={child.label}
-                                  href={child.href}
-                                  onClick={() => setMobileOpen(false)}
-                                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-medium text-neutral-300 hover:text-white hover:bg-neutral-800 transition-colors"
-                                >
-                                  <span className="text-base p-1.5 rounded-lg bg-surface border border-border flex-shrink-0">
-                                    {child.icon}
-                                  </span>
-                                  <div className="flex-1 min-w-0">
-                                    <p className="font-semibold text-foreground truncate">
-                                      {child.label}
-                                    </p>
-                                    <p className="text-[10px] text-muted-fg truncate mt-0.5">
-                                      {child.desc}
-                                    </p>
-                                  </div>
-                                  {child.badge && (
-                                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-primary-500/20 text-primary-400">
-                                      {child.badge}
-                                    </span>
-                                  )}
-                                </Link>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <Link
-                      key={item.label}
-                      href={item.href || "#"}
-                      onClick={() => setMobileOpen(false)}
-                      className="flex items-center justify-between px-4 py-3 rounded-2xl text-sm font-semibold text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
-                    >
-                      <span>{item.label}</span>
-                      <span className="text-xs text-neutral-600">→</span>
-                    </Link>
-                  );
-                })}
-
-                {/* Bottom CTA bar inside mobile menu */}
-                <div className="pt-3 mt-2 border-t border-neutral-800/80">
-                  {isAuthenticated && user ? (
-                    <div className="space-y-3">
-                      <div className="flex items-center gap-3 p-3 rounded-xl bg-surface-1 border border-border">
-                        <div className="h-9 w-9 rounded-full bg-primary-500/20 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 flex-shrink-0">
+              <div className="max-w-2xl mx-auto w-full space-y-4">
+                {/* 1. If Authenticated: Executive Profile & Ecosystem Switcher Card */}
+                {isAuthenticated && user && (
+                  <div className="rounded-2xl border border-white/[0.1] bg-[#0c1322]/90 backdrop-blur-2xl p-4 shadow-xl">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <div className="relative h-10 w-10 rounded-full bg-gradient-to-br from-primary-500/30 via-amber-500/20 to-surface-1 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shrink-0">
                           {user.name
-                            ? user.name
-                                .split(" ")
-                                .map((n) => n[0])
-                                .join("")
-                                .toUpperCase()
-                                .slice(0, 2)
-                            : "U"}
+                            ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
+                            : "MH"}
+                          {((user.role || "").toLowerCase() === "superadmin" || user.email?.toLowerCase().includes("mahfuz")) && (
+                            <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-amber-400 border border-black flex items-center justify-center text-[8px] text-black font-black">
+                              ★
+                            </span>
+                          )}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-xs font-bold text-foreground truncate">{user.name}</p>
-                          <p className="text-[10px] text-muted-fg truncate">{user.email}</p>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-bold text-white truncate leading-tight">{user.name}</p>
+                          <p className="text-[10px] text-neutral-400 truncate">{user.email}</p>
                         </div>
-                        <span className="text-[10px] text-primary-400 font-mono font-semibold">
-                          ⚡ {user.aiCreditsRemaining ?? 5} cr
-                        </span>
                       </div>
 
-                      <div className="flex gap-2">
-                        <Link
-                          href="/dashboard"
-                          className="flex-1"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          <Button variant="primary" size="sm" className="w-full rounded-xl">
-                            Dashboard →
-                          </Button>
-                        </Link>
-                        <button
-                          onClick={async () => {
-                            setMobileOpen(false);
-                            await signOut();
-                          }}
-                          className="px-4 py-2 rounded-xl text-xs font-semibold border border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors cursor-pointer"
-                        >
-                          Sign Out
-                        </button>
-                      </div>
+                      <span className="text-[10px] px-2.5 py-1 rounded-full border border-primary-500/30 bg-primary-500/15 text-primary-300 font-mono shrink-0">
+                        ⚡ {user.aiCreditsRemaining ?? 5} cr
+                      </span>
                     </div>
-                  ) : (
-                    <div className="flex gap-2">
-                      <Link href="/login" className="flex-1" onClick={() => setMobileOpen(false)}>
-                        <Button variant="ghost" size="sm" className="w-full text-neutral-300 rounded-xl">
-                          Log in
-                        </Button>
+
+                    {/* Ecosystem Quick Access Grid */}
+                    <div className="mt-3 pt-3 border-t border-white/[0.08] grid grid-cols-2 gap-2">
+                      {((["superadmin", "admin", "manager", "developer", "support", "editor"].includes((user.role || "").toLowerCase())) ||
+                        user.email?.toLowerCase().includes("mahfuz")) && (
+                        <Link
+                          href="/admin"
+                          onClick={() => setMobileOpen(false)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold transition-all shadow-sm"
+                        >
+                          <span className="text-sm">🛡️</span>
+                          <span className="truncate">Admin Hub</span>
+                        </Link>
+                      )}
+
+                      <Link
+                        href="/dashboard"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 p-2.5 rounded-xl bg-primary-500/10 border border-primary-500/25 hover:bg-primary-500/20 text-primary-300 text-xs font-semibold transition-all shadow-sm"
+                      >
+                        <span className="text-sm">📊</span>
+                        <span className="truncate">Client Portal</span>
                       </Link>
-                      <Link href="/contact" className="flex-1" onClick={() => setMobileOpen(false)}>
-                        <Button variant="primary" size="sm" className="w-full rounded-xl">
-                          Get a Quote →
-                        </Button>
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. Nav Items with Luxury Accordions */}
+                <div className="rounded-2xl border border-white/[0.08] bg-[#0c1322]/80 backdrop-blur-2xl p-2 sm:p-3 space-y-1 shadow-2xl">
+                  {navItems.map((item) => {
+                    const hasChildren = item.children && item.children.length > 0;
+                    const isExpanded = mobileExpanded === item.label;
+
+                    if (hasChildren) {
+                      return (
+                        <div
+                          key={item.label}
+                          className="rounded-xl border border-white/[0.06] bg-white/[0.02] overflow-hidden"
+                        >
+                          <button
+                            type="button"
+                            onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
+                            className="w-full flex items-center justify-between px-3.5 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-white/[0.04] transition-colors"
+                          >
+                            <span className="flex items-center gap-2">
+                              <span>{item.label === "Services" ? "⚡" : item.label === "Work" ? "💼" : "💳"}</span>
+                              <span>{item.label}</span>
+                              <span className="text-[10px] text-neutral-500 font-mono">
+                                ({item.children?.length})
+                              </span>
+                            </span>
+                            <motion.span
+                              animate={{ rotate: isExpanded ? 180 : 0 }}
+                              transition={{ duration: 0.18 }}
+                              className="text-xs text-neutral-400"
+                            >
+                              ▾
+                            </motion.span>
+                          </button>
+
+                          <AnimatePresence initial={false}>
+                            {isExpanded && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="px-2.5 pb-2.5 space-y-1"
+                              >
+                                {item.label === "Services" && (
+                                  <Link
+                                    href="/services"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-300 text-xs font-bold transition-all mb-1 shadow-sm"
+                                  >
+                                    <span className="flex items-center gap-2">
+                                      <span>⚡</span>
+                                      <span>View All 13 Specialized Services</span>
+                                    </span>
+                                    <span>→</span>
+                                  </Link>
+                                )}
+
+                                {item.children?.map((child) => (
+                                  <Link
+                                    key={child.label}
+                                    href={child.href}
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex items-center gap-2.5 p-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/[0.05] transition-all"
+                                  >
+                                    <span className="h-7 w-7 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-sm shrink-0">
+                                      {child.icon}
+                                    </span>
+                                    <div className="min-w-0 flex-1">
+                                      <div className="flex items-center justify-between gap-1">
+                                        <p className="font-semibold text-white truncate text-xs">
+                                          {child.label}
+                                        </p>
+                                        {child.badge && (
+                                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-300 border border-primary-500/30 shrink-0">
+                                            {child.badge}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <p className="text-[10px] text-neutral-500 truncate mt-0.5">
+                                        {child.desc}
+                                      </p>
+                                    </div>
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    }
+
+                    return (
+                      <Link
+                        key={item.label}
+                        href={item.href || "#"}
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                      >
+                        <span>{item.label}</span>
+                        <span className="text-xs text-neutral-600">→</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+
+                {/* 3. Bottom Action CTA */}
+                <div className="p-3 rounded-2xl border border-white/[0.08] bg-[#0c1322]/80 backdrop-blur-2xl space-y-2">
+                  <Link
+                    href="/request-project"
+                    onClick={() => setMobileOpen(false)}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-black font-heading font-bold text-xs shadow-[0_0_24px_rgba(20,184,160,0.4)] hover:brightness-110 transition-all"
+                  >
+                    <span>🚀</span>
+                    <span>Request Custom Project Brief →</span>
+                  </Link>
+
+                  {isAuthenticated && user ? (
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        setMobileOpen(false);
+                        await signOut();
+                      }}
+                      className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
+                    >
+                      <span>🚪</span>
+                      <span>Sign Out ({user.name})</span>
+                    </button>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center justify-center py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs font-semibold text-white hover:bg-white/[0.08] transition-colors"
+                      >
+                        Log in
+                      </Link>
+                      <Link
+                        href="/contact"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center justify-center py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-xs font-semibold text-primary-300 hover:bg-primary-500/25 transition-colors"
+                      >
+                        Contact Team
                       </Link>
                     </div>
                   )}
+                </div>
+
+                {/* Footer Attribution */}
+                <div className="text-center pt-2 pb-4 text-[10px] text-neutral-500 font-mono">
+                  Nexora Creative Studio &amp; Technology • Dhaka &amp; Global Edge
                 </div>
               </div>
             </motion.div>

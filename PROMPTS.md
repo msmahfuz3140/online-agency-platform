@@ -221,16 +221,20 @@ Build a "Request a Project" form page in /frontend connected to this route.
 [x] TypeScript build: PASS (0 errors across frontend & backend)
 ```
 
-### Prompt 13 — Basic Admin Panel (professional/premium)
+### Prompt 13 — Basic Admin Panel (professional/premium) [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Build a protected /admin route in /frontend, accessible only to users with role "admin" (check via middleware/backend route protection).
 Make this feel like a professional, premium admin dashboard — NOT a bare list of links or plain table:
-- Persistent collapsible sidebar nav + top bar (search, profile)
-- Dashboard overview page with animated stat cards (use AnimatedCounter) for: total users, total project requests, total contact messages
-- Sortable/filterable/paginated data tables for: all users, all project requests, all contact submissions — with color-coded status badges
-- A "block/delete user" action that opens a Modal for confirmation (never window.confirm), with a smooth transition
-- Reuse the same design tokens (colors, fonts, spacing) as the public site — it should look like part of the same premium product
+- [x] Persistent collapsible sidebar nav (AdminSidebar with animated Framer Motion transitions) + top bar with live search, notifications, and profile chip
+- [x] Dashboard overview page (/admin) with animated stat cards (AnimatedCounter) for: total users, total project requests, total contact messages, and active team staff
+- [x] Sortable/filterable/paginated data tables for: all users (/admin/users), all project requests (/admin/requests), all contact submissions (/admin/messages) — with color-coded status badges
+- [x] Block/delete user action that opens a confirmation Modal (ConfirmModal, zero window.confirm)
+- [x] Team Members & RBAC Management (/admin/team): Super Admin / Owner has master control to invite staff, assign roles (Super Admin, Manager, Developer, Support, Editor), configure granular permissions, and toggle account status
+- [x] Personal Workspace & Role-Based Dashboard (/admin/workspace): Tailored cockpit for each role with sprint checklists, SLA response monitors, and live role switcher preview for the owner
+- [x] Reuse same design tokens (Electric Teal, Warm Amber, Charcoal neutrals, glassmorphism, Space Grotesk + Inter typography)
+- [x] TypeScript build: PASS (0 errors across frontend & backend)
+- [x] All routes verified: HTTP 200 OK (/admin, /admin/team, /admin/workspace, /admin/users, /admin/requests, /admin/messages)
 ```
 
 ### Prompt 14 — Deployment Prep

@@ -131,10 +131,14 @@ export default function LoginPage() {
       // Success
       toast("success", "Welcome Back! 👋", `Logged in as ${res.user?.name || res.user?.email}`);
 
+      // Check role: if staff/admin, redirect directly to /admin, otherwise /dashboard
+      const userRole = res.user?.role || "user";
+      const isStaff = ["superadmin", "admin", "manager", "developer", "support", "editor"].includes(userRole);
+
       // Small delay for toast visibility, auto-refresh and redirect
       setTimeout(() => {
         router.refresh();
-        router.push("/dashboard");
+        router.push(isStaff ? "/admin" : "/dashboard");
       }, 400);
     } catch (err: any) {
       console.error("Login submission error:", err);
