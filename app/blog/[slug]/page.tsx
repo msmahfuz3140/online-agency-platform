@@ -12,6 +12,7 @@ import { BlogContentRenderer } from "@/components/blog/BlogContentRenderer";
 import { BlogShareButtons } from "@/components/blog/BlogShareButtons";
 import { BlogCTASection } from "@/components/blog/BlogCTASection";
 import { blogPosts } from "@/lib/blog-data";
+import { fetchBlogPostBySlug } from "@/lib/api-client";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,7 +26,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = (await fetchBlogPostBySlug(slug)) || blogPosts.find((p) => p.slug === slug);
   if (!post) {
     return {
       title: "Post Not Found | Nexora Agency",
@@ -57,7 +58,7 @@ function formatDate(dateStr: string) {
 
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
-  const post = blogPosts.find((p) => p.slug === slug);
+  const post = (await fetchBlogPostBySlug(slug)) || blogPosts.find((p) => p.slug === slug);
 
   if (!post) {
     notFound();

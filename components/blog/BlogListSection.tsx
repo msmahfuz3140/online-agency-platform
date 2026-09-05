@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Badge } from "../ui/Badge";
 import { Section } from "../ui/Section";
@@ -5,6 +8,7 @@ import { Card } from "../ui/Card";
 import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
 import { blogPosts, type BlogPost } from "@/lib/blog-data";
+import { fetchBlogPosts } from "@/lib/api-client";
 
 function formatDate(dateStr: string) {
   return new Date(dateStr).toLocaleDateString("en-US", {
@@ -112,9 +116,19 @@ function PostCard({ post }: { post: BlogPost }) {
   );
 }
 
-export function BlogListSection() {
-  const featured = blogPosts.filter((p) => p.featured);
-  const regular = blogPosts.filter((p) => !p.featured);
+export function BlogListSection({ initialPosts }: { initialPosts?: BlogPost[] }) {
+  const [posts, setPosts] = useState<BlogPost[]>(initialPosts || blogPosts);
+
+  useEffect(() => {
+    fetchBlogPosts().then((data) => {
+      if (data && data.length > 0) {
+        setPosts(data);
+      }
+    });
+  }, []);
+
+  const featured = posts.filter((p) => p.featured);
+  const regular = posts.filter((p) => !p.featured);
 
   return (
     <Section id="blog-list" className="pb-24">

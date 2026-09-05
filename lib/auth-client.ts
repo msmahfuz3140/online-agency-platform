@@ -84,7 +84,8 @@ export async function signUpEmail(data: {
       aiCreditsRemaining: 5,
     };
 
-    setStoredUser(user);
+    // Clear any auto-assigned session so user must explicitly sign in on the login page
+    await signOut().catch(() => {});
 
     return {
       success: true,
@@ -168,6 +169,72 @@ export async function signOut(): Promise<{ success: boolean }> {
 }
 
 /**
+ * Sign in / Register with Social OAuth Provider (Google, GitHub) via Better Auth
+ */
+export async function signInSocial(
+  provider: "google" | "github",
+  callbackURL?: string
+): Promise<{ success: boolean; url?: string; error?: string }> {
+  try {
+    const callback =
+      callbackURL ||
+      (typeof window !== "undefined"
+        ? `${window.location.origin}/dashboard`
+        : "http://localhost:3000/dashboard");
+
+    const res = await fetch(`${API_BASE_URL}/api/auth/sign-in/social`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        provider,
+        callbackURL: callback,
+      }),
+    });
+
+    const body = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      return {
+        success: false,
+        error:
+          body.message ||
+          body.error ||
+          `Failed to initialize ${provider} login. Please ensure OAuth credentials are configured in backend/.env`,
+      };
+    }
+
+    // Better Auth returns { url: "...", redirect: true }
+    if (body.url) {
+      if (typeof window !== "undefined") {
+        window.location.href = body.url;
+      }
+      return { success: true, url: body.url };
+    }
+
+    if (body.user) {
+      setStoredUser(body.user);
+      return { success: true };
+    }
+
+    return {
+      success: false,
+      error: "No authorization URL returned from auth server.",
+    };
+  } catch (err: any) {
+    console.error(`signInSocial (${provider}) error:`, err);
+    return {
+      success: false,
+      error:
+        err.message ||
+        "Network error. Make sure the backend server is running.",
+    };
+  }
+}
+
+/**
  * Fetch current session
  */
 export async function getSession(): Promise<UserSession | null> {
@@ -178,8 +245,15 @@ export async function getSession(): Promise<UserSession | null> {
     if (!res.ok) return getStoredUser();
     const data = await res.json();
     if (data && data.user) {
-      setStoredUser(data.user);
-      return data.user;
+      const formattedUser: UserSession = {
+        id: data.user.id || data.user._id || `usr_${Date.now()}`,
+        name: data.user.name || data.user.email?.split("@")[0] || "User",
+        email: data.user.email || "",
+        role: data.user.role || "user",
+        aiCreditsRemaining: data.user.aiCreditsRemaining ?? 5,
+      };
+      setStoredUser(formattedUser);
+      return formattedUser;
     }
     return getStoredUser();
   } catch {

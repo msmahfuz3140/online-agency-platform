@@ -488,7 +488,7 @@ export function Navbar() {
                         </Link>
 
                         <Link
-                          href="/contact"
+                          href="/request-project"
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
                         >
@@ -538,7 +538,7 @@ export function Navbar() {
                   className="rounded-full px-4 shadow-[0_0_20px_rgba(20,184,160,0.3)] text-xs font-semibold"
                   asChild
                 >
-                  <Link href="/contact">Get a Quote →</Link>
+                  <Link href="/request-project">Request a Project →</Link>
                 </Button>
               </>
             )}

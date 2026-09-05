@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
-import { getStoredUser, signOut, type UserSession } from "@/lib/auth-client";
+import { getStoredUser, getSession, signOut, type UserSession } from "@/lib/auth-client";
 
 export default function DashboardPlaceholderPage() {
   const router = useRouter();
@@ -17,8 +17,10 @@ export default function DashboardPlaceholderPage() {
   useEffect(() => {
     setMounted(true);
     const stored = getStoredUser();
-    if (!stored) {
-      // Fallback demo user for preview if not signed in
+    if (stored) {
+      setUser(stored);
+    } else {
+      // Fallback preview while checking live session
       setUser({
         id: "usr_preview",
         name: "Founder",
@@ -26,9 +28,14 @@ export default function DashboardPlaceholderPage() {
         role: "user",
         aiCreditsRemaining: 5,
       });
-    } else {
-      setUser(stored);
     }
+
+    // Sync live session from Better Auth cookie (e.g. after OAuth redirect)
+    getSession().then((sessionUser) => {
+      if (sessionUser) {
+        setUser(sessionUser);
+      }
+    });
   }, []);
 
   const handleSignOut = async () => {

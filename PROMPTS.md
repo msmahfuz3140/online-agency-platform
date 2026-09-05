@@ -202,11 +202,23 @@ After login, redirect to a placeholder /dashboard route (dashboard itself will b
 [x] Live routes verified: HTTP 200 OK (/login, /register, /dashboard)
 ```
 
-### Prompt 12 — Client Project Request System
+### Prompt 12 — Client Project Request System [x] (Completed)
 ```
 @PROJECT_CONTEXT.md
 Create a ProjectRequest model in /backend (fields: clientId or contact info, requirements, budget, timeline, status: pending/in-progress/completed).
 Build a "Request a Project" form page in /frontend connected to this route.
+
+[x] In /backend: Mongoose ProjectRequest model with full fields (clientName, clientEmail, clientPhone, clientCompany, clientId, projectTitle, projectType, requirements, techStack[], referenceUrls[], budget, timeline, status: pending/in-progress/completed/cancelled, adminNotes, ipAddress, timestamps)
+[x] In /backend: POST /api/project-request route with full validation, MongoDB + in-memory fallback
+[x] In /backend: GET /api/project-request route listing requests for admin
+[x] In /backend: PATCH /api/project-request/:id/status route for admin status updates
+[x] In /backend: Route registered in server.ts
+[x] In /frontend: Premium 3-step multi-step form (/request-project) — Step 1: Contact info, Step 2: Project details (type grid, tech stack pills, requirements), Step 3: Budget & Timeline selection cards
+[x] In /frontend: RequestProjectForm component with inline validation, framer-motion step transitions, toast notifications, animated success screen
+[x] In /frontend: RequestProjectHero component with ambient background, trust signals, gradient headline
+[x] In /frontend: Two-column layout with sidebar (Why Nexora, stats, direct contact) and form
+[x] In /frontend: Navbar CTA updated from "Get a Quote" to "Request a Project →" pointing to /request-project
+[x] TypeScript build: PASS (0 errors across frontend & backend)
 ```
 
 ### Prompt 13 — Basic Admin Panel (professional/premium)

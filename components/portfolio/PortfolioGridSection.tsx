@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { FadeInSection } from "../motion/FadeInSection";
+import { fetchPortfolio } from "@/lib/api-client";
 
 export type ProjectCategory =
   | "All"
@@ -224,13 +225,27 @@ const categories: ProjectCategory[] = [
   "AI Solutions",
 ];
 
-export function PortfolioGridSection() {
+export function PortfolioGridSection({
+  initialProjects,
+}: {
+  initialProjects?: ProjectItem[];
+}) {
+  const [projectList, setProjectList] = useState<ProjectItem[]>(initialProjects || projects);
   const [activeCategory, setActiveCategory] = useState<ProjectCategory>("All");
+
+  // Dynamically load portfolio projects from MongoDB
+  useEffect(() => {
+    fetchPortfolio().then((data) => {
+      if (data && data.length > 0) {
+        setProjectList(data);
+      }
+    });
+  }, []);
 
   const filtered =
     activeCategory === "All"
-      ? projects
-      : projects.filter((p) => p.category === activeCategory);
+      ? projectList
+      : projectList.filter((p) => p.category === activeCategory);
 
   return (
     <Section id="portfolio-grid" className="pb-24">

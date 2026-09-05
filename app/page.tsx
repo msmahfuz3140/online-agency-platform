@@ -10,13 +10,17 @@ import { WhyChooseUsSection } from "@/components/home/WhyChooseUsSection";
 import { ComparisonMatrixSection } from "@/components/home/ComparisonMatrixSection";
 import { FeaturedProjectsSection } from "@/components/home/FeaturedProjectsSection";
 import { ClientImpactSection } from "@/components/home/ClientImpactSection";
+import { PerformanceComparisonSliderSection } from "@/components/home/PerformanceComparisonSliderSection";
+import { InteractiveComponentPlaygroundSection } from "@/components/home/InteractiveComponentPlaygroundSection";
 import { HowItWorksSection } from "@/components/home/HowItWorksSection";
+import { SprintEngineRoadmapSection } from "@/components/home/SprintEngineRoadmapSection";
 import { ServicesOverviewSection } from "@/components/home/ServicesOverviewSection";
 import { TeamSection } from "@/components/home/TeamSection";
 import { ClientReviewsSection } from "@/components/home/ClientReviewsSection";
 import { ProjectCostCalculatorSection } from "@/components/home/ProjectCostCalculatorSection";
 import { PricingPreviewSection } from "@/components/home/PricingPreviewSection";
 import { TrustGuaranteesSection } from "@/components/home/TrustGuaranteesSection";
+import { EnterpriseSecurityVaultSection } from "@/components/home/EnterpriseSecurityVaultSection";
 import { FAQSection } from "@/components/home/FAQSection";
 import { CTASection } from "@/components/home/CTASection";
 import { NewsletterSection } from "@/components/home/NewsletterSection";
@@ -32,18 +36,22 @@ export default function HomePage() {
         <TechMarqueeSection />
         <AiGeneratorDemoSection />
         <AiComponentLibrarySection />
+        <InteractiveComponentPlaygroundSection />
         <ClientPathwaySection />
         <WhyChooseUsSection />
         <ComparisonMatrixSection />
         <FeaturedProjectsSection />
         <ClientImpactSection />
+        <PerformanceComparisonSliderSection />
         <HowItWorksSection />
+        <SprintEngineRoadmapSection />
         <ServicesOverviewSection />
         <TeamSection />
         <ClientReviewsSection />
         <ProjectCostCalculatorSection />
         <PricingPreviewSection />
         <TrustGuaranteesSection />
+        <EnterpriseSecurityVaultSection />
         <FAQSection />
         <CTASection />
         <NewsletterSection />

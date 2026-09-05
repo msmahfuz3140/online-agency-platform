@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
@@ -8,41 +9,41 @@ import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
 
 interface TeamLeadership {
+  slug: string;
   name: string;
   role: string;
   department: string;
   bio: string;
   skills: string[];
-  initials: string;
   badgeVariant: "primary" | "warning" | "success" | "default";
 }
 
 const leadershipTeam: TeamLeadership[] = [
   {
+    slug: "jahidul-islam",
     name: "Jahidul Islam",
     role: "Co-Founder & Head of UI/UX Design",
     department: "Computer Science & Technology (CST)",
     bio: "Obsessed with design systems, human-centered interaction, accessibility, and high-conversion wireframing.",
     skills: ["Figma Systems", "Interaction Design", "UX Research", "Brand Identity"],
-    initials: "JI",
     badgeVariant: "warning",
   },
   {
+    slug: "saif-khan",
     name: "Saif Khan",
     role: "Co-Founder & Cyber Security Lead",
     department: "Computer Science & Technology (CST)",
     bio: "Architecting zero-trust infrastructure, app hardening, penetration testing, and defense-in-depth protocols.",
     skills: ["Infrastructure Hardening", "Penetration Testing", "Threat Modeling", "DevSecOps"],
-    initials: "SK",
     badgeVariant: "success",
   },
   {
-    name: "Koushik Kumar",
+    slug: "koushik-komar-paul",
+    name: "Koushik Komar Paul",
     role: "Lead Security Auditor & Ethical Hacker",
     department: "Computer Science & Technology (CST)",
     bio: "Proactively uncovering zero-day vulnerabilities, OWASP compliance auditing, and ensuring watertight client APIs.",
     skills: ["Ethical Hacking", "Vulnerability Auditing", "OWASP Top 10", "Network Forensics"],
-    initials: "KK",
     badgeVariant: "default",
   },
 ];
@@ -79,21 +80,34 @@ export function FounderProfileSection() {
           <div className="p-6 sm:p-8 lg:p-12 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Founder Avatar & Quick Bio Column */}
             <div className="lg:col-span-4 flex flex-col items-center text-center">
-              <div className="relative group">
+              <Link href="/team/md-mahfuzul-haque" className="relative group cursor-pointer">
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-primary-500 to-amber-500 opacity-40 blur-lg group-hover:opacity-75 transition duration-500" />
-                <div className="relative h-32 w-32 sm:h-36 sm:w-36 rounded-2xl bg-neutral-900 border-2 border-primary-500/40 flex items-center justify-center shadow-xl">
-                  <span className="font-heading font-black text-4xl sm:text-5xl text-foreground">
-                    MH
-                  </span>
+                <div className="relative h-32 w-32 sm:h-36 sm:w-36 rounded-2xl bg-neutral-900 border-2 border-primary-500/40 flex items-center justify-center shadow-xl overflow-hidden">
+                  <div className="h-full w-full bg-surface-2/70 flex items-center justify-center text-muted-fg/70 group-hover:text-primary-400 transition-colors duration-300">
+                    <svg
+                      className="w-16 h-16 transition-transform duration-300 group-hover:scale-105"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
                   <span className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-3 border-neutral-900 flex items-center justify-center" title="Active & Building">
                     <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
                   </span>
                 </div>
-              </div>
+              </Link>
 
-              <h3 className="mt-5 font-heading font-bold text-2xl text-foreground">
-                MD Mahfuzul Haque
-              </h3>
+              <Link href="/team/md-mahfuzul-haque">
+                <h3 className="mt-5 font-heading font-bold text-2xl text-foreground hover:text-primary-400 transition-colors">
+                  MD Mahfuzul Haque
+                </h3>
+              </Link>
               <p className="text-sm font-semibold text-primary-400 mt-1">
                 Founder & Principal Systems Architect
               </p>
@@ -103,16 +117,14 @@ export function FounderProfileSection() {
                 CST • Mymensingh Polytechnic Institute
               </div>
 
-              {/* Social / Connect links */}
+              {/* Action Links */}
               <div className="mt-5 flex items-center gap-2">
-                {["GitHub", "LinkedIn", "Twitter / X"].map((platform) => (
-                  <span
-                    key={platform}
-                    className="px-2.5 py-1 rounded-lg bg-surface border border-border text-xs text-muted-fg hover:text-primary-400 transition-colors cursor-pointer"
-                  >
-                    {platform}
-                  </span>
-                ))}
+                <Link
+                  href="/team/md-mahfuzul-haque"
+                  className="px-3 py-1.5 rounded-lg bg-primary-500/15 hover:bg-primary-500/25 border border-primary-500/30 text-xs font-semibold text-primary-300 transition-colors"
+                >
+                  View Full Profile &rarr;
+                </Link>
               </div>
             </div>
 
@@ -179,20 +191,35 @@ export function FounderProfileSection() {
 
         <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {leadershipTeam.map((member) => (
-            <Card key={member.name} hover padding="lg" className="bg-surface/50 border-border flex flex-col justify-between">
+            <Card key={member.name} hover padding="lg" className="bg-surface/50 border-border flex flex-col justify-between group">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-surface-2 border border-border flex items-center justify-center font-heading font-bold text-base text-foreground">
-                    {member.initials}
-                  </div>
+                  <Link href={`/team/${member.slug}`}>
+                    <div className="h-12 w-12 rounded-xl bg-surface-2 border border-border flex items-center justify-center text-muted-fg group-hover:text-primary-400 group-hover:border-primary-500/40 transition-colors overflow-hidden">
+                      <svg
+                        className="w-6 h-6 transition-transform group-hover:scale-110"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </div>
+                  </Link>
                   <Badge variant={member.badgeVariant} size="sm">
                     {member.role.split("&")[0].trim()}
                   </Badge>
                 </div>
 
-                <h4 className="font-heading font-bold text-lg text-foreground">
-                  {member.name}
-                </h4>
+                <Link href={`/team/${member.slug}`}>
+                  <h4 className="font-heading font-bold text-lg text-foreground group-hover:text-primary-400 transition-colors">
+                    {member.name}
+                  </h4>
+                </Link>
                 <p className="text-xs text-primary-400 font-medium mt-0.5">
                   {member.role}
                 </p>
@@ -205,15 +232,27 @@ export function FounderProfileSection() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap gap-1.5">
-                {member.skills.map((s) => (
-                  <span
-                    key={s}
-                    className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-2 text-muted-fg border border-border"
+              <div>
+                <div className="mt-6 pt-4 border-t border-border/50 flex flex-wrap gap-1.5">
+                  {member.skills.map((s) => (
+                    <span
+                      key={s}
+                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-2 text-muted-fg border border-border"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-border/50">
+                  <Link
+                    href={`/team/${member.slug}`}
+                    className="text-xs font-semibold text-primary-400 hover:text-primary-300 flex items-center justify-between transition-colors"
                   >
-                    {s}
-                  </span>
-                ))}
+                    <span>View In-Depth Profile</span>
+                    <span className="transition-transform group-hover:translate-x-1">&rarr;</span>
+                  </Link>
+                </div>
               </div>
             </Card>
           ))}

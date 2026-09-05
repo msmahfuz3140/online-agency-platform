@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../ui/Section";
+import { fetchServices } from "@/lib/api-client";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
@@ -265,13 +266,27 @@ const categories: ServiceCategory[] = [
   "AI Solutions",
 ];
 
-export function ServicesGridSection() {
+export function ServicesGridSection({
+  initialServices,
+}: {
+  initialServices?: ServiceItem[];
+}) {
+  const [services, setServices] = useState<ServiceItem[]>(initialServices || servicesData);
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("All");
+
+  // Dynamically load services from MongoDB backend
+  useEffect(() => {
+    fetchServices().then((data) => {
+      if (data && data.length > 0) {
+        setServices(data);
+      }
+    });
+  }, []);
 
   const filteredServices =
     selectedCategory === "All"
-      ? servicesData
-      : servicesData.filter((s) => s.category === selectedCategory);
+      ? services
+      : services.filter((s) => s.category === selectedCategory);
 
   return (
     <Section id="services-list" className="relative py-20 lg:py-28">
