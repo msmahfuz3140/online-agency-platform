@@ -14,8 +14,13 @@ export function useToast() {
 
   const toast = useCallback(
     (type: ToastType, title: string, description?: string) => {
-      const id = `toast-${++idCounter}`;
-      setToasts((prev) => [...prev, { id, type, title, description }]);
+      setToasts((prev) => {
+        if (prev.some((t) => t.type === type && t.title === title && t.description === description)) {
+          return prev;
+        }
+        const id = `toast-${++idCounter}`;
+        return [...prev, { id, type, title, description }];
+      });
     },
     []
   );

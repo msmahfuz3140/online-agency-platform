@@ -1,5 +1,6 @@
 "use client";
 
+import React, { useMemo, useRef } from "react";
 import { ToastContainer } from "./Toast";
 import { useToast } from "./useToast";
 
@@ -14,10 +15,18 @@ import { useToast } from "./useToast";
  */
 export function useToastPortal() {
   const { toast, dismiss, toasts } = useToast();
+  const toastsRef = useRef(toasts);
+  toastsRef.current = toasts;
+  const dismissRef = useRef(dismiss);
+  dismissRef.current = dismiss;
 
-  function ToastPortal() {
-    return <ToastContainer toasts={toasts} onDismiss={dismiss} />;
-  }
+  // Keep a stable component reference across parent re-renders
+  // to avoid unmounting/remounting the ToastContainer and replaying animations.
+  const ToastPortal = useMemo(() => {
+    return function ToastPortal() {
+      return <ToastContainer toasts={toastsRef.current} onDismiss={(id) => dismissRef.current(id)} />;
+    };
+  }, []);
 
   return { toast, ToastPortal };
 }

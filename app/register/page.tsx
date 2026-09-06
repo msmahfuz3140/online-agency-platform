@@ -47,16 +47,20 @@ export default function RegisterPage() {
   const [resendCooldown, setResendCooldown] = useState(60);
   const otpInputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Timer for OTP resend cooldown
+  // Timer for OTP resend cooldown (only active while in OTP step and cooldown > 0)
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (step === "otp" && resendCooldown > 0) {
-      timer = setInterval(() => {
-        setResendCooldown((prev) => prev - 1);
-      }, 1000);
-    }
+    if (step !== "otp" || resendCooldown <= 0) return;
+    const timer = setInterval(() => {
+      setResendCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
     return () => clearInterval(timer);
-  }, [step, resendCooldown]);
+  }, [step, resendCooldown === 0]);
 
   // Focus the first OTP box when entering OTP step
   useEffect(() => {
@@ -129,6 +133,8 @@ export default function RegisterPage() {
   // Step 1: Submit Form -> Send OTP to Gmail
   const handleInitiateSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isSubmitting) return;
 
     if (!validate()) {
       toast("error", "Validation Error", "Please review the form fields marked in red.");
@@ -258,6 +264,8 @@ export default function RegisterPage() {
 
   // Step 2: Verify OTP -> Complete Better Auth Registration
   const handleVerifyAndRegister = async (fullOtp?: string) => {
+    if (otpLoading) return;
+
     const code = fullOtp || otpDigits.join("");
     if (code.length !== 6) {
       setOtpError("Please enter the complete 6-digit code.");
