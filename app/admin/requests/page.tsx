@@ -353,34 +353,54 @@ export default function AdminRequestsPage() {
       />
 
       <div className="p-3.5 sm:p-6 space-y-4">
-        {/* Status Filters Bar */}
-        <div className="flex items-center gap-2 flex-wrap pb-1">
-          <button
-            onClick={() => setFilterStatus("all")}
-            className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all ${
-              filterStatus === "all"
-                ? "border-primary-500/40 bg-primary-500/15 text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
-                : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.12]"
-            }`}
-          >
-            All Requests ({requests.length})
-          </button>
-          {STATUS_OPTIONS.map((s) => (
+        {/* Status Filters Bar & Action Controls */}
+        <div className="flex items-center justify-between gap-3 flex-wrap pb-1">
+          <div className="flex items-center gap-2 flex-wrap">
             <button
-              key={s.value}
-              onClick={() => setFilterStatus(s.value)}
-              className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all flex items-center gap-1.5 ${
-                filterStatus === s.value
+              onClick={() => setFilterStatus("all")}
+              className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all cursor-pointer ${
+                filterStatus === "all"
                   ? "border-primary-500/40 bg-primary-500/15 text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
                   : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.12]"
               }`}
             >
-              <span>{s.label}</span>
+              All Requests ({requests.length})
             </button>
-          ))}
-          <span className="ml-auto text-[11px] text-neutral-400 font-mono hidden sm:inline">
-            Active Workspace: Nexora CST Core
-          </span>
+            {STATUS_OPTIONS.map((s) => (
+              <button
+                key={s.value}
+                onClick={() => setFilterStatus(s.value)}
+                className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
+                  filterStatus === s.value
+                    ? "border-primary-500/40 bg-primary-500/15 text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
+                    : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.12]"
+                }`}
+              >
+                <span>{s.label}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2.5 ml-auto">
+            {/* Refresh Button */}
+            <button
+              type="button"
+              onClick={async () => {
+                await loadRequests();
+                toast("info", "Pipeline Synced ↻", "Latest project briefs reloaded from database.");
+              }}
+              disabled={loading}
+              title="Refresh project requests"
+              className="flex items-center gap-1.5 text-xs font-semibold text-neutral-200 hover:text-white px-3.5 py-1.5 rounded-xl bg-surface-2/80 border border-border hover:border-primary-500/40 hover:bg-surface-2 transition-all cursor-pointer disabled:opacity-50 shadow-sm"
+            >
+              <span className={`text-xs ${loading ? "animate-spin inline-block" : ""}`}>🔄</span>
+              <span>{loading ? "Refreshing..." : "Refresh"}</span>
+            </button>
+
+            <span className="text-[11px] text-neutral-400 font-mono hidden md:inline">
+              Active Workspace: Nexora CST Core
+            </span>
+          </div>
         </div>
 
         {/* Data Table */}
