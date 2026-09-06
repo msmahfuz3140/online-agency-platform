@@ -1,9 +1,45 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut, type UserSession } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+interface LiveNotification {
+  _id: string;
+  recipientRole: string;
+  type: string;
+  title: string;
+  message: string;
+  link?: string;
+  read: boolean;
+  createdAt: string;
+}
+
+const notifIconMap: Record<string, string> = {
+  project_request: "💼",
+  project_review: "⭐",
+  sprint_update: "⚡",
+  message: "💬",
+  reply: "✉️",
+  user_register: "👤",
+};
+
+function formatTimeAgo(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffSec = Math.floor((now.getTime() - date.getTime()) / 1000);
+  if (diffSec < 60) return "Just now";
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHours = Math.floor(diffMin / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
 
 interface ClientTopBarProps {
   user: UserSession | null;
@@ -12,13 +48,66 @@ interface ClientTopBarProps {
   onOpenMobileSidebar?: () => void;
 }
 
-export function ClientTopBar({ user, onOpenMobileSidebar }: ClientTopBarProps) {
+export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar }: ClientTopBarProps) {
   const router = useRouter();
   const [time, setTime] = useState<string>("");
   const [profileOpen, setProfileOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
+
+  // Live Notifications State
+  const [notifications, setNotifications] = useState<LiveNotification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const emailParam = user?.email ? `&email=${encodeURIComponent(user.email)}` : "";
+      const res = await fetch(`${API_BASE_URL}/api/notifications?role=client${emailParam}`);
+      if (res.ok) {
+        const json = await res.json();
+        setNotifications(json.notifications || []);
+        setUnreadCount(json.unreadCount || 0);
+      }
+    } catch {}
+  }, [user?.email]);
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 20000);
+    return () => clearInterval(interval);
+  }, [fetchNotifications]);
+
+  const handleMarkAllRead = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/api/notifications/mark-all-read`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: "client", email: user?.email }),
+      });
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setUnreadCount(0);
+    } catch {}
+  };
+
+  const handleNotificationClick = async (n: LiveNotification) => {
+    if (!n.read) {
+      fetch(`${API_BASE_URL}/api/notifications/${n._id}/read`, { method: "PATCH" }).catch(() => {});
+      setNotifications((prev) => prev.map((item) => (item._id === n._id ? { ...item, read: true } : item)));
+      setUnreadCount((c) => Math.max(0, c - 1));
+    }
+    setNotifOpen(false);
+    if (n.link) {
+      if (n.link.includes("tab=") && onSelectTab && typeof window !== "undefined" && window.location.pathname === "/dashboard") {
+        const tabMatch = n.link.match(/tab=([^&]+)/);
+        if (tabMatch && tabMatch[1]) {
+          onSelectTab(tabMatch[1]);
+          return;
+        }
+      }
+      router.push(n.link);
+    }
+  };
 
   useEffect(() => {
     const updateTime = () => {
@@ -160,7 +249,11 @@ export function ClientTopBar({ user, onOpenMobileSidebar }: ClientTopBarProps) {
             aria-label="Notifications"
           >
             <span className="text-sm">🔔</span>
-            <span className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary-400 ring-2 ring-[#0a0f1a]" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-primary-400 text-black font-black text-[9px] flex items-center justify-center shadow-[0_0_8px_rgba(20,184,160,0.8)] font-mono">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
           </button>
 
           <AnimatePresence>
@@ -175,35 +268,72 @@ export function ClientTopBar({ user, onOpenMobileSidebar }: ClientTopBarProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-80 mx-auto sm:mx-0 rounded-2xl bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_64px_rgba(0,0,0,0.85)] p-3 z-50 overflow-hidden"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 rounded-2xl bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_64px_rgba(0,0,0,0.85)] p-3 z-50 overflow-hidden"
                 >
                   <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.08]">
-                    <span className="text-xs font-bold text-white flex items-center gap-1.5">
-                      <span>🔔</span> System Notifications
-                    </span>
-                    <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-primary-500/20 text-primary-300 font-mono">
-                      2 New
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                        <span>🔔</span> Live Notifications
+                      </span>
+                      {unreadCount > 0 && (
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-primary-500/20 border border-primary-500/40 text-primary-300 font-mono font-semibold">
+                          {unreadCount} New
+                        </span>
+                      )}
+                    </div>
+                    {unreadCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={handleMarkAllRead}
+                        className="text-[10px] text-primary-400 hover:text-primary-300 underline cursor-pointer transition-colors"
+                      >
+                        Mark all read
+                      </button>
+                    )}
                   </div>
-                  <div className="space-y-2 text-xs">
-                    <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold text-primary-300">⚡ AI Website Engine</span>
-                        <span className="text-[10px] text-neutral-500">Just now</span>
+                  <div className="space-y-1 text-xs max-h-80 overflow-y-auto [scrollbar-width:thin]">
+                    {notifications.length === 0 ? (
+                      <div className="py-8 text-center text-xs text-neutral-400">
+                        <span className="text-2xl block mb-1">🎉</span>
+                        All caught up! No notifications yet.
                       </div>
-                      <p className="text-neutral-400 text-[11px] mt-1 leading-relaxed">
-                        5 free AI generation credits loaded to your client cockpit.
-                      </p>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06] transition-colors">
-                      <div className="flex items-center justify-between">
-                        <span className="font-semibold text-amber-300">👑 Executive Access</span>
-                        <span className="text-[10px] text-neutral-500">Today</span>
-                      </div>
-                      <p className="text-neutral-400 text-[11px] mt-1 leading-relaxed">
-                        Founder level privilege confirmed for MD.MAHFUZUL HAQUE.
-                      </p>
-                    </div>
+                    ) : (
+                      notifications.map((n) => (
+                        <div
+                          key={n._id}
+                          onClick={() => handleNotificationClick(n)}
+                          className={`flex items-start gap-2.5 p-2.5 rounded-xl cursor-pointer transition-all ${
+                            !n.read
+                              ? "bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1]"
+                              : "hover:bg-white/[0.03] opacity-75 hover:opacity-100"
+                          }`}
+                        >
+                          <span className="text-base shrink-0 mt-0.5">
+                            {notifIconMap[n.type] || "🔔"}
+                          </span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <p
+                                className={`text-[11px] font-semibold leading-snug truncate ${
+                                  !n.read ? "text-white" : "text-neutral-300"
+                                }`}
+                              >
+                                {n.title}
+                              </p>
+                              <span className="text-[9px] text-neutral-500 font-mono shrink-0">
+                                {formatTimeAgo(n.createdAt)}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-neutral-400 mt-0.5 line-clamp-2 leading-relaxed">
+                              {n.message}
+                            </p>
+                          </div>
+                          {!n.read && (
+                            <span className="h-2 w-2 rounded-full bg-primary-400 shrink-0 mt-1.5 shadow-[0_0_6px_rgba(20,184,160,0.6)]" />
+                          )}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </motion.div>
               </>

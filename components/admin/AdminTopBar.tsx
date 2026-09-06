@@ -1,12 +1,48 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 import { useAdminLayout } from "@/components/admin/AdminLayoutContext";
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+
+interface LiveNotification {
+  _id: string;
+  recipientRole: string;
+  type: string;
+  title: string;
+  message: string;
+  link?: string;
+  read: boolean;
+  createdAt: string;
+}
+
+const notifIconMap: Record<string, string> = {
+  project_request: "💼",
+  project_review: "⭐",
+  sprint_update: "⚡",
+  message: "💬",
+  reply: "✉️",
+  user_register: "👤",
+};
+
+function formatTimeAgo(dateString: string): string {
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffSec = Math.floor((now.getTime() - date.getTime()) / 1000);
+  if (diffSec < 60) return "Just now";
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHours = Math.floor(diffMin / 60);
+  if (diffHours < 24) return `${diffHours}h ago`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays < 7) return `${diffDays}d ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
 
 interface AdminTopBarProps {
   title: string;
@@ -31,6 +67,51 @@ export function AdminTopBar({
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const notifRef = useRef<HTMLDivElement>(null);
+
+  // Live Notifications State
+  const [notifications, setNotifications] = useState<LiveNotification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/notifications?role=admin`);
+      if (res.ok) {
+        const json = await res.json();
+        setNotifications(json.notifications || []);
+        setUnreadCount(json.unreadCount || 0);
+      }
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 20000);
+    return () => clearInterval(interval);
+  }, [fetchNotifications]);
+
+  const handleMarkAllRead = async () => {
+    try {
+      await fetch(`${API_BASE_URL}/api/notifications/mark-all-read`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role: "admin" }),
+      });
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+      setUnreadCount(0);
+    } catch {}
+  };
+
+  const handleNotificationClick = async (n: LiveNotification) => {
+    if (!n.read) {
+      fetch(`${API_BASE_URL}/api/notifications/${n._id}/read`, { method: "PATCH" }).catch(() => {});
+      setNotifications((prev) => prev.map((item) => (item._id === n._id ? { ...item, read: true } : item)));
+      setUnreadCount((c) => Math.max(0, c - 1));
+    }
+    setNotifOpen(false);
+    if (n.link) {
+      router.push(n.link);
+    }
+  };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -156,14 +237,19 @@ export function AdminTopBar({
         {/* Notification Bell */}
         <div className="relative" ref={notifRef}>
           <button
+            type="button"
             onClick={() => setNotifOpen(!notifOpen)}
             aria-label="Notifications"
-            className="relative h-8 w-8 rounded-xl border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary-500/30 transition-all cursor-pointer shrink-0"
+            className="relative h-8 w-8 rounded-xl border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-neutral-400 hover:text-white hover:border-amber-500/30 transition-all cursor-pointer shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
             </svg>
-            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(251,191,36,0.7)]" />
+            {unreadCount > 0 && (
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-amber-400 text-black font-black text-[9px] flex items-center justify-center shadow-[0_0_8px_rgba(251,191,36,0.8)] font-mono">
+                {unreadCount > 9 ? "9+" : unreadCount}
+              </span>
+            )}
           </button>
           <AnimatePresence>
             {notifOpen && (
@@ -177,26 +263,64 @@ export function AdminTopBar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.15 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-72 mx-auto sm:mx-0 bg-[#111827] border border-white/[0.08] rounded-2xl shadow-2xl overflow-hidden z-50"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden z-50"
                 >
-                  <div className="px-4 py-3 border-b border-white/[0.06]">
-                    <p className="text-xs font-bold text-white">Notifications</p>
+                  <div className="px-4 py-2.5 border-b border-white/[0.08] flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <p className="text-xs font-bold text-white">Live Notifications</p>
+                      {unreadCount > 0 && (
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold">
+                          {unreadCount} New
+                        </span>
+                      )}
+                    </div>
+                    {unreadCount > 0 && (
+                      <button
+                        type="button"
+                        onClick={handleMarkAllRead}
+                        className="text-[10px] text-primary-400 hover:text-primary-300 underline cursor-pointer transition-colors"
+                      >
+                        Mark all read
+                      </button>
+                    )}
                   </div>
-                  <div className="p-3 space-y-2">
-                    {[
-                      { icon: "💼", text: "New project request received", time: "2m ago", dot: "bg-primary-400" },
-                      { icon: "📧", text: "New contact message from client", time: "15m ago", dot: "bg-amber-400" },
-                      { icon: "👤", text: "New user registered", time: "1h ago", dot: "bg-neutral-500" },
-                    ].map((n, i) => (
-                      <div key={i} className="flex items-start gap-2.5 p-2 rounded-xl hover:bg-white/[0.04] cursor-pointer transition-colors">
-                        <span className="text-base mt-0.5">{n.icon}</span>
-                        <div className="flex-1 min-w-0">
-                          <p className="text-[11px] text-white leading-snug">{n.text}</p>
-                          <p className="text-[10px] text-neutral-600 mt-0.5">{n.time}</p>
-                        </div>
-                        <span className={`h-2 w-2 rounded-full ${n.dot} shrink-0 mt-1.5`} />
+                  <div className="p-2 space-y-1 max-h-80 overflow-y-auto [scrollbar-width:thin]">
+                    {notifications.length === 0 ? (
+                      <div className="py-8 text-center text-xs text-neutral-400">
+                        <span className="text-2xl block mb-1">🎉</span>
+                        All caught up! No notifications.
                       </div>
-                    ))}
+                    ) : (
+                      notifications.map((n) => (
+                        <div
+                          key={n._id}
+                          onClick={() => handleNotificationClick(n)}
+                          className={`flex items-start gap-2.5 p-2.5 rounded-xl cursor-pointer transition-all ${
+                            !n.read
+                              ? "bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1]"
+                              : "hover:bg-white/[0.03] opacity-75 hover:opacity-100"
+                          }`}
+                        >
+                          <span className="text-base shrink-0 mt-0.5">{notifIconMap[n.type] || "🔔"}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-1">
+                              <p className={`text-[11px] font-semibold leading-snug truncate ${!n.read ? "text-white" : "text-neutral-300"}`}>
+                                {n.title}
+                              </p>
+                              <span className="text-[9px] text-neutral-500 font-mono shrink-0">
+                                {formatTimeAgo(n.createdAt)}
+                              </span>
+                            </div>
+                            <p className="text-[11px] text-neutral-400 mt-0.5 line-clamp-2 leading-relaxed">
+                              {n.message}
+                            </p>
+                          </div>
+                          {!n.read && (
+                            <span className="h-2 w-2 rounded-full bg-amber-400 shrink-0 mt-1.5 shadow-[0_0_6px_rgba(251,191,36,0.6)]" />
+                          )}
+                        </div>
+                      ))
+                    )}
                   </div>
                 </motion.div>
               </>
