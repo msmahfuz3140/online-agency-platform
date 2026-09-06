@@ -20,13 +20,17 @@ export function useToastPortal() {
   const dismissRef = useRef(dismiss);
   dismissRef.current = dismiss;
 
+  const handleDismiss = React.useCallback((id: string) => {
+    dismissRef.current(id);
+  }, []);
+
   // Keep a stable component reference across parent re-renders
   // to avoid unmounting/remounting the ToastContainer and replaying animations.
   const ToastPortal = useMemo(() => {
     return function ToastPortal() {
-      return <ToastContainer toasts={toastsRef.current} onDismiss={(id) => dismissRef.current(id)} />;
+      return <ToastContainer toasts={toastsRef.current} onDismiss={handleDismiss} />;
     };
-  }, []);
+  }, [handleDismiss]);
 
   return { toast, ToastPortal };
 }

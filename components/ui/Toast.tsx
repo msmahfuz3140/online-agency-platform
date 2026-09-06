@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export type ToastType = "success" | "error" | "info" | "warning";
@@ -48,10 +48,16 @@ interface ToastItemProps {
 }
 
 function ToastItem({ toast, onDismiss }: ToastItemProps) {
+  const onDismissRef = useRef(onDismiss);
+  onDismissRef.current = onDismiss;
+
+  // Auto-dismiss after 4 seconds (stable timer keyed strictly to toast.id)
   useEffect(() => {
-    const timer = setTimeout(() => onDismiss(toast.id), 4500);
+    const timer = setTimeout(() => {
+      onDismissRef.current(toast.id);
+    }, 4000);
     return () => clearTimeout(timer);
-  }, [toast.id, onDismiss]);
+  }, [toast.id]);
 
   return (
     <motion.div
