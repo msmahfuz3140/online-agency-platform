@@ -20,6 +20,7 @@ interface DataTableProps<T extends object> {
   pageSize?: number;
   emptyMessage?: string;
   loading?: boolean;
+  onRowClick?: (row: T) => void;
   onRowAction?: (row: T, action: string) => void;
   rowActions?: (row: T) => { label: string; action: string; variant?: "danger" | "normal" }[];
   searchValue?: string;
@@ -45,6 +46,7 @@ export function DataTable<T extends object>({
   pageSize = 10,
   emptyMessage = "No data found.",
   loading = false,
+  onRowClick,
   onRowAction,
   rowActions,
   searchValue = "",
@@ -140,7 +142,12 @@ export function DataTable<T extends object>({
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.18, delay: idx * 0.03 }}
-                    className="border-b border-white/[0.04] hover:bg-white/[0.025] transition-colors group"
+                    onClick={() => onRowClick?.(row)}
+                    className={`border-b border-white/[0.04] transition-all group ${
+                      onRowClick
+                        ? "cursor-pointer hover:bg-primary-500/[0.04] hover:border-primary-500/20 active:bg-white/[0.06]"
+                        : "hover:bg-white/[0.025]"
+                    }`}
                   >
                     {columns.map((col) => (
                       <td key={String(col.key)} className={`px-4 py-3 text-neutral-300 ${col.className ?? ""}`}>
@@ -153,7 +160,10 @@ export function DataTable<T extends object>({
                           {rowActions(row).map((action) => (
                             <button
                               key={action.action}
-                              onClick={() => onRowAction?.(row, action.action)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onRowAction?.(row, action.action);
+                              }}
                               className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-all ${
                                 action.variant === "danger"
                                   ? "border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:border-red-500/50"

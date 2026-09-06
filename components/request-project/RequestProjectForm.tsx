@@ -1,8 +1,10 @@
-﻿"use client";
+"use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToastPortal } from "@/components/ui/useToastPortal";
+import { getStoredUser, type UserSession } from "@/lib/auth-client";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -441,18 +443,20 @@ function SuccessScreen({ onReset }: { onReset: () => void }) {
         </p>
       </div>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
+        <Link
+          href="/dashboard?tab=projects"
+          className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-primary-600 to-teal-500 hover:from-primary-500 hover:to-teal-400 text-white text-sm font-semibold transition-all duration-200 shadow-[0_0_24px_rgba(20,184,160,0.4)] flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>Track Sprint in Dashboard</span>
+          <span>→</span>
+        </Link>
         <button
+          type="button"
           onClick={onReset}
-          className="px-6 py-2.5 rounded-xl border border-neutral-700 text-sm text-neutral-300 hover:border-neutral-500 hover:text-white transition-all duration-200"
+          className="px-5 py-2.5 rounded-xl border border-neutral-700 text-sm text-neutral-300 hover:border-neutral-500 hover:text-white transition-all duration-200 cursor-pointer"
         >
           Submit Another Request
         </button>
-        <a
-          href="/"
-          className="px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 text-white text-sm font-semibold transition-all duration-200 shadow-[0_0_20px_rgba(20,184,160,0.3)]"
-        >
-          Back to Home
-        </a>
       </div>
     </motion.div>
   );
@@ -467,11 +471,24 @@ const INITIAL_DATA: FormData = {
 
 export function RequestProjectForm() {
   const { toast, ToastPortal } = useToastPortal();
+  const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(INITIAL_DATA);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  useEffect(() => {
+    const u = getStoredUser();
+    if (u) {
+      setCurrentUser(u);
+      setData((prev) => ({
+        ...prev,
+        clientName: prev.clientName || u.name || "",
+        clientEmail: prev.clientEmail || u.email || "",
+      }));
+    }
+  }, []);
 
   const onChange = useCallback((field: keyof FormData, val: string) => {
     setData((prev) => ({ ...prev, [field]: val }));
@@ -527,6 +544,7 @@ export function RequestProjectForm() {
     try {
       const payload = {
         ...data,
+        clientId: currentUser?.id || null,
         referenceUrls: data.referenceUrls
           ? data.referenceUrls.split(",").map((u) => u.trim()).filter(Boolean)
           : [],
@@ -538,6 +556,21 @@ export function RequestProjectForm() {
       });
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Submission failed.");
+
+      // Save created ID into local storage tracking
+      try {
+        const reqId = json.data?.id || json.data?._id;
+        if (reqId) {
+          const currentTracked: string[] = JSON.parse(
+            localStorage.getItem("nexora_client_project_requests") || "[]"
+          );
+          if (!currentTracked.includes(reqId)) {
+            currentTracked.unshift(reqId);
+            localStorage.setItem("nexora_client_project_requests", JSON.stringify(currentTracked));
+          }
+        }
+      } catch {}
+
       setIsSubmitted(true);
     } catch (err: any) {
       toast("error", "Submission Failed", err.message || "Something went wrong. Please try again.");
@@ -547,7 +580,11 @@ export function RequestProjectForm() {
   };
 
   const handleReset = () => {
-    setData(INITIAL_DATA);
+    setData({
+      ...INITIAL_DATA,
+      clientName: currentUser?.name || "",
+      clientEmail: currentUser?.email || "",
+    });
     setErrors({});
     setStep(1);
     setIsSubmitted(false);

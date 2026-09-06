@@ -3,16 +3,18 @@
 import React from "react";
 
 type StatusVariant =
-  | "pending" | "in-progress" | "completed" | "cancelled"
+  | "pending" | "reviewing" | "in-progress" | "review-ready" | "completed" | "cancelled"
   | "unread" | "read" | "archived" | "replied"
   | "user" | "admin" | "superadmin" | "manager" | "developer" | "support" | "editor"
   | "active" | "blocked" | "suspended";
 
 const variantMap: Record<StatusVariant, { dot: string; text: string; bg: string; border: string }> = {
-  pending:      { dot: "bg-amber-400",   text: "text-amber-300",   bg: "bg-amber-500/10",   border: "border-amber-500/25" },
-  "in-progress": { dot: "bg-blue-400",  text: "text-blue-300",    bg: "bg-blue-500/10",    border: "border-blue-500/25" },
-  completed:    { dot: "bg-emerald-400", text: "text-emerald-300", bg: "bg-emerald-500/10", border: "border-emerald-500/25" },
-  cancelled:    { dot: "bg-red-400",     text: "text-red-300",     bg: "bg-red-500/10",     border: "border-red-500/25" },
+  pending:        { dot: "bg-amber-400",   text: "text-amber-300",   bg: "bg-amber-500/10",   border: "border-amber-500/25" },
+  reviewing:      { dot: "bg-indigo-400",  text: "text-indigo-300",  bg: "bg-indigo-500/10",  border: "border-indigo-500/25" },
+  "in-progress":  { dot: "bg-blue-400",    text: "text-blue-300",    bg: "bg-blue-500/10",    border: "border-blue-500/25" },
+  "review-ready": { dot: "bg-cyan-400",    text: "text-cyan-300",    bg: "bg-cyan-500/10",    border: "border-cyan-500/25" },
+  completed:      { dot: "bg-emerald-400", text: "text-emerald-300", bg: "bg-emerald-500/10", border: "border-emerald-500/25" },
+  cancelled:      { dot: "bg-red-400",     text: "text-red-300",     bg: "bg-red-500/10",     border: "border-red-500/25" },
   unread:       { dot: "bg-amber-400",   text: "text-amber-300",   bg: "bg-amber-500/10",   border: "border-amber-500/25" },
   read:         { dot: "bg-neutral-500", text: "text-neutral-400", bg: "bg-neutral-500/10", border: "border-neutral-500/20" },
   archived:     { dot: "bg-neutral-600", text: "text-neutral-500", bg: "bg-neutral-700/10", border: "border-neutral-600/20" },

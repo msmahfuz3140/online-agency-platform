@@ -193,3 +193,58 @@ export async function fetchBlogPostBySlug(slug: string): Promise<BlogPost | null
 
   return blogPosts.find((p) => p.slug === slug) || null;
 }
+
+export interface DirectMessagePayload {
+  name: string;
+  email: string;
+  message: string;
+  subject?: string;
+  category?: string;
+  phone?: string;
+  company?: string;
+  userId?: string;
+}
+
+/**
+ * Submit direct message / inquiry to backend API
+ */
+export async function submitContactMessage(payload: DirectMessagePayload): Promise<{
+  success: boolean;
+  message?: string;
+  error?: string;
+  data?: any;
+}> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/contact`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      return {
+        success: false,
+        error: json.error || "Failed to dispatch message. Please try again.",
+      };
+    }
+
+    return {
+      success: true,
+      message:
+        json.message ||
+        "Inquiry received successfully! Our team will respond shortly.",
+      data: json.data,
+    };
+  } catch (err: any) {
+    console.error("Error sending contact message:", err);
+    return {
+      success: false,
+      error: err?.message || "Network error. Please check your connection.",
+    };
+  }
+}
+

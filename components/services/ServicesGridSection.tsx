@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../ui/Section";
 import { fetchServices } from "@/lib/api-client";
@@ -10,10 +11,12 @@ import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
+import { ServiceInquiryModal } from "./ServiceInquiryModal";
 
 export type ServiceCategory =
   | "All"
   | "Website Development"
+  | "Cyber Security & Audits"
   | "Design & Optimization"
   | "DevOps & Infrastructure"
   | "AI Solutions";
@@ -256,23 +259,142 @@ export const servicesData: ServiceItem[] = [
     techStack: ["Anthropic Claude", "JSON Schema", "Node.js REST", "Better Auth"],
     highlight: true,
   },
+  {
+    id: "cybersecurity-pentest",
+    title: "Penetration Testing & Vulnerability Assessment",
+    category: "Cyber Security & Audits",
+    timeline: "3 – 5 Days",
+    icon: "🛡️",
+    tagline: "Identify security loopholes before malicious actors exploit them.",
+    description:
+      "Comprehensive black-box and grey-box security penetration testing for web apps, APIs, and network perimeters. Identifies OWASP Top 10 vulnerabilities, authentication bypasses, and data leakage risks.",
+    deliverables: [
+      "OWASP Top 10 web app & REST API penetration test",
+      "Detailed remediation report with CVSS severity scores",
+      "Verification re-test after patches are applied",
+      "Executive cryptographic security compliance badge",
+    ],
+    techStack: ["Burp Suite", "OWASP ZAP", "Nmap", "Wireshark", "Metasploit"],
+    highlight: true,
+  },
+  {
+    id: "cloud-api-hardening",
+    title: "Cloud & API Security Hardening",
+    category: "Cyber Security & Audits",
+    timeline: "2 – 4 Days",
+    icon: "🔐",
+    tagline: "Ironclad defense against DDoS, data tampering, and unauthorized access.",
+    description:
+      "Enterprise-grade hardening of server configurations, cloud VPCs, database firewalls, rate limits, and API endpoints. We implement Zero-Trust principles and SSL/TLS Grade A+ standards.",
+    deliverables: [
+      "Cloudflare WAF rules & DDoS rate limiting setup",
+      "Zero-Trust IAM role and secret encryption review",
+      "Strict TLS 1.3, CSP & HSTS header configuration",
+      "Automated security log alerting & intrusion alerts",
+    ],
+    techStack: ["Cloudflare WAF", "AWS IAM", "HSTS / CSP", "Docker Security"],
+  },
+  {
+    id: "smart-audit-compliance",
+    title: "Code Security & Compliance Audit",
+    category: "Cyber Security & Audits",
+    timeline: "3 – 6 Days",
+    icon: "📜",
+    tagline: "Defensive static code analysis and regulatory privacy certification.",
+    description:
+      "Deep architectural and source code security audits. Uncovers hardcoded secrets, injection vectors, unauthenticated endpoints, and ensures compliance with GDPR and industry standards.",
+    deliverables: [
+      "Automated & manual source code security audit (SAST)",
+      "Dependency supply-chain vulnerability audit (Snyk/Trivy)",
+      "GDPR / privacy policy data lifecycle verification",
+      "Signed developer security readiness certificate",
+    ],
+    techStack: ["SonarQube", "Snyk", "Semgrep", "GitHub Dependabot"],
+  },
 ];
 
 const categories: ServiceCategory[] = [
   "All",
   "Website Development",
+  "Cyber Security & Audits",
   "Design & Optimization",
   "DevOps & Infrastructure",
   "AI Solutions",
 ];
+
+function normalizeCategoryParam(param: string | null): ServiceCategory | null {
+  if (!param) return null;
+  const p = param.toLowerCase().trim();
+  if (p === "all") return "All";
+  if (
+    p.includes("cyber") ||
+    p.includes("security") ||
+    p.includes("audit") ||
+    p.includes("pentest")
+  ) {
+    return "Cyber Security & Audits";
+  }
+  if (
+    p.includes("web") ||
+    p.includes("saas") ||
+    p.includes("website") ||
+    p.includes("app")
+  ) {
+    return "Website Development";
+  }
+  if (
+    p.includes("design") ||
+    p.includes("ui") ||
+    p.includes("ux") ||
+    p.includes("seo") ||
+    p.includes("redesign")
+  ) {
+    return "Design & Optimization";
+  }
+  if (
+    p.includes("devops") ||
+    p.includes("cloud") ||
+    p.includes("hosting") ||
+    p.includes("domain") ||
+    p.includes("infra")
+  ) {
+    return "DevOps & Infrastructure";
+  }
+  if (p.includes("ai") || p.includes("claude") || p.includes("solution")) {
+    return "AI Solutions";
+  }
+  return null;
+}
 
 export function ServicesGridSection({
   initialServices,
 }: {
   initialServices?: ServiceItem[];
 }) {
+  const searchParams = useSearchParams();
   const [services, setServices] = useState<ServiceItem[]>(initialServices || servicesData);
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("All");
+  const [inquiryService, setInquiryService] = useState<ServiceItem | null>(null);
+  const [inquiryModalOpen, setInquiryModalOpen] = useState(false);
+
+  // Sync category from URL query param (e.g. ?category=security or ?category=web)
+  useEffect(() => {
+    const rawCategory = searchParams.get("category");
+    if (rawCategory) {
+      const normalized = normalizeCategoryParam(rawCategory);
+      if (normalized) {
+        setSelectedCategory(normalized);
+
+        // Smoothly scroll down to services section
+        setTimeout(() => {
+          const el = document.getElementById("services-list");
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 150);
+      }
+    }
+  }, [searchParams]);
 
   // Dynamically load services from MongoDB backend
   useEffect(() => {
@@ -282,6 +404,21 @@ export function ServicesGridSection({
       }
     });
   }, []);
+
+  const handleSelectCategory = (cat: ServiceCategory) => {
+    setSelectedCategory(cat);
+
+    // Update URL query param smoothly without full page reload
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      if (cat === "All") {
+        url.searchParams.delete("category");
+      } else {
+        url.searchParams.set("category", cat);
+      }
+      window.history.replaceState(null, "", url.toString());
+    }
+  };
 
   const filteredServices =
     selectedCategory === "All"
@@ -297,38 +434,38 @@ export function ServicesGridSection({
             Core Offerings
           </Badge>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-foreground">
-            Explore Our <span className="gradient-text">13 Specialized Services</span>
+            Explore Our <span className="gradient-text">{services.length} Specialized Services</span>
           </h2>
           <p className="mt-4 text-base sm:text-lg text-muted-fg leading-relaxed">
             Every service is executed with production-grade Next.js, rigorous cybersecurity,
-            and deterministic AI speed. Select a category below to filter.
+            and deterministic AI speed. Select a domain below to filter or message us directly.
           </p>
         </div>
       </FadeInSection>
 
       {/* Category Tabs */}
       <FadeInSection delay={0.1}>
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-14">
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
           {categories.map((cat) => {
             const count =
               cat === "All"
-                ? servicesData.length
-                : servicesData.filter((s) => s.category === cat).length;
+                ? services.length
+                : services.filter((s) => s.category === cat).length;
             const isSelected = selectedCategory === cat;
 
             return (
               <button
                 key={cat}
-                onClick={() => setSelectedCategory(cat)}
+                onClick={() => handleSelectCategory(cat)}
                 className={`px-4 py-2 text-xs sm:text-sm font-medium rounded-full transition-all duration-200 cursor-pointer flex items-center gap-2 ${
                   isSelected
-                    ? "bg-primary-500 text-white shadow-[0_0_18px_rgba(20,184,160,0.35)]"
+                    ? "bg-primary-500 text-white shadow-[0_0_18px_rgba(20,184,160,0.35)] ring-1 ring-primary-400/40 scale-105"
                     : "bg-surface-2 text-muted-fg hover:text-foreground hover:bg-neutral-800 border border-border"
                 }`}
               >
                 <span>{cat}</span>
                 <span
-                  className={`text-[10px] px-1.5 py-0.5 rounded-full ${
+                  className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
                     isSelected
                       ? "bg-white/20 text-white"
                       : "bg-neutral-800 text-muted-fg"
@@ -341,6 +478,55 @@ export function ServicesGridSection({
           })}
         </div>
       </FadeInSection>
+
+      {/* Contextual Active Category Filter Notice */}
+      {selectedCategory !== "All" && (
+        <FadeInSection>
+          <div className="mb-10 max-w-3xl mx-auto p-4 rounded-2xl bg-surface-2/80 border border-primary-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-3 text-center sm:text-left">
+              <span className="text-2xl p-2 rounded-xl bg-surface border border-border">
+                {selectedCategory === "Cyber Security & Audits"
+                  ? "🛡️"
+                  : selectedCategory === "Website Development"
+                  ? "💻"
+                  : selectedCategory === "AI Solutions"
+                  ? "🤖"
+                  : selectedCategory === "Design & Optimization"
+                  ? "🎨"
+                  : "☁️"}
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-foreground">
+                  Showing <span className="text-primary-400">{selectedCategory}</span> Services ({filteredServices.length} offerings)
+                </p>
+                <p className="text-xs text-muted-fg mt-0.5">
+                  Tailored solutions for your enterprise. Need immediate consultation?
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => handleSelectCategory("All")}
+                className="text-xs text-muted-fg hover:text-foreground underline underline-offset-2 px-2 py-1 transition-colors cursor-pointer"
+              >
+                Show All
+              </button>
+              <Button
+                variant="primary"
+                size="sm"
+                className="text-xs shadow-[0_0_14px_rgba(20,184,160,0.25)]"
+                onClick={() => {
+                  setInquiryService(filteredServices[0] || null);
+                  setInquiryModalOpen(true);
+                }}
+              >
+                Direct Message Us 💬
+              </Button>
+            </div>
+          </div>
+        </FadeInSection>
+      )}
 
       {/* Services Grid wrapped in StaggerList */}
       <StaggerList className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
@@ -427,16 +613,23 @@ export function ServicesGridSection({
                 ))}
               </div>
 
-              {/* Action Buttons */}
+              {/* Action Buttons: Direct Message & Estimate */}
               <div className="grid grid-cols-2 gap-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  className="w-full text-xs flex items-center justify-center gap-1.5 shadow-[0_0_14px_rgba(20,184,160,0.22)]"
+                  onClick={() => {
+                    setInquiryService(service);
+                    setInquiryModalOpen(true);
+                  }}
+                >
+                  <span>Direct Msg</span>
+                  <span>💬</span>
+                </Button>
                 <Link href="/#cost-calculator" className="w-full">
-                  <Button variant="primary" size="sm" className="w-full text-xs">
-                    Get Estimate →
-                  </Button>
-                </Link>
-                <Link href="/#ai-generator-demo" className="w-full">
                   <Button variant="secondary" size="sm" className="w-full text-xs">
-                    Try AI Demo
+                    Get Estimate →
                   </Button>
                 </Link>
               </div>
@@ -444,6 +637,14 @@ export function ServicesGridSection({
           </Card>
         ))}
       </StaggerList>
+
+      {/* Direct Service Inquiry Modal */}
+      <ServiceInquiryModal
+        open={inquiryModalOpen}
+        onClose={() => setInquiryModalOpen(false)}
+        service={inquiryService}
+      />
     </Section>
   );
 }
+

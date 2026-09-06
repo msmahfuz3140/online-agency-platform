@@ -9,6 +9,7 @@ import { ClientTopBar } from "@/components/dashboard/ClientTopBar";
 import { ClientSidebar } from "@/components/dashboard/ClientSidebar";
 import { ProjectPipelineTracker } from "@/components/dashboard/ProjectPipelineTracker";
 import { AiGeneratorLauncher } from "@/components/dashboard/AiGeneratorLauncher";
+import { ClientMessagesInbox } from "@/components/dashboard/ClientMessagesInbox";
 import { getStoredUser, getSession, type UserSession } from "@/lib/auth-client";
 
 const creditSparkline = [20, 40, 30, 60, 50, 80, 70, 90, 85, 95, 90, 100];
@@ -18,7 +19,7 @@ const slaSparkline    = [90, 92, 95, 94, 96, 98, 97, 99, 98, 99, 100, 100];
 
 export default function ClientDashboardPage() {
   const [user, setUser] = useState<UserSession | null>(null);
-  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "ai-builder" | "support">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "ai-builder" | "support" | "messages">("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -43,6 +44,14 @@ export default function ClientDashboardPage() {
         setUser(sessionUser);
       }
     });
+
+    if (typeof window !== "undefined") {
+      const urlParams = new URLSearchParams(window.location.search);
+      const tabParam = urlParams.get("tab");
+      if (tabParam && ["overview", "projects", "ai-builder", "support", "messages"].includes(tabParam)) {
+        setActiveTab(tabParam as any);
+      }
+    }
   }, []);
 
   if (!mounted) return null;
@@ -63,7 +72,12 @@ export default function ClientDashboardPage() {
       <ClientSidebar
         user={user}
         activeTab={activeTab}
-        onSelectTab={(t) => setActiveTab(t)}
+        onSelectTab={(t) => {
+          setActiveTab(t);
+          if (typeof window !== "undefined") {
+            window.history.replaceState(null, "", `/dashboard?tab=${t}`);
+          }
+        }}
         mobileOpen={mobileSidebarOpen}
         onCloseMobile={() => setMobileSidebarOpen(false)}
       />
@@ -74,12 +88,56 @@ export default function ClientDashboardPage() {
         <ClientTopBar
           user={user}
           activeTab={activeTab}
-          onSelectTab={(t) => setActiveTab(t as any)}
+          onSelectTab={(t) => {
+            setActiveTab(t as any);
+            if (typeof window !== "undefined") {
+              window.history.replaceState(null, "", `/dashboard?tab=${t}`);
+            }
+          }}
           onOpenMobileSidebar={() => setMobileSidebarOpen(true)}
         />
 
-        {/* Scrollable Main Viewport */}
-        <main className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
+        {activeTab === "messages" ? (
+          /* Dedicated Full-Height Messenger Cockpit - zero page jumping, pinned reply bar */
+          <main className="flex-1 flex flex-col min-h-0 overflow-hidden px-2 sm:px-6 lg:px-8 py-2 sm:py-4 space-y-2 sm:space-y-3">
+            {/* View Switcher Tabs */}
+            <div className="shrink-0 flex items-center gap-2 border-b border-white/[0.08] pb-2.5 overflow-x-auto">
+              {[
+                { id: "overview", label: "Overview & Analytics", icon: "📊" },
+                { id: "projects", label: "My Project Sprints (3)", icon: "💼" },
+                { id: "ai-builder", label: "AI Website Generator", icon: "⚡" },
+                { id: "messages", label: "Messages & Inbox", icon: "💬" },
+                { id: "support", label: "Founder Hotline & Support", icon: "🛡️" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveTab(tab.id as any);
+                    if (typeof window !== "undefined") {
+                      window.history.replaceState(null, "", `/dashboard?tab=${tab.id}`);
+                    }
+                  }}
+                  className={`px-3.5 sm:px-4 py-2 rounded-2xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
+                    activeTab === tab.id
+                      ? "bg-primary-500/20 border border-primary-500/40 text-primary-300 shadow-[0_0_16px_rgba(20,184,160,0.2)]"
+                      : "bg-white/[0.02] border border-white/[0.05] text-neutral-400 hover:text-white hover:bg-white/[0.05]"
+                  }`}
+                >
+                  <span>{tab.icon}</span>
+                  <span>{tab.label}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Dedicated full-height inbox filling the remaining screen */}
+            <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+              <ClientMessagesInbox user={user} />
+            </div>
+          </main>
+        ) : (
+          /* Scrollable Main Viewport for Overview, Sprints, AI Builder, Support */
+          <main className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
           {/* Executive Hero Command Header */}
           <div className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-r from-[#0c1527] via-[#091120] to-[#070d18] p-5 sm:p-8 lg:p-9 overflow-hidden shadow-[0_24px_70px_rgba(0,0,0,0.6)]">
             {/* Grid texture */}
@@ -267,12 +325,18 @@ export default function ClientDashboardPage() {
               { id: "overview", label: "Overview & Analytics", icon: "📊" },
               { id: "projects", label: "My Project Sprints (3)", icon: "💼" },
               { id: "ai-builder", label: "AI Website Generator", icon: "⚡" },
-              { id: "support", label: "Founder Hotline & Support", icon: "💬" },
+              { id: "messages", label: "Messages & Inbox", icon: "💬" },
+              { id: "support", label: "Founder Hotline & Support", icon: "🛡️" },
             ].map((tab) => (
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => {
+                  setActiveTab(tab.id as any);
+                  if (typeof window !== "undefined") {
+                    window.history.replaceState(null, "", `/dashboard?tab=${tab.id}`);
+                  }
+                }}
                 className={`px-3.5 sm:px-4 py-2 rounded-2xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                   activeTab === tab.id
                     ? "bg-primary-500/20 border border-primary-500/40 text-primary-300 shadow-[0_0_16px_rgba(20,184,160,0.2)]"
@@ -461,6 +525,7 @@ export default function ClientDashboardPage() {
             </div>
           </footer>
         </main>
+      )}
       </div>
     </div>
   );

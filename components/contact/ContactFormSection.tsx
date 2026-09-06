@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../ui/Section";
@@ -9,6 +9,7 @@ import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { FadeInSection } from "../motion/FadeInSection";
 import { useToastPortal } from "../ui/useToastPortal";
+import { getStoredUser } from "@/lib/auth-client";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
@@ -52,6 +53,17 @@ export function ContactFormSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
+
+  useEffect(() => {
+    const user = getStoredUser();
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, []);
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText("contact@nexora.agency");
@@ -101,18 +113,32 @@ export function ContactFormSection() {
     setIsSubmitting(true);
 
     try {
+      const user = getStoredUser();
       const response = await fetch(`${API_BASE_URL}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          userId: user?.id,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok || !result.success) {
         throw new Error(result.error || "Server could not process your submission.");
+      }
+
+      // Track inquiry in localStorage so it appears in the client inbox immediately
+      if (typeof window !== "undefined" && result.data?.id) {
+        try {
+          const key = "nexora_client_inquiries";
+          const list = JSON.parse(localStorage.getItem(key) || "[]");
+          list.unshift(result.data.id);
+          localStorage.setItem(key, JSON.stringify(Array.from(new Set(list))));
+        } catch {}
       }
 
       // Success
@@ -283,13 +309,21 @@ export function ContactFormSection() {
                     <p className="mt-1 leading-relaxed text-emerald-300/90">
                       Thank you for contacting Nexora. A senior engineer will review your inquiry and reach back out at your provided email within 2-4 hours.
                     </p>
-                    <button
-                      type="button"
-                      onClick={() => setIsSubmitted(false)}
-                      className="mt-2 text-xs font-semibold text-emerald-200 hover:underline"
-                    >
-                      Send another inquiry →
-                    </button>
+                    <div className="mt-3 flex items-center gap-3 flex-wrap">
+                      <Link
+                        href="/dashboard/messages"
+                        className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-200 border border-emerald-500/40 text-xs font-semibold transition-all shadow-sm"
+                      >
+                        <span>💬 View in My Message Inbox →</span>
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => setIsSubmitted(false)}
+                        className="text-xs font-semibold text-emerald-300/80 hover:text-white underline underline-offset-2"
+                      >
+                        Send another inquiry
+                      </button>
+                    </div>
                   </div>
                 </motion.div>
               )}

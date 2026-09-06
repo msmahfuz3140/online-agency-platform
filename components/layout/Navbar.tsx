@@ -27,47 +27,47 @@ const navItems: NavItem[] = [
     label: "Services",
     children: [
       {
-        label: "All 13 Specialized Services",
-        href: "/services",
-        desc: "Explore all 13 full-stack, design & AI services",
+        label: "All 16 Specialized Services",
+        href: "/services?category=all",
+        desc: "Explore all 16 full-stack, security, design & AI services",
         icon: "✨",
-        badge: "13 Services",
+        badge: "16 Services",
       },
       {
         label: "Web & SaaS Development",
-        href: "/services",
+        href: "/services?category=web",
         desc: "Custom Next.js, React, Node.js & SaaS web apps",
         icon: "💻",
       },
       {
+        label: "Cyber Security & Audits",
+        href: "/services?category=security",
+        desc: "Penetration testing & OWASP vulnerability audits",
+        icon: "🛡️",
+        badge: "Security Live",
+      },
+      {
         label: "UI/UX Product Design",
-        href: "/services",
+        href: "/services?category=design",
         desc: "Figma design systems, wireframes & prototypes",
         icon: "🎨",
       },
       {
-        label: "Cyber Security & Audits",
-        href: "/services",
-        desc: "Penetration testing & OWASP vulnerability audits",
-        icon: "🛡️",
-        badge: "Security",
-      },
-      {
         label: "Technical SEO & Marketing",
-        href: "/services",
+        href: "/services?category=design",
         desc: "Organic search growth & conversion optimization",
         icon: "📈",
       },
       {
         label: "AI Solution Development",
-        href: "/services",
+        href: "/services?category=ai",
         desc: "Claude Sonnet API & automated web engines",
         icon: "🤖",
         badge: "AI Live",
       },
       {
         label: "Cloud Hosting & Maintenance",
-        href: "/services",
+        href: "/services?category=devops",
         desc: "Edge deployment, DNS setup & 24/7 maintenance",
         icon: "☁️",
       },
@@ -530,6 +530,15 @@ export function Navbar() {
                         </Link>
 
                         <Link
+                          href="/dashboard/messages"
+                          onClick={() => setProfileDropdownOpen(false)}
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-primary-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                        >
+                          <span className="text-sm">💬</span>
+                          <span className="font-medium">My Messages &amp; Inquiries</span>
+                        </Link>
+
+                        <Link
                           href="/dashboard#ai-generator"
                           onClick={() => setProfileDropdownOpen(false)}
                           className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
@@ -724,6 +733,15 @@ export function Navbar() {
                       >
                         <span className="text-sm">📊</span>
                         <span className="truncate">Client Portal</span>
+                      </Link>
+
+                      <Link
+                        href="/dashboard/messages"
+                        onClick={() => setMobileOpen(false)}
+                        className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-white text-xs font-semibold transition-all shadow-sm"
+                      >
+                        <span className="text-sm">💬</span>
+                        <span className="truncate">Messages</span>
                       </Link>
                     </div>
                   </div>

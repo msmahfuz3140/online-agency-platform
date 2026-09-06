@@ -8,8 +8,8 @@ import { useRouter } from "next/navigation";
 
 interface ClientSidebarProps {
   user: UserSession | null;
-  activeTab: "overview" | "projects" | "ai-builder" | "support";
-  onSelectTab: (tab: "overview" | "projects" | "ai-builder" | "support") => void;
+  activeTab: "overview" | "projects" | "ai-builder" | "support" | "messages";
+  onSelectTab: (tab: "overview" | "projects" | "ai-builder" | "support" | "messages") => void;
   mobileOpen?: boolean;
   onCloseMobile?: () => void;
 }
@@ -115,9 +115,15 @@ export function ClientSidebar({
       badge: "PRO",
     },
     {
+      id: "messages" as const,
+      label: "Messages & Inbox",
+      icon: <ChatBubbleIcon />,
+      badge: "LIVE",
+    },
+    {
       id: "support" as const,
       label: "Founder VIP Hotline",
-      icon: <ChatBubbleIcon />,
+      icon: <ShieldCheckIcon />,
       badge: "<45m",
     },
   ];

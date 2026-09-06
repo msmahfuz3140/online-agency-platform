@@ -100,11 +100,18 @@ const services: ServiceItem[] = [
 ];
 
 const pillars = [
-  { name: "Website Development", icon: "💻", count: "Websites, SaaS & E-Com" },
-  { name: "UI/UX Product Design", icon: "✨", count: "Figma, Prototypes & Systems" },
-  { name: "Cyber Security", icon: "🔒", count: "Pen Testing & Audits" },
-  { name: "Digital Marketing", icon: "📊", count: "SEO & Growth Engine" },
+  { name: "Website Development", icon: "💻", count: "Websites, SaaS & E-Com", href: "/services?category=web#services-list" },
+  { name: "UI/UX Product Design", icon: "✨", count: "Figma, Prototypes & Systems", href: "/services?category=design#services-list" },
+  { name: "Cyber Security", icon: "🔒", count: "Pen Testing & Audits", href: "/services?category=security#services-list" },
+  { name: "Digital Marketing", icon: "📊", count: "SEO & Growth Engine", href: "/services?category=design#services-list" },
 ];
+
+function getCategorySlug(pillar: string): string {
+  if (pillar.includes("Cyber")) return "security";
+  if (pillar.includes("Web")) return "web";
+  if (pillar.includes("AI")) return "ai";
+  return "design";
+}
 
 export function ServicesOverviewSection() {
   return (
@@ -124,75 +131,81 @@ export function ServicesOverviewSection() {
         </div>
       </FadeInSection>
 
-      {/* 4 Pillars Quick Overview Badges */}
+      {/* 4 Pillars Quick Overview Badges with direct Category Links */}
       <FadeInSection delay={0.1}>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-10 sm:mb-12">
           {pillars.map((p) => (
-            <div
+            <Link
               key={p.name}
-              className="p-3.5 sm:p-4 rounded-2xl bg-surface border border-border/80 flex items-center gap-3 hover:border-primary-500/40 transition-colors shadow-sm"
+              href={p.href}
+              className="p-3.5 sm:p-4 rounded-2xl bg-surface border border-border/80 flex items-center gap-3 hover:border-primary-500/40 hover:scale-[1.02] transition-all shadow-sm group"
             >
-              <span className="text-2xl flex-shrink-0">{p.icon}</span>
+              <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">{p.icon}</span>
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-semibold text-foreground truncate">
+                <p className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
                   {p.name}
                 </p>
                 <p className="text-[11px] text-muted-fg truncate mt-0.5">
                   {p.count}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </FadeInSection>
 
-      {/* Detailed Services Grid */}
+      {/* Detailed Services Grid with Category Deep Links */}
       <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
         {services.map((s) => (
-          <Card
+          <Link
             key={s.title}
-            hover
-            padding="md"
-            className="flex flex-col justify-between group h-full"
+            href={`/services?category=${getCategorySlug(s.pillar)}#services-list`}
+            className="block h-full group focus:outline-none"
           >
-            <div>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-2xl sm:text-3xl">{s.icon}</span>
-                <Badge variant={s.pillarVariant} size="sm">
-                  {s.pillar}
-                </Badge>
+            <Card
+              hover
+              padding="md"
+              className="flex flex-col justify-between group-hover:border-primary-500/40 h-full transition-all"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-2xl sm:text-3xl">{s.icon}</span>
+                  <Badge variant={s.pillarVariant} size="sm">
+                    {s.pillar}
+                  </Badge>
+                </div>
+
+                <h3 className="font-heading font-semibold text-sm sm:text-base text-foreground leading-snug group-hover:text-primary-400 transition-colors">
+                  {s.title}
+                </h3>
+
+                <p className="mt-2 text-xs text-muted-fg leading-relaxed line-clamp-3">
+                  {s.desc}
+                </p>
+
+                {/* Tag pills */}
+                <div className="mt-3.5 flex flex-wrap gap-1">
+                  {s.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[10px] px-1.5 py-0.5 rounded bg-surface-2 text-muted-fg border border-border/70"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              <h3 className="font-heading font-semibold text-sm sm:text-base text-foreground leading-snug">
-                {s.title}
-              </h3>
-
-              <p className="mt-2 text-xs text-muted-fg leading-relaxed">
-                {s.desc}
-              </p>
-
-              {/* Tag pills */}
-              <div className="mt-3.5 flex flex-wrap gap-1">
-                {s.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10px] px-1.5 py-0.5 rounded bg-surface-2 text-muted-fg border border-border/70"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div className="mt-5 pt-3.5 border-t border-border/60 flex items-center justify-between">
+                <span className="text-[11px] text-muted-fg">
+                  Delivery: <span className="text-primary-400 font-medium">{s.from}</span>
+                </span>
+                <span className="text-xs text-primary-400 font-medium flex items-center gap-1">
+                  Explore →
+                </span>
               </div>
-            </div>
-
-            <div className="mt-5 pt-3.5 border-t border-border/60 flex items-center justify-between">
-              <span className="text-[11px] text-muted-fg">
-                Delivery: <span className="text-primary-400 font-medium">{s.from}</span>
-              </span>
-              <span className="text-xs text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity font-medium">
-                Inquire →
-              </span>
-            </div>
-          </Card>
+            </Card>
+          </Link>
         ))}
       </StaggerList>
 
@@ -200,17 +213,17 @@ export function ServicesOverviewSection() {
       <FadeInSection delay={0.2}>
         <div className="mt-12 p-6 sm:p-8 rounded-2xl border border-primary-500/30 bg-surface/80 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto shadow-[0_12px_36px_rgba(20,184,160,0.06)]">
           <div className="text-center sm:text-left">
-            <span className="text-xs font-mono font-semibold text-primary-400">13 SPECIALIZED OFFERINGS</span>
+            <span className="text-xs font-mono font-semibold text-primary-400">16 SPECIALIZED OFFERINGS</span>
             <h4 className="font-heading text-lg sm:text-xl font-bold text-foreground mt-0.5">
               Looking for our complete catalog of services & deliverables?
             </h4>
             <p className="text-xs sm:text-sm text-muted-fg mt-1">
-              Explore all 13 development, UI/UX, SEO, cloud, and AI engineering services.
+              Explore all 16 web development, cyber security, UI/UX, SEO, cloud, and AI engineering services.
             </p>
           </div>
-          <Link href="/services" className="shrink-0">
+          <Link href="/services?category=all#services-list" className="shrink-0">
             <Button variant="primary" size="md">
-              View All 13 Services →
+              View All 16 Services →
             </Button>
           </Link>
         </div>
