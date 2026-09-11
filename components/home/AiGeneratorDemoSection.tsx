@@ -176,12 +176,12 @@ export function AiGeneratorDemoSection() {
 
       {/* Active Prompt Preview Bar */}
       <FadeInSection delay={0.15}>
-        <div className="max-w-4xl mx-auto mb-6 p-3.5 sm:p-4 rounded-2xl bg-surface/90 border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
-          <div className="flex items-center gap-2.5 min-w-0">
-            <span className="text-primary-400 font-mono text-xs font-bold px-2 py-1 rounded bg-primary-500/10 border border-primary-500/20 flex-shrink-0">
+        <div className="max-w-4xl mx-auto mb-6 p-3.5 sm:p-4 rounded-2xl bg-surface/90 border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg overflow-hidden">
+          <div className="flex items-center gap-2.5 min-w-0 w-full overflow-hidden">
+            <span className="text-primary-400 font-mono text-xs font-bold px-2 py-1 rounded bg-primary-500/10 border border-primary-500/20 shrink-0">
               PROMPT:
             </span>
-            <p className="text-xs sm:text-sm text-foreground/90 truncate font-mono">
+            <p className="text-xs sm:text-sm text-foreground/90 truncate font-mono min-w-0 flex-1">
               &quot;{activePreset.prompt}&quot;
             </p>
           </div>

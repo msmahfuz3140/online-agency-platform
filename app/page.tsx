@@ -30,7 +30,7 @@ export default function HomePage() {
   return (
     <>
       <Navbar />
-      <main>
+      <main className="flex-1 overflow-x-hidden max-w-full">
         <HeroSection />
         <AgencyIntroSection />
         <TechMarqueeSection />

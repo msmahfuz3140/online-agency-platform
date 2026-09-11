@@ -14,7 +14,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(
     { as: Tag = "section", contained = true, spacious = false, children, className = "", ...props },
     ref
   ) {
-    const outer = `w-full ${spacious ? "py-24 md:py-32" : "py-16 md:py-24"} ${className}`;
+    const outer = `w-full overflow-hidden ${spacious ? "py-24 md:py-32" : "py-16 md:py-24"} ${className}`;
     const inner = contained
       ? "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8"
       : "";

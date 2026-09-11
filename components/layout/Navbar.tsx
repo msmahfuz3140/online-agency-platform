@@ -276,10 +276,10 @@ export function Navbar() {
         initial={{ y: -60, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-0 inset-x-0 z-50 px-3 sm:px-6 pt-3 sm:pt-4 pointer-events-none"
+        className="fixed top-0 left-0 right-0 w-full max-w-[100vw] z-[60] px-3 sm:px-6 pt-3 sm:pt-4 pointer-events-none"
       >
         <div
-          className={`mx-auto max-w-7xl h-14 sm:h-16 rounded-2xl sm:rounded-full px-3.5 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
+          className={`mx-auto max-w-7xl w-full h-14 sm:h-16 rounded-2xl sm:rounded-full px-3.5 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
             scrolled || mobileOpen
               ? "bg-neutral-950/90 backdrop-blur-2xl border border-neutral-800 shadow-[0_12px_40px_rgba(0,0,0,0.7)] ring-1 ring-white/5"
               : "bg-neutral-950/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
@@ -668,7 +668,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/85 backdrop-blur-2xl lg:hidden"
+              className="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl lg:hidden"
               onClick={() => setMobileOpen(false)}
             />
 
@@ -679,7 +679,7 @@ export function Navbar() {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ duration: 0.25, ease: "easeOut" }}
-              className="fixed inset-0 z-40 lg:hidden pt-20 sm:pt-24 px-3 sm:px-6 pb-6 overflow-y-auto flex flex-col justify-between"
+              className="fixed inset-0 z-50 lg:hidden pt-20 sm:pt-24 px-3 sm:px-6 pb-6 overflow-y-auto flex flex-col justify-between"
             >
               <div className="max-w-2xl mx-auto w-full space-y-4">
                 {/* 1. If Authenticated: Executive Profile & Ecosystem Switcher Card */}
