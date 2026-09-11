@@ -61,6 +61,7 @@ export interface ProjectRequest {
   review?: ClientReview;
   requirements?: string;
   referenceUrls?: string[];
+  attachments?: Array<{ url: string; name: string; size?: number; format?: string; publicId?: string }>;
   techStack?: string[];
   adminNotes?: string;
   createdAt: string;
@@ -262,7 +263,14 @@ export default function AdminRequestsPage() {
           <p className="text-[11px] font-semibold text-white truncate" title={row.projectTitle}>
             {row.projectTitle || "Untitled Brief"}
           </p>
-          <p className="text-[10px] text-neutral-400 capitalize">{row.projectType?.replace("-", " ")}</p>
+          <div className="flex items-center gap-1.5 mt-0.5">
+            <span className="text-[10px] text-neutral-400 capitalize">{row.projectType?.replace("-", " ")}</span>
+            {row.attachments && row.attachments.length > 0 && (
+              <span className="text-[9px] font-mono text-primary-300 bg-primary-500/15 border border-primary-500/25 px-1 py-0.2 rounded" title={`${row.attachments.length} attachment(s)`}>
+                📎 {row.attachments.length}
+              </span>
+            )}
+          </div>
         </div>
       ),
     },
@@ -542,6 +550,70 @@ export default function AdminRequestsPage() {
                           <span>🔗</span> {url} ↗
                         </a>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Uploaded Attachments & Documents */}
+                {detailModal.request.attachments && detailModal.request.attachments.length > 0 && (
+                  <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] text-neutral-400 uppercase font-semibold tracking-wider flex items-center gap-1.5">
+                        <span>📎</span> Attached Documents &amp; Brief Files ({detailModal.request.attachments.length})
+                      </span>
+                      <span className="text-[10px] font-mono text-primary-400 bg-primary-500/10 px-2 py-0.5 rounded border border-primary-500/20">
+                        Cloud CDN Encrypted
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {detailModal.request.attachments.map((att, idx) => {
+                        const isImage = /\.(jpg|jpeg|png|webp|gif|svg)$/i.test(att.url) || att.format === "image";
+                        const isPdf = /\.pdf$/i.test(att.url) || att.format === "pdf";
+                        return (
+                          <div
+                            key={idx}
+                            className="p-2.5 rounded-xl bg-black/40 border border-white/[0.06] flex items-center justify-between gap-3 hover:border-white/20 transition-all"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              {isImage ? (
+                                <div className="w-9 h-9 rounded-lg overflow-hidden bg-neutral-900 border border-white/10 shrink-0">
+                                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                                  <img src={att.url} alt={att.name} className="w-full h-full object-cover" />
+                                </div>
+                              ) : isPdf ? (
+                                <div className="w-9 h-9 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center text-[10px] font-bold shrink-0">
+                                  PDF
+                                </div>
+                              ) : (
+                                <div className="w-9 h-9 rounded-lg bg-sky-500/15 border border-sky-500/30 text-sky-400 flex items-center justify-center text-[10px] font-bold shrink-0">
+                                  DOC
+                                </div>
+                              )}
+                              <div className="min-w-0">
+                                <p className="text-xs font-semibold text-white truncate max-w-[150px] sm:max-w-[200px]" title={att.name}>
+                                  {att.name}
+                                </p>
+                                {att.size ? (
+                                  <p className="text-[10px] text-neutral-400 font-mono">
+                                    {(att.size / 1024 / 1024).toFixed(2)} MB
+                                  </p>
+                                ) : null}
+                              </div>
+                            </div>
+
+                            <a
+                              href={att.url}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="px-2.5 py-1.5 rounded-lg bg-white/[0.05] hover:bg-white/[0.1] text-primary-300 hover:text-white text-xs font-medium flex items-center gap-1 shrink-0 transition-all"
+                            >
+                              <span>View</span>
+                              <span>↗</span>
+                            </a>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 )}

@@ -141,21 +141,40 @@ export function validateFile(
     maxSizeMB?: number;
     allowPdf?: boolean;
     allowImages?: boolean;
+    allowDocs?: boolean;
   } = {}
 ): { valid: boolean; error?: string } {
-  const { maxSizeMB = 10, allowPdf = true, allowImages = true } = options;
+  const { maxSizeMB = 20, allowPdf = true, allowImages = true, allowDocs = true } = options;
 
   const imageMimes = ["image/jpeg", "image/jpg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
   const pdfMimes = ["application/pdf"];
+  const docMimes = [
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "text/plain",
+  ];
+
   const allowed = [
     ...(allowImages ? imageMimes : []),
     ...(allowPdf ? pdfMimes : []),
+    ...(allowDocs ? docMimes : []),
   ];
 
-  if (!allowed.includes(file.type)) {
+  // Check MIME or extension (for Windows browser fallback)
+  const ext = file.name.split(".").pop()?.toLowerCase();
+  const allowedExts = [
+    ...(allowImages ? ["jpg", "jpeg", "png", "webp", "gif", "svg"] : []),
+    ...(allowPdf ? ["pdf"] : []),
+    ...(allowDocs ? ["doc", "docx", "txt"] : []),
+  ];
+
+  const mimeMatch = file.type && allowed.includes(file.type);
+  const extMatch = ext && allowedExts.includes(ext);
+
+  if (!mimeMatch && !extMatch) {
     return {
       valid: false,
-      error: `File type not allowed: ${file.type}. Allowed: ${allowed.join(", ")}`,
+      error: `File type not supported (${file.name}). Allowed formats: PDF, DOC, DOCX, TXT, PNG, JPG, WebP.`,
     };
   }
 
@@ -163,7 +182,7 @@ export function validateFile(
   if (file.size > maxBytes) {
     return {
       valid: false,
-      error: `File too large: ${(file.size / 1024 / 1024).toFixed(1)}MB. Max: ${maxSizeMB}MB`,
+      error: `File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Maximum allowed is ${maxSizeMB}MB.`,
     };
   }
 

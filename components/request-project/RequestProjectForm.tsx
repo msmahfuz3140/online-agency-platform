@@ -5,6 +5,10 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToastPortal } from "@/components/ui/useToastPortal";
 import { getStoredUser, type UserSession } from "@/lib/auth-client";
+import {
+  ProjectAttachmentUpload,
+  type ProjectAttachment,
+} from "@/components/ui/ProjectAttachmentUpload";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -21,6 +25,7 @@ interface FormData {
   requirements: string;
   techStack: string[];
   referenceUrls: string;
+  attachments: ProjectAttachment[];
   // Step 3 – Scoping
   budget: string;
   timeline: string;
@@ -208,11 +213,12 @@ function Step1({
 }
 
 function Step2({
-  data, errors, onChange, onTechToggle,
+  data, errors, onChange, onTechToggle, onAttachmentsChange,
 }: {
   data: FormData; errors: FormErrors;
   onChange: (field: keyof FormData, val: string) => void;
   onTechToggle: (tech: string) => void;
+  onAttachmentsChange: (attachments: ProjectAttachment[]) => void;
 }) {
   return (
     <motion.div
@@ -231,7 +237,7 @@ function Step2({
         <input
           id="projectTitle"
           type="text"
-          placeholder="AI-powered SaaS CRM Platform"
+          placeholder="e.g. Next-Gen B2B SaaS Platform"
           value={data.projectTitle}
           onChange={(e) => onChange("projectTitle", e.target.value)}
           className={`${inputClass} ${errors.projectTitle ? "border-red-500/60 focus:ring-red-500/20 focus:border-red-500" : ""}`}
@@ -244,24 +250,24 @@ function Step2({
           Project Type <span className="text-primary-400">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          {PROJECT_TYPES.map((pt) => (
-            <button
-              key={pt.value}
-              type="button"
-              onClick={() => onChange("projectType", pt.value)}
-              className={`relative flex flex-col items-center gap-2 p-3 rounded-xl border text-sm font-medium transition-all duration-200 cursor-pointer
-                ${data.projectType === pt.value
-                  ? "border-primary-500 bg-primary-500/15 text-primary-300 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
-                  : "border-neutral-700/60 bg-neutral-900/40 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
-                }`}
-            >
-              <span className="text-xl leading-none">{pt.icon}</span>
-              <span className="text-xs text-center leading-tight">{pt.label}</span>
-              {data.projectType === pt.value && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-primary-500 rounded-full" />
-              )}
-            </button>
-          ))}
+          {PROJECT_TYPES.map((pt) => {
+            const active = data.projectType === pt.value;
+            return (
+              <button
+                key={pt.value}
+                type="button"
+                onClick={() => onChange("projectType", pt.value)}
+                className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center transition-all duration-200 cursor-pointer
+                  ${active
+                    ? "border-primary-500 bg-primary-500/15 text-primary-300 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
+                    : "border-neutral-700/60 bg-neutral-900/40 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200"
+                  }`}
+              >
+                <span className="text-2xl">{pt.icon}</span>
+                <span className="text-xs font-semibold">{pt.label}</span>
+              </button>
+            );
+          })}
         </div>
         {errors.projectType && (
           <p className="text-xs text-red-400 mt-1.5 flex items-center gap-1"><span>⚠</span> {errors.projectType}</p>
@@ -306,7 +312,15 @@ function Step2({
         </div>
       </div>
 
-      <InputField label="Reference URLs" id="referenceUrls">
+      {/* Direct Cloudinary Attachments */}
+      <ProjectAttachmentUpload
+        attachments={data.attachments || []}
+        onChange={onAttachmentsChange}
+        maxFiles={5}
+        maxSizeMB={20}
+      />
+
+      <InputField label="Reference URLs (Optional)" id="referenceUrls">
         <input
           id="referenceUrls"
           type="text"
@@ -466,6 +480,7 @@ function SuccessScreen({ onReset }: { onReset: () => void }) {
 const INITIAL_DATA: FormData = {
   clientName: "", clientEmail: "", clientPhone: "", clientCompany: "",
   projectTitle: "", projectType: "", requirements: "", techStack: [], referenceUrls: "",
+  attachments: [],
   budget: "", timeline: "",
 };
 
@@ -502,6 +517,10 @@ export function RequestProjectForm() {
         ? prev.techStack.filter((t) => t !== tech)
         : [...prev.techStack, tech],
     }));
+  }, []);
+
+  const onAttachmentsChange = useCallback((attachments: ProjectAttachment[]) => {
+    setData((prev) => ({ ...prev, attachments }));
   }, []);
 
   const validateStep = (s: number): boolean => {
@@ -548,6 +567,7 @@ export function RequestProjectForm() {
         referenceUrls: data.referenceUrls
           ? data.referenceUrls.split(",").map((u) => u.trim()).filter(Boolean)
           : [],
+        attachments: data.attachments || [],
       };
       const res = await fetch(`${API_BASE_URL}/api/project-request`, {
         method: "POST",
@@ -611,7 +631,14 @@ export function RequestProjectForm() {
                       <Step1 key="s1" data={data} errors={errors} onChange={onChange} />
                     )}
                     {step === 2 && (
-                      <Step2 key="s2" data={data} errors={errors} onChange={onChange} onTechToggle={onTechToggle} />
+                      <Step2
+                        key="s2"
+                        data={data}
+                        errors={errors}
+                        onChange={onChange}
+                        onTechToggle={onTechToggle}
+                        onAttachmentsChange={onAttachmentsChange}
+                      />
                     )}
                     {step === 3 && (
                       <Step3 key="s3" data={data} errors={errors} onChange={onChange} />

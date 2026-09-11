@@ -52,6 +52,13 @@ export interface ProjectItem {
   budgetTier: string;
   updates?: SprintUpdate[];
   review?: ClientReview;
+  attachments?: Array<{
+    url: string;
+    name: string;
+    size?: number;
+    format?: string;
+    publicId?: string;
+  }>;
   isUserProject?: boolean;
 }
 
@@ -248,6 +255,7 @@ export function ProjectPipelineTracker() {
               budgetTier: req.budget ? `${req.budget} Tier` : "Custom Contract",
               updates: req.updates || [],
               review: req.review,
+              attachments: req.attachments || [],
               isUserProject: true,
             };
           });
@@ -604,6 +612,31 @@ export function ProjectPipelineTracker() {
                               {project.budgetTier}
                             </span>
                           </div>
+
+                          {/* Attached Project Brief Files */}
+                          {project.attachments && project.attachments.length > 0 && (
+                            <div className="mt-3 p-3 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2">
+                              <span className="text-[10px] text-neutral-400 font-semibold uppercase tracking-wider block">
+                                📎 Attached Brief Documents ({project.attachments.length})
+                              </span>
+                              <div className="flex flex-wrap gap-2">
+                                {project.attachments.map((att, i) => (
+                                  <a
+                                    key={i}
+                                    href={att.url}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="text-xs text-primary-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] px-2.5 py-1.5 rounded-lg border border-white/[0.06] flex items-center gap-1.5 transition-all truncate max-w-[200px]"
+                                    title={att.name}
+                                  >
+                                    <span>📄</span>
+                                    <span className="truncate">{att.name}</span>
+                                    <span className="text-[10px] text-neutral-500">↗</span>
+                                  </a>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                         </div>
 
                         {/* Staging & Review CTAs */}
