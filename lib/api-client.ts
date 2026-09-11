@@ -2,8 +2,20 @@ import { servicesData, ServiceItem } from "@/components/services/ServicesGridSec
 import { teamMembersData, TeamMemberDetails } from "./team-data";
 import { blogPosts, BlogPost } from "./blog-data";
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+export const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app"
+).replace(/\/+$/, "");
+
+if (
+  typeof window !== "undefined" &&
+  window.location.hostname !== "localhost" &&
+  window.location.hostname !== "127.0.0.1" &&
+  API_BASE_URL.includes("localhost")
+) {
+  console.warn(
+    "⚠️ [Nexora Agency] NEXT_PUBLIC_API_URL is pointing to localhost on a live site! Please set NEXT_PUBLIC_API_URL in your Vercel Project Settings to https://online-agency-platform-backend.vercel.app and redeploy."
+  );
+}
 
 /**
  * Fetch all services from MongoDB with resilient offline fallback

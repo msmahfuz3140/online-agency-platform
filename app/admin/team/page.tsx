@@ -9,13 +9,24 @@ import { Modal, ConfirmModal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useToastPortal } from "@/components/ui/useToastPortal";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 export interface TeamStaff {
   id: string;
   name: string;
   email: string;
-  role: "superadmin" | "admin" | "manager" | "developer" | "support" | "editor";
+  role:
+    | "superadmin"
+    | "admin"
+    | "manager"
+    | "developer"
+    | "support"
+    | "editor"
+    | "cyber_security"
+    | "ethical_hacker"
+    | "digital_marketer"
+    | "graphics_designer"
+    | string;
   department: string;
   title: string;
   permissions: string[];
@@ -23,6 +34,16 @@ export interface TeamStaff {
   avatar: string;
   createdAt: string;
 }
+
+export const ROLE_CATEGORIES = [
+  { id: "all", label: "All Staff", icon: "👥" },
+  { id: "developer", label: "Developer", icon: "⚡" },
+  { id: "cyber_security", label: "Cyber Security", icon: "🛡️" },
+  { id: "ethical_hacker", label: "Ethical Hacker", icon: "⚔️" },
+  { id: "digital_marketer", label: "Digital Marketer", icon: "📈" },
+  { id: "graphics_designer", label: "Graphics Design", icon: "🎨" },
+  { id: "superadmin", label: "Super Admin", icon: "👑" },
+];
 
 const ALL_PERMISSIONS = [
   { id: "manage_requests", label: "Manage Project Requests", desc: "View, assign, and update client project requests" },
@@ -94,7 +115,25 @@ export default function AdminTeamPage() {
       m.department.toLowerCase().includes(search.toLowerCase()) ||
       m.title.toLowerCase().includes(search.toLowerCase());
 
-    const matchesRole = selectedRole === "all" || m.role === selectedRole;
+    let matchesRole = false;
+    if (selectedRole === "all") {
+      matchesRole = true;
+    } else if (selectedRole === "developer") {
+      matchesRole = m.role === "developer";
+    } else if (selectedRole === "cyber_security") {
+      matchesRole = m.role === "cyber_security";
+    } else if (selectedRole === "ethical_hacker") {
+      matchesRole = m.role === "ethical_hacker";
+    } else if (selectedRole === "digital_marketer") {
+      matchesRole = m.role === "digital_marketer" || m.role === "editor";
+    } else if (selectedRole === "graphics_designer") {
+      matchesRole = m.role === "graphics_designer";
+    } else if (selectedRole === "superadmin") {
+      matchesRole = m.role === "superadmin" || m.role === "admin";
+    } else {
+      matchesRole = m.role === selectedRole;
+    }
+
     return matchesSearch && matchesRole;
   });
 
@@ -217,8 +256,45 @@ export default function AdminTeamPage() {
   const getRoleTheme = (role: string) => {
     switch (role) {
       case "superadmin":
+      case "admin":
         return {
           bg: "from-amber-500/20 to-amber-600/5",
+          border: "border-amber-500/30",
+          text: "text-amber-300",
+          glow: "rgba(245, 158, 11, 0.25)",
+        };
+      case "developer":
+        return {
+          bg: "from-emerald-500/20 to-teal-600/5",
+          border: "border-emerald-500/30",
+          text: "text-emerald-300",
+          glow: "rgba(16, 185, 129, 0.25)",
+        };
+      case "cyber_security":
+        return {
+          bg: "from-blue-500/20 to-indigo-600/5",
+          border: "border-blue-500/30",
+          text: "text-blue-300",
+          glow: "rgba(59, 130, 246, 0.25)",
+        };
+      case "ethical_hacker":
+        return {
+          bg: "from-purple-500/20 to-violet-600/5",
+          border: "border-purple-500/30",
+          text: "text-purple-300",
+          glow: "rgba(168, 85, 247, 0.25)",
+        };
+      case "digital_marketer":
+      case "editor":
+        return {
+          bg: "from-sky-500/20 to-cyan-600/5",
+          border: "border-sky-500/30",
+          text: "text-sky-300",
+          glow: "rgba(14, 165, 233, 0.25)",
+        };
+      case "graphics_designer":
+        return {
+          bg: "from-amber-500/20 to-orange-600/5",
           border: "border-amber-500/30",
           text: "text-amber-300",
           glow: "rgba(245, 158, 11, 0.25)",
@@ -229,13 +305,6 @@ export default function AdminTeamPage() {
           border: "border-purple-500/30",
           text: "text-purple-300",
           glow: "rgba(168, 85, 247, 0.25)",
-        };
-      case "developer":
-        return {
-          bg: "from-cyan-500/20 to-cyan-600/5",
-          border: "border-cyan-500/30",
-          text: "text-cyan-300",
-          glow: "rgba(6, 182, 212, 0.25)",
         };
       case "support":
         return {
@@ -294,7 +363,7 @@ export default function AdminTeamPage() {
                   onClick={() => setAddModalOpen(true)}
                   className="w-full md:w-auto text-xs py-2.5 px-4 shadow-[0_0_20px_rgba(20,184,160,0.35)] flex items-center justify-center gap-2 font-heading font-bold rounded-xl cursor-pointer"
                 >
-                  <span>+ Add Team Member</span>
+                  <span>+ Give Access / Add Member</span>
                 </Button>
               </div>
             )}
@@ -306,51 +375,82 @@ export default function AdminTeamPage() {
           <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
             <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Total Staff Members</p>
             <p className="text-xl sm:text-2xl font-bold font-heading text-white mt-0.5 sm:mt-1">{team.length}</p>
-            <p className="text-[10px] sm:text-[11px] text-emerald-400 mt-0.5 sm:mt-1 truncate">● All Core Staff Active</p>
+            <p className="text-[10px] sm:text-[11px] text-emerald-400 mt-0.5 sm:mt-1 truncate">● All Active Staff</p>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Executive / Admin</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-amber-300 mt-0.5 sm:mt-1">
-              {team.filter((t) => t.role === "superadmin" || t.role === "admin").length}
+            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Developers</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-emerald-300 mt-0.5 sm:mt-1">
+              {team.filter((t) => t.role === "developer").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Full System Governance</p>
+            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Full-Stack & Systems</p>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Design & Dev</p>
+            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Cyber & Ethical Hacker</p>
             <p className="text-xl sm:text-2xl font-bold font-heading text-cyan-300 mt-0.5 sm:mt-1">
-              {team.filter((t) => t.role === "developer" || t.role === "manager").length}
+              {team.filter((t) => t.role === "cyber_security" || t.role === "ethical_hacker").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Architecture & UI Sprints</p>
+            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Security & Penetration</p>
           </div>
 
           <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Support & Sec</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-teal-300 mt-0.5 sm:mt-1">
-              {team.filter((t) => t.role === "support" || t.role === "editor").length}
+            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Marketing & Graphics</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-amber-300 mt-0.5 sm:mt-1">
+              {team.filter((t) => t.role === "digital_marketer" || t.role === "graphics_designer" || t.role === "editor").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">&lt; 2h Response Target</p>
+            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Ads & UI/UX Design</p>
           </div>
         </div>
 
         {/* Filters & Search */}
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 pt-1">
-          {/* Role pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-            {["all", "superadmin", "manager", "developer", "support"].map((r) => (
-              <button
-                key={r}
-                onClick={() => setSelectedRole(r)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition-all shrink-0 cursor-pointer ${
-                  selectedRole === r
-                    ? "bg-primary-500 text-black shadow-[0_0_12px_rgba(20,184,160,0.4)]"
-                    : "bg-white/[0.04] text-neutral-400 hover:text-white hover:bg-white/[0.08]"
-                }`}
-              >
-                {r === "all" ? "All Staff" : r}
-              </button>
-            ))}
+          {/* Role / Category pills */}
+          <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-1 md:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {ROLE_CATEGORIES.map((cat) => {
+              const count =
+                cat.id === "all"
+                  ? team.length
+                  : cat.id === "developer"
+                  ? team.filter((t) => t.role === "developer").length
+                  : cat.id === "cyber_security"
+                  ? team.filter((t) => t.role === "cyber_security").length
+                  : cat.id === "ethical_hacker"
+                  ? team.filter((t) => t.role === "ethical_hacker").length
+                  : cat.id === "digital_marketer"
+                  ? team.filter((t) => t.role === "digital_marketer" || t.role === "editor").length
+                  : cat.id === "graphics_designer"
+                  ? team.filter((t) => t.role === "graphics_designer").length
+                  : cat.id === "superadmin"
+                  ? team.filter((t) => t.role === "superadmin" || t.role === "admin").length
+                  : team.filter((t) => t.role === cat.id).length;
+
+              const isSelected = selectedRole === cat.id;
+
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedRole(cat.id)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 cursor-pointer border ${
+                    isSelected
+                      ? "bg-primary-500 text-black border-primary-400 font-bold shadow-[0_0_14px_rgba(20,184,160,0.35)]"
+                      : "bg-white/[0.04] text-neutral-300 border-white/[0.08] hover:text-white hover:bg-white/[0.08]"
+                  }`}
+                >
+                  <span className="text-sm">{cat.icon}</span>
+                  <span>{cat.label}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                      isSelected
+                        ? "bg-black/20 text-neutral-950 font-bold"
+                        : "bg-white/10 text-neutral-400"
+                    }`}
+                  >
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
           {/* Search box */}
@@ -458,9 +558,10 @@ export default function AdminTeamPage() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setEditMember(member)}
-                          className="px-3 py-1 rounded-lg text-xs font-medium bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 transition-colors"
+                          className="px-3 py-1 rounded-lg text-xs font-medium bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 transition-colors flex items-center gap-1.5"
                         >
-                          Edit Access
+                          <span>🔑</span>
+                          <span>Give / Edit Access</span>
                         </button>
                         {!isOwner && (
                           <button
@@ -494,12 +595,12 @@ export default function AdminTeamPage() {
         )}
       </div>
 
-      {/* ─── ADD TEAM MEMBER MODAL ─── */}
+      {/* ─── ADD TEAM MEMBER / GIVE ACCESS MODAL ─── */}
       <Modal
         open={addModalOpen}
         onClose={() => setAddModalOpen(false)}
-        title="Add New Team Member"
-        description="Invite or assign staff access with a designated role and granular permissions."
+        title="Give Access / Add Team Member"
+        description="Invite or assign staff access with a designated category role and granular permissions."
         size="md"
         actions={
           <>
@@ -507,7 +608,7 @@ export default function AdminTeamPage() {
               Cancel
             </Button>
             <Button variant="primary" onClick={handleAddMember} disabled={actionLoading}>
-              {actionLoading ? "Saving…" : "Save Team Member"}
+              {actionLoading ? "Saving…" : "Save & Grant Access"}
             </Button>
           </>
         }
@@ -539,17 +640,20 @@ export default function AdminTeamPage() {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">Assigned Role</label>
+              <label className="block text-xs font-semibold text-neutral-300 mb-1">Assigned Role / Access Category</label>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as TeamStaff["role"] })}
                 className="w-full px-3 py-2 rounded-xl bg-[#1e293b] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
               >
-                <option value="manager">Operations Manager</option>
-                <option value="developer">Core Developer / Architect</option>
-                <option value="support">Client Support Specialist</option>
-                <option value="editor">Content / Marketing Editor</option>
-                <option value="admin">Administrator</option>
+                <option value="developer">⚡ Developer (Full-Stack & Systems)</option>
+                <option value="cyber_security">🛡️ Cyber Security Specialist</option>
+                <option value="ethical_hacker">⚔️ Ethical Hacker & Security Auditor</option>
+                <option value="digital_marketer">📈 Digital Marketer & Ads Specialist</option>
+                <option value="graphics_designer">🎨 Graphics & UI/UX Designer</option>
+                <option value="manager">📊 Operations Manager</option>
+                <option value="support">🎧 Client Support Specialist</option>
+                <option value="admin">🔑 Administrator</option>
               </select>
             </div>
 
@@ -609,12 +713,12 @@ export default function AdminTeamPage() {
         </form>
       </Modal>
 
-      {/* ─── EDIT MEMBER MODAL ─── */}
+      {/* ─── EDIT MEMBER / GIVE ACCESS MODAL ─── */}
       <Modal
         open={Boolean(editMember)}
         onClose={() => setEditMember(null)}
-        title={`Edit Access: ${editMember?.name}`}
-        description="Update role assignment, job title, and permissions."
+        title={`Give Access / Edit Role: ${editMember?.name}`}
+        description="Update staff access role category, job title, and permissions."
         size="md"
         actions={
           <>
@@ -622,7 +726,7 @@ export default function AdminTeamPage() {
               Cancel
             </Button>
             <Button variant="primary" onClick={handleUpdateMember} disabled={actionLoading}>
-              {actionLoading ? "Saving…" : "Apply Updates"}
+              {actionLoading ? "Saving…" : "Apply Access Updates"}
             </Button>
           </>
         }
@@ -631,7 +735,7 @@ export default function AdminTeamPage() {
           <form onSubmit={handleUpdateMember} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 mb-1">Role</label>
+                <label className="block text-xs font-semibold text-neutral-300 mb-1">Assigned Role / Access Category</label>
                 <select
                   value={editMember.role}
                   onChange={(e) =>
@@ -639,12 +743,15 @@ export default function AdminTeamPage() {
                   }
                   className="w-full px-3 py-2 rounded-xl bg-[#1e293b] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
                 >
-                  <option value="superadmin">Super Admin / Owner</option>
-                  <option value="manager">Operations Manager</option>
-                  <option value="developer">Core Developer / Architect</option>
-                  <option value="support">Client Support Specialist</option>
-                  <option value="editor">Content / Marketing Editor</option>
-                  <option value="admin">Administrator</option>
+                  <option value="developer">⚡ Developer (Full-Stack & Systems)</option>
+                  <option value="cyber_security">🛡️ Cyber Security Specialist</option>
+                  <option value="ethical_hacker">⚔️ Ethical Hacker & Security Auditor</option>
+                  <option value="digital_marketer">📈 Digital Marketer & Ads Specialist</option>
+                  <option value="graphics_designer">🎨 Graphics & UI/UX Designer</option>
+                  <option value="superadmin">👑 Super Admin / Owner</option>
+                  <option value="manager">📊 Operations Manager</option>
+                  <option value="support">🎧 Client Support Specialist</option>
+                  <option value="admin">🔑 Administrator</option>
                 </select>
               </div>
 

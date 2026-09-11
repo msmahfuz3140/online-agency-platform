@@ -6,7 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FileUpload } from "@/components/ui/FileUpload";
 import { getStoredUser } from "@/lib/auth-client";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app"
+).replace(/\/+$/, "");
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
 export interface PlanInfo {

@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/Button";
 import { useToastPortal } from "@/components/ui/useToastPortal";
 import { motion, AnimatePresence } from "framer-motion";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 export interface LeadEngineer {
   name: string;

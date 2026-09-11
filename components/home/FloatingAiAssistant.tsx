@@ -27,10 +27,11 @@ const quickPrompts = [
 const knowledgeBase: Record<string, string> = {
   cost: "Our projects range from $350 (Landing Pages) to $650 (Business Sites) and $1,400+ (Full-Stack SaaS Platforms). You can use our Interactive Cost Calculator above to get an instant customized quote with zero hidden fees!",
   security:
-    "Our team includes certified ethical hacking and cyber security specialists (Saif Khan & Koushik Komar Paul) who perform comprehensive OWASP Top 10 penetration testing, API auditing, threat modeling, and infrastructure hardening on all our projects.",
-  team: "Nexora is founded and led by specialized engineers from the Computer Science & Technology (CST) department of Mymensingh Polytechnic Institute — including full-stack developers (MD Mahfuzul Haque), UI/UX designers (Jahidul Islam), and cyber security experts (Saif Khan & Koushik Komar Paul).",
+    "Our team includes certified ethical hacking and cyber security specialists (Saif Khan, Koushik Komar Paul, Mehedi Hasan Saim, and Mehedi) who perform comprehensive OWASP Top 10 penetration testing, Python security automation, API auditing, threat modeling, and infrastructure hardening on all our projects.",
+  team: "Nexora is founded and led by a specialized core from the Computer Science & Technology (CST) department of Mymensingh Polytechnic Institute — including full-stack developers (MD Mahfuzul Haque), UI/UX designers (Jahidul Islam), digital marketing & ads strategists (Sakib Al Hasan), Python & security engineers (Mehedi Hasan Saim), and cyber security specialists (Saif Khan, Koushik Komar Paul, & Mehedi).",
   ai: "Our AI Website Builder uses Claude Sonnet 4.6 to turn simple business briefs into clean, production-ready Next.js React components, responsive layouts, and tailored copy in under 60 seconds!",
 };
+
 
 export function FloatingAiAssistant() {
   const [isOpen, setIsOpen] = useState(false);

@@ -16,7 +16,7 @@ import {
   type InquiryCategoryMeta,
 } from "@/lib/inquiry-categories";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 interface MessageReply {
   _id?: string;

@@ -12,7 +12,7 @@ import { useToastPortal } from "../ui/useToastPortal";
 import { getStoredUser } from "@/lib/auth-client";
 
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 const projectTopics = [
   "Custom Web Application",

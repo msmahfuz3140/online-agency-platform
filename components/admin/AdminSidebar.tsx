@@ -120,7 +120,7 @@ export function AdminSidebar({
   const router = useRouter();
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/payment/admin/stats`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app"}/api/payment/admin/stats`)
       .then(res => res.json())
       .then(data => {
         if (data?.success && data?.data?.awaiting !== undefined) {
@@ -148,6 +148,18 @@ export function AdminSidebar({
   const isManager = userRole === "manager";
   const isDeveloper = userRole === "developer";
   const isSupport = userRole === "support";
+  const isStaff = [
+    "superadmin",
+    "admin",
+    "manager",
+    "developer",
+    "support",
+    "cyber_security",
+    "ethical_hacker",
+    "digital_marketer",
+    "graphics_designer",
+    "editor",
+  ].includes(userRole);
 
   // Role-based navigation items
   const allNavItems: (NavItem & { allowed: boolean })[] = [
@@ -187,14 +199,14 @@ export function AdminSidebar({
       label: "Project Requests",
       icon: <BriefcaseIcon />,
       badge: requestsBadge,
-      allowed: isSuperAdminOrAdmin || isManager || isDeveloper || isSupport,
+      allowed: isSuperAdminOrAdmin || isStaff,
     },
     {
       href: "/admin/messages",
       label: "Client Messages",
       icon: <EnvelopeIcon />,
       badge: messagesBadge,
-      allowed: isSuperAdminOrAdmin || isManager || isSupport,
+      allowed: isSuperAdminOrAdmin || isManager || isSupport || userRole === "digital_marketer",
     },
   ];
 

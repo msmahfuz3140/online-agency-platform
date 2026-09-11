@@ -8,7 +8,7 @@ import { Modal } from "@/components/ui/Modal";
 import { useToastPortal } from "@/components/ui/useToastPortal";
 import { getStoredUser, type UserSession } from "@/lib/auth-client";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 interface LeadEngineer {
   name: string;

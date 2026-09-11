@@ -13,7 +13,8 @@ const CATEGORIES = [
   { id: "all", label: "All Core Team", icon: "👥" },
   { id: "fullstack", label: "Fullstack Architecture", icon: "⚡" },
   { id: "design", label: "UI/UX & Product", icon: "🎨" },
-  { id: "security", label: "Cyber Resilience", icon: "🛡️" },
+  { id: "marketing", label: "Growth & Paid Ads", icon: "📈" },
+  { id: "security", label: "Cyber Security & Defense", icon: "🛡️" },
   { id: "offensive", label: "Offensive Auditing", icon: "⚔️" },
 ];
 
@@ -35,8 +36,13 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return "fullstack";
       case "jahidul-islam":
         return "design";
+      case "sakib-al-hasan":
+        return "marketing";
+      case "mehedi-hasan-saim":
+      case "mehedi":
       case "saif-khan":
         return "security";
+      case "koushik-komar-paul":
       case "koushik-roy":
         return "offensive";
       default:
@@ -78,6 +84,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
           crown: false,
           topStat: "0 Breaches • 100% Zero-Trust",
         };
+      case "koushik-komar-paul":
       case "koushik-roy":
         return {
           glow: "rgba(168, 85, 247, 0.35)",
@@ -86,6 +93,33 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
           badgeColor: "default" as const,
           crown: false,
           topStat: "70+ Vulnerabilities Uncovered",
+        };
+      case "sakib-al-hasan":
+        return {
+          glow: "rgba(14, 165, 233, 0.35)",
+          border: "border-sky-500/40 hover:border-sky-400",
+          tagBg: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+          badgeColor: "primary" as const,
+          crown: false,
+          topStat: "4.8x Avg ROAS • Paid Media & Ads",
+        };
+      case "mehedi-hasan-saim":
+        return {
+          glow: "rgba(20, 184, 166, 0.35)",
+          border: "border-teal-500/40 hover:border-teal-400",
+          tagBg: "bg-teal-500/15 text-teal-300 border-teal-500/30",
+          badgeColor: "success" as const,
+          crown: false,
+          topStat: "Python SecOps • Automated Threat Intel",
+        };
+      case "mehedi":
+        return {
+          glow: "rgba(59, 130, 246, 0.35)",
+          border: "border-blue-500/40 hover:border-blue-400",
+          tagBg: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+          badgeColor: "default" as const,
+          crown: false,
+          topStat: "Perimeter Defense • Zero-Trust",
         };
       default:
         return {
@@ -120,7 +154,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
           </h2>
 
           <p className="mt-4 text-sm sm:text-base text-muted-fg max-w-2xl mx-auto leading-relaxed">
-            Direct collaboration with foundational systems architects, UI/UX designers, and cyber security leads. Zero junior handoffs. Zero communication friction.
+            Direct collaboration with foundational systems architects, UI/UX designers, cyber security leads, Python engineers, and digital marketing strategists. Zero junior handoffs.
           </p>
 
           {/* Interactive Category Filter Pills */}
@@ -144,7 +178,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
       </FadeInSection>
 
       {/* Team Cards Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <AnimatePresence mode="popLayout">
           {filteredMembers.map((member, idx) => {
             const accent = getRoleAccent(member.slug);

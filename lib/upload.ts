@@ -4,7 +4,9 @@
  * Files NEVER go to MongoDB — only the returned URL is stored.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+const API_URL = (
+  process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app"
+).replace(/\/+$/, "");
 
 export type UploadFolder =
   | "team"

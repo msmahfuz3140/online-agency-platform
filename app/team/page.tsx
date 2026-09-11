@@ -13,7 +13,7 @@ import { fetchTeamMembers } from "@/lib/api-client";
 export const metadata: Metadata = {
   title: "Engineering Team & Founders — Leadership Core | Nexora Agency",
   description:
-    "Meet the CST leadership team behind Nexora: full-stack systems architects, UI/UX design specialists, cyber security engineers, and offensive security auditors from Mymensingh Polytechnic Institute.",
+    "Meet the CST leadership team behind Nexora: full-stack systems architects, UI/UX design specialists, digital marketing & paid ads strategists, Python engineers, and cyber security auditors from Mymensingh Polytechnic Institute.",
 };
 
 export default async function TeamPage() {
@@ -50,7 +50,7 @@ export default async function TeamPage() {
             </h1>
 
             <p className="mt-4 sm:mt-6 text-base sm:text-lg text-muted-fg max-w-2xl mx-auto leading-relaxed">
-              A specialized full-stack engineering team rooted in Computer Science & Technology (CST) at Mymensingh Polytechnic Institute. Delivering high-throughput Next.js systems, luxury UI/UX, and zero-trust security.
+              A specialized core team rooted in Computer Science & Technology (CST) at Mymensingh Polytechnic Institute. Delivering high-throughput Next.js systems, luxury UI/UX, Python automation, zero-trust cybersecurity, and high-ROAS paid media scaling.
             </p>
 
             {/* Quick Metrics */}
