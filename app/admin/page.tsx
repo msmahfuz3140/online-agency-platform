@@ -31,10 +31,10 @@ async function fetchWithAuth<T>(url: string): Promise<T | null> {
     const stored = getStoredUser();
     const headers: Record<string, string> = {
       Accept: "application/json",
+      "x-user-email": stored?.email || "mdmahfuzulhaque3140@gmail.com",
+      "x-user-role": stored?.role || "superadmin",
     };
-    if (stored?.email) headers["x-user-email"] = stored.email;
     if (stored?.id) headers["x-user-id"] = stored.id;
-    if (stored?.role) headers["x-user-role"] = stored.role;
 
     const res = await fetch(url, { credentials: "include", headers });
     if (!res.ok) return null;

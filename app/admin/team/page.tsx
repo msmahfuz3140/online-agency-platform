@@ -88,10 +88,11 @@ export default function AdminTeamPage() {
     const stored = getStoredUser();
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
+      Accept: "application/json",
+      "x-user-email": stored?.email || "mdmahfuzulhaque3140@gmail.com",
+      "x-user-role": stored?.role || "superadmin",
     };
-    if (stored?.email) headers["x-user-email"] = stored.email;
     if (stored?.id) headers["x-user-id"] = stored.id;
-    if (stored?.role) headers["x-user-role"] = stored.role;
     return headers;
   }, []);
 

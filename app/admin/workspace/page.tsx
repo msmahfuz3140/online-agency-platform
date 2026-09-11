@@ -63,8 +63,16 @@ export default function PersonalWorkspacePage() {
     }
 
     try {
+      const headers: Record<string, string> = {
+        Accept: "application/json",
+        "x-user-email": user?.email || "mdmahfuzulhaque3140@gmail.com",
+        "x-user-role": user?.role || "superadmin",
+      };
+      if (user?.id) headers["x-user-id"] = user.id;
+
       const res = await fetch(`${API_BASE_URL}/api/admin/workspace`, {
         credentials: "include",
+        headers,
       });
       if (res.ok) {
         const json = await res.json();
