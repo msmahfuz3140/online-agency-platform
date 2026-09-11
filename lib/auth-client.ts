@@ -9,12 +9,16 @@ export interface UserSession {
   id: string;
   name: string;
   email: string;
+  image?: string | null;
+  phoneNumber?: string;
+  company?: string;
   role: string;
   aiCreditsRemaining: number;
   plan?: "free" | "pro" | "business";
   planStatus?: "active" | "inactive" | "expired";
   planExpiresAt?: string | null;
   planActivatedAt?: string | null;
+  createdAt?: string | Date;
 }
 
 export interface AuthResponse {
@@ -270,12 +274,16 @@ export async function getSession(): Promise<UserSession | null> {
           id: data.user.id || data.user._id || meData?.id || `usr_${Date.now()}`,
           name: meData?.name || data.user.name || data.user.email?.split("@")[0] || "User",
           email: meData?.email || data.user.email || "",
+          image: meData?.image !== undefined ? meData.image : data.user.image || null,
+          phoneNumber: meData?.phoneNumber || "",
+          company: meData?.company || "",
           role: meData?.role || data.user.role || "user",
           aiCreditsRemaining: meData?.aiCreditsRemaining ?? data.user.aiCreditsRemaining ?? 5,
           plan: meData?.plan || "free",
           planStatus: meData?.planStatus || "active",
           planExpiresAt: meData?.planExpiresAt || null,
           planActivatedAt: meData?.planActivatedAt || null,
+          createdAt: meData?.createdAt || undefined,
         };
         setStoredUser(formattedUser);
         return formattedUser;
@@ -289,12 +297,16 @@ export async function getSession(): Promise<UserSession | null> {
         id: meData.id || stored?.id || `usr_${Date.now()}`,
         name: meData.name || stored?.name || "User",
         email: meData.email || stored?.email || "",
+        image: meData.image !== undefined ? meData.image : stored?.image || null,
+        phoneNumber: meData.phoneNumber !== undefined ? meData.phoneNumber : stored?.phoneNumber || "",
+        company: meData.company !== undefined ? meData.company : stored?.company || "",
         role: meData.role || stored?.role || "user",
         aiCreditsRemaining: meData.aiCreditsRemaining ?? stored?.aiCreditsRemaining ?? 5,
         plan: meData.plan || "free",
         planStatus: meData.planStatus || "active",
         planExpiresAt: meData.planExpiresAt || null,
         planActivatedAt: meData.planActivatedAt || null,
+        createdAt: meData.createdAt || stored?.createdAt,
       };
       setStoredUser(updated);
       return updated;
@@ -303,6 +315,78 @@ export async function getSession(): Promise<UserSession | null> {
     return getStoredUser();
   } catch {
     return getStoredUser();
+  }
+}
+
+/**
+ * Update client profile details (Name, Image, Phone, Company)
+ */
+export async function updateUserProfile(data: {
+  name?: string;
+  image?: string | null;
+  phoneNumber?: string;
+  company?: string;
+}): Promise<{ success: boolean; user?: UserSession; message?: string; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) {
+      return { success: false, error: json.message || "Failed to update profile." };
+    }
+
+    const current = getStoredUser();
+    const updated: UserSession = {
+      ...(current || {}),
+      id: json.user?.id || current?.id || `usr_${Date.now()}`,
+      name: json.user?.name || data.name || current?.name || "Client",
+      email: json.user?.email || current?.email || "",
+      image: json.user?.image !== undefined ? json.user.image : (data.image !== undefined ? data.image : current?.image),
+      phoneNumber: json.user?.phoneNumber !== undefined ? json.user.phoneNumber : (data.phoneNumber !== undefined ? data.phoneNumber : current?.phoneNumber),
+      company: json.user?.company !== undefined ? json.user.company : (data.company !== undefined ? data.company : current?.company),
+      role: json.user?.role || current?.role || "user",
+      aiCreditsRemaining: json.user?.aiCreditsRemaining ?? current?.aiCreditsRemaining ?? 5,
+      plan: current?.plan || "free",
+      planStatus: current?.planStatus || "active",
+      planExpiresAt: current?.planExpiresAt || null,
+      planActivatedAt: current?.planActivatedAt || null,
+    };
+
+    setStoredUser(updated);
+    return { success: true, user: updated, message: json.message };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Network error updating profile." };
+  }
+}
+
+/**
+ * Change user password
+ */
+export async function changeUserPassword(data: {
+  currentPassword: string;
+  newPassword: string;
+}): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/user/change-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(data),
+    });
+
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) {
+      return { success: false, error: json.message || "Failed to change password." };
+    }
+
+    return { success: true, message: json.message || "Password updated successfully." };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Network error changing password." };
   }
 }
 

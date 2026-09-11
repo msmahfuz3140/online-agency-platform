@@ -241,6 +241,14 @@ export function ClientSidebar({
           </Link>
 
           <Link
+            href="/dashboard/settings"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+          >
+            <span className="text-sm">⚙️</span>
+            {!collapsed && <span className="truncate">Account Settings</span>}
+          </Link>
+
+          <Link
             href="/portfolio"
             className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors"
           >
@@ -278,9 +286,17 @@ export function ClientSidebar({
       {/* Bottom User Area & Collapse Toggle */}
       <div className="border-t border-white/[0.06] p-2.5 space-y-1.5">
         {/* User Card */}
-        <div className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] flex items-center gap-2.5 overflow-hidden">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary-500/30 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shrink-0">
-            {initials}
+        <Link
+          href="/dashboard/settings"
+          className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-primary-500/30 hover:bg-white/[0.06] transition-all flex items-center gap-2.5 overflow-hidden group cursor-pointer"
+        >
+          <div className="h-8 w-8 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shrink-0">
+            {user?.image ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
+            ) : (
+              <span>{initials}</span>
+            )}
           </div>
           <AnimatePresence>
             {!collapsed && (
@@ -290,7 +306,7 @@ export function ClientSidebar({
                 exit={{ opacity: 0 }}
                 className="flex-1 min-w-0"
               >
-                <p className="text-xs font-semibold text-white truncate leading-tight">
+                <p className="text-xs font-semibold text-white group-hover:text-primary-300 transition-colors truncate leading-tight">
                   {user?.name || "Client"}
                 </p>
                 <div className="flex items-center gap-1.5 mt-0.5">
@@ -309,7 +325,7 @@ export function ClientSidebar({
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </Link>
 
         {/* Sign Out & Collapse Controls */}
         <div className="flex items-center justify-between gap-1 pt-1">

@@ -362,8 +362,13 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
             onClick={() => setProfileOpen(!profileOpen)}
             className="flex items-center gap-2 pl-1.5 pr-2 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-primary-500/40 hover:bg-white/[0.08] transition-all cursor-pointer group shrink-0"
           >
-            <div className="h-7 w-7 rounded-full bg-gradient-to-br from-primary-500/30 via-primary-500/10 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.2)]">
-              {initials}
+            <div className="h-7 w-7 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 via-primary-500/10 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.2)] shrink-0">
+              {user?.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
+              ) : (
+                <span>{initials}</span>
+              )}
             </div>
             <div className="hidden md:flex flex-col text-left">
               <span className="text-xs font-semibold text-white leading-tight truncate max-w-[120px]">
@@ -436,6 +441,15 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                       </Link>
                     </div>
                   )}
+
+                  <Link
+                    href="/dashboard/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                  >
+                    <span className="text-sm">⚙️</span>
+                    <span>Account Settings</span>
+                  </Link>
 
                   <Link
                     href="/request-project"
