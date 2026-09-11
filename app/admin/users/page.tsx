@@ -36,12 +36,21 @@ export default function AdminUsersPage() {
   const loadUsers = useCallback(async () => {
     setLoading(true);
     try {
+      const stored = getStoredUser();
+      const headers: Record<string, string> = {};
+      if (stored?.email) headers["x-user-email"] = stored.email;
+      if (stored?.id) headers["x-user-id"] = stored.id;
+      if (stored?.role) headers["x-user-role"] = stored.role;
+
       const res = await fetch(`${API_BASE_URL}/api/admin/users?limit=100`, {
         credentials: "include",
+        headers,
       });
       if (res.ok) {
         const json = await res.json();
         setUsers(json.data || []);
+      } else {
+        toast("error", "Load Error", "Failed to fetch users from database.");
       }
     } catch {
       toast("error", "Load Error", "Failed to fetch users.");
@@ -66,13 +75,18 @@ export default function AdminUsersPage() {
     if (!confirmModal.targetUser) return;
     setActionLoading(true);
     try {
+      const stored = getStoredUser();
+      const headers: Record<string, string> = {};
+      if (stored?.email) headers["x-user-email"] = stored.email;
+      if (stored?.id) headers["x-user-id"] = stored.id;
+
       const { id } = confirmModal.targetUser;
       const endpoint =
         confirmModal.type === "delete"
           ? `${API_BASE_URL}/api/admin/users/${id}`
           : `${API_BASE_URL}/api/admin/users/${id}/block`;
       const method = confirmModal.type === "delete" ? "DELETE" : "PATCH";
-      const res = await fetch(endpoint, { method, credentials: "include" });
+      const res = await fetch(endpoint, { method, credentials: "include", headers });
       if (res.ok) {
         toast(
           "success",

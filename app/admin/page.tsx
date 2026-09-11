@@ -28,7 +28,15 @@ interface RecentItem {
 
 async function fetchWithAuth<T>(url: string): Promise<T | null> {
   try {
-    const res = await fetch(url, { credentials: "include" });
+    const stored = getStoredUser();
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+    };
+    if (stored?.email) headers["x-user-email"] = stored.email;
+    if (stored?.id) headers["x-user-id"] = stored.id;
+    if (stored?.role) headers["x-user-role"] = stored.role;
+
+    const res = await fetch(url, { credentials: "include", headers });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data ?? null;

@@ -84,23 +84,35 @@ export default function AdminTeamPage() {
   const isSuperAdminOrAdmin =
     currentUser?.role === "superadmin" || currentUser?.role === "admin";
 
+  const getAuthHeaders = useCallback((): Record<string, string> => {
+    const stored = getStoredUser();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (stored?.email) headers["x-user-email"] = stored.email;
+    if (stored?.id) headers["x-user-id"] = stored.id;
+    if (stored?.role) headers["x-user-role"] = stored.role;
+    return headers;
+  }, []);
+
   const loadTeam = useCallback(async () => {
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team`, {
         credentials: "include",
+        headers: getAuthHeaders(),
       });
       if (res.ok) {
         const json = await res.json();
         setTeam(json.data || []);
       } else {
-        toast("error", "Error", "Failed to load team members");
+        toast("error", "Error", "Failed to load team members from database");
       }
     } catch {
       toast("error", "Network Error", "Unable to connect to backend service");
     }
     setLoading(false);
-  }, [toast]);
+  }, [toast, getAuthHeaders]);
 
   useEffect(() => {
     setCurrentUser(getStoredUser());
@@ -149,7 +161,7 @@ export default function AdminTeamPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         credentials: "include",
         body: JSON.stringify(formData),
       });
@@ -184,7 +196,7 @@ export default function AdminTeamPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team/${editMember.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         credentials: "include",
         body: JSON.stringify({
           role: editMember.role,
@@ -214,7 +226,7 @@ export default function AdminTeamPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team/${member.id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: getAuthHeaders(),
         credentials: "include",
         body: JSON.stringify({ status: newStatus }),
       });
@@ -238,6 +250,7 @@ export default function AdminTeamPage() {
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team/${deleteConfirm.member.id}`, {
         method: "DELETE",
+        headers: getAuthHeaders(),
         credentials: "include",
       });
       if (res.ok) {
