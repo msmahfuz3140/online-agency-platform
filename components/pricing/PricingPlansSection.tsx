@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
+import Link from "next/link";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
 import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
+import { PaymentModal, PLANS, type PlanInfo } from "../payment/PaymentModal";
 
 type BillingCycle = "monthly" | "project";
 
@@ -28,10 +29,10 @@ interface Plan {
   badge?: string;
   badgeVariant?: "primary" | "warning" | "success" | "default";
   popular?: boolean;
-  comingSoon?: boolean;
   features: PlanFeature[];
   cta: string;
-  ctaHref: string;
+  ctaHref?: string;
+  paymentPlanId?: "pro" | "business";
   gradient?: string;
 }
 
@@ -66,10 +67,10 @@ const plans: Plan[] = [
     projectPrice: "$799",
     priceNote: "per project, from",
     desc: "Unlimited AI generations plus a dedicated engineering team for custom websites, landing pages, and business sites.",
-    badge: "Coming Soon",
-    badgeVariant: "warning",
+    badge: "Most Popular",
+    badgeVariant: "primary",
     popular: true,
-    comingSoon: true,
+    paymentPlanId: "pro",
     features: [
       { text: "Unlimited AI website generations", included: true },
       { text: "All 50+ premium templates", included: true },
@@ -82,8 +83,7 @@ const plans: Plan[] = [
       { text: "Admin dashboard module", included: false },
       { text: "Dedicated project manager", included: false },
     ],
-    cta: "Coming Soon",
-    ctaHref: "#",
+    cta: "Get Started",
     gradient: "from-primary-500/15 via-primary-500/5 to-transparent",
   },
   {
@@ -94,9 +94,9 @@ const plans: Plan[] = [
     projectPrice: "$2,999",
     priceNote: "per project, from",
     desc: "End-to-end engineering for SaaS platforms, e-commerce stores, web applications, and complex custom systems.",
-    badge: "Coming Soon",
+    badge: "Enterprise",
     badgeVariant: "default",
-    comingSoon: true,
+    paymentPlanId: "business",
     features: [
       { text: "Everything in Pro", included: true },
       { text: "Full-stack SaaS / web app development", included: true },
@@ -109,8 +109,7 @@ const plans: Plan[] = [
       { text: "White-label AI engine access", included: true },
       { text: "SLA-backed uptime guarantee", included: true },
     ],
-    cta: "Coming Soon",
-    ctaHref: "#",
+    cta: "Get Started",
   },
 ];
 
@@ -141,153 +140,179 @@ function CheckIcon({ included }: { included: boolean }) {
 
 export function PricingPlansSection() {
   const [billing, setBilling] = useState<BillingCycle>("project");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<PlanInfo | null>(null);
+
+  const handlePlanSelect = (planId: "pro" | "business") => {
+    setSelectedPlan(PLANS[planId]);
+    setModalOpen(true);
+  };
 
   return (
-    <Section id="pricing-plans" className="pb-0">
-      {/* Billing toggle */}
-      <FadeInSection>
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex items-center gap-1 p-1 rounded-full border border-border bg-surface-1">
-            {(["project", "monthly"] as BillingCycle[]).map((cycle) => (
-              <button
-                key={cycle}
-                id={`billing-toggle-${cycle}`}
-                onClick={() => setBilling(cycle)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-                  billing === cycle
-                    ? "bg-primary-500 text-white shadow-[0_0_12px_rgba(20,184,160,0.35)]"
-                    : "text-muted-fg hover:text-foreground"
-                }`}
-              >
-                {cycle === "project" ? "Per Project" : "Monthly Platform"}
-              </button>
+    <>
+      <Section id="pricing-plans" className="pb-0">
+        {/* Billing toggle */}
+        <FadeInSection>
+          <div className="flex justify-center mb-10">
+            <div className="inline-flex items-center gap-1 p-1 rounded-full border border-border bg-surface-1">
+              {(["project", "monthly"] as BillingCycle[]).map((cycle) => (
+                <button
+                  key={cycle}
+                  id={`billing-toggle-${cycle}`}
+                  onClick={() => setBilling(cycle)}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+                    billing === cycle
+                      ? "bg-primary-500 text-white shadow-[0_0_12px_rgba(20,184,160,0.35)]"
+                      : "text-muted-fg hover:text-foreground"
+                  }`}
+                >
+                  {cycle === "project" ? "Per Project" : "Monthly Platform"}
+                </button>
+              ))}
+            </div>
+          </div>
+        </FadeInSection>
+
+        {/* Plan cards */}
+        <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 items-start">
+          {plans.map((plan) => (
+            <Card
+              key={plan.id}
+              padding="lg"
+              className={`relative flex flex-col ${
+                plan.popular
+                  ? "border-primary-500/50 shadow-[0_0_48px_rgba(20,184,160,0.14)] sm:scale-[1.02] lg:scale-[1.03]"
+                  : ""
+              }`}
+            >
+              {/* Badge */}
+              {plan.badge && (
+                <div className="absolute -top-3 inset-x-0 flex justify-center">
+                  <Badge variant={plan.badgeVariant ?? "default"} size="sm">{plan.badge}</Badge>
+                </div>
+              )}
+
+              {/* Plan header */}
+              <div className="mb-5">
+                <p className="text-xs font-bold uppercase tracking-widest text-muted-fg">{plan.name}</p>
+                <p className="text-[11px] text-muted-fg mt-0.5">{plan.tagline}</p>
+
+                <motion.div
+                  key={billing}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="mt-4"
+                >
+                  <span className="font-heading text-4xl font-bold text-foreground">
+                    {billing === "project" ? plan.projectPrice : plan.monthlyPrice}
+                  </span>
+                  {billing === "project" && plan.priceNote && (
+                    <span className="ml-1 text-xs text-muted-fg">{plan.priceNote}</span>
+                  )}
+                  {billing === "monthly" && (
+                    <span className="ml-1 text-xs text-muted-fg">/month</span>
+                  )}
+                </motion.div>
+              </div>
+
+              <p className="text-xs text-muted-fg leading-relaxed mb-5">{plan.desc}</p>
+
+              {/* Feature list */}
+              <ul className="space-y-2.5 flex-1 mb-7">
+                {plan.features.map((f) => (
+                  <li key={f.text} className={`flex items-start gap-2 text-xs ${f.included ? "text-muted-fg" : "text-neutral-600 line-through decoration-neutral-700"}`}>
+                    <CheckIcon included={f.included} />
+                    <span>{f.text}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* CTA */}
+              {plan.paymentPlanId ? (
+                <button
+                  id={`plan-cta-${plan.id}`}
+                  onClick={() => handlePlanSelect(plan.paymentPlanId!)}
+                  className={`w-full py-2.5 px-4 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                    plan.popular
+                      ? "bg-primary-500 text-white hover:bg-primary-600 shadow-[0_0_12px_rgba(20,184,160,0.3)] hover:shadow-[0_0_20px_rgba(20,184,160,0.5)]"
+                      : "border border-border text-foreground bg-surface-2 hover:bg-surface-1 hover:border-primary-500/40"
+                  }`}
+                >
+                  {plan.cta} →
+                </button>
+              ) : (
+                <Button variant="primary" className="w-full" asChild>
+                  <Link href={plan.ctaHref!}>{plan.cta}</Link>
+                </Button>
+              )}
+            </Card>
+          ))}
+        </StaggerList>
+
+        {/* Payment methods badge strip */}
+        <FadeInSection delay={0.1}>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            <span className="text-xs text-muted-fg">Accepted payment methods:</span>
+            {[
+              { label: "Stripe", color: "bg-[#635bff]/10 text-[#a29fff] border-[#635bff]/30", icon: "💳" },
+              { label: "bKash", color: "bg-pink-500/10 text-pink-400 border-pink-500/30", icon: "📱" },
+              { label: "Nagad", color: "bg-orange-500/10 text-orange-400 border-orange-500/30", icon: "📱" },
+            ].map(m => (
+              <span key={m.label} className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border ${m.color}`}>
+                <span>{m.icon}</span>{m.label}
+              </span>
             ))}
           </div>
-        </div>
-      </FadeInSection>
+        </FadeInSection>
 
-      {/* Plan cards */}
-      <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6 items-start">
-        {plans.map((plan) => (
-          <Card
-            key={plan.id}
-            padding="lg"
-            className={`relative flex flex-col ${
-              plan.popular
-                ? "border-primary-500/50 shadow-[0_0_48px_rgba(20,184,160,0.14)] sm:scale-[1.02] lg:scale-[1.03]"
-                : ""
-            } ${plan.comingSoon ? "opacity-90" : ""}`}
-          >
-            {/* "Most Popular" label */}
-            {plan.popular && !plan.comingSoon && (
-              <div className="absolute -top-3 inset-x-0 flex justify-center">
-                <Badge variant="primary" size="sm">Most Popular</Badge>
-              </div>
-            )}
+        {/* Comparison table */}
+        <FadeInSection delay={0.2}>
+          <div className="mt-20 mb-8">
+            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-center mb-2">
+              Full Feature <span className="gradient-text">Comparison</span>
+            </h2>
+            <p className="text-sm text-muted-fg text-center">
+              Exactly what&apos;s included in each tier — side by side.
+            </p>
+          </div>
 
-            {/* "Coming Soon" ribbon */}
-            {plan.comingSoon && (
-              <div className="absolute -top-3 inset-x-0 flex justify-center">
-                <Badge variant={plan.badgeVariant ?? "default"} size="sm">Coming Soon</Badge>
-              </div>
-            )}
-
-            {/* Plan header */}
-            <div className="mb-5">
-              <p className="text-xs font-bold uppercase tracking-widest text-muted-fg">{plan.name}</p>
-              <p className="text-[11px] text-muted-fg mt-0.5">{plan.tagline}</p>
-
-              <motion.div
-                key={billing}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
-                className="mt-4"
-              >
-                <span className="font-heading text-4xl font-bold text-foreground">
-                  {billing === "project" ? plan.projectPrice : plan.monthlyPrice}
-                </span>
-                {billing === "project" && plan.priceNote && (
-                  <span className="ml-1 text-xs text-muted-fg">{plan.priceNote}</span>
-                )}
-                {billing === "monthly" && (
-                  <span className="ml-1 text-xs text-muted-fg">/month</span>
-                )}
-              </motion.div>
-            </div>
-
-            <p className="text-xs text-muted-fg leading-relaxed mb-5">{plan.desc}</p>
-
-            {/* Feature list */}
-            <ul className="space-y-2.5 flex-1 mb-7">
-              {plan.features.map((f) => (
-                <li key={f.text} className={`flex items-start gap-2 text-xs ${f.included ? "text-muted-fg" : "text-neutral-600 line-through decoration-neutral-700"}`}>
-                  <CheckIcon included={f.included} />
-                  <span>{f.text}</span>
-                </li>
-              ))}
-            </ul>
-
-            {/* CTA */}
-            {plan.comingSoon ? (
-              <button
-                disabled
-                className="w-full py-2.5 px-4 rounded-lg text-sm font-semibold border border-border text-muted-fg bg-surface-2 cursor-not-allowed opacity-60"
-              >
-                {plan.cta} — Coming Soon
-              </button>
-            ) : (
-              <Button variant="primary" className="w-full" asChild>
-                <Link href={plan.ctaHref}>{plan.cta}</Link>
-              </Button>
-            )}
-          </Card>
-        ))}
-      </StaggerList>
-
-      {/* Comparison table */}
-      <FadeInSection delay={0.2}>
-        <div className="mt-20 mb-8">
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-center mb-2">
-            Full Feature <span className="gradient-text">Comparison</span>
-          </h2>
-          <p className="text-sm text-muted-fg text-center">
-            Exactly what's included in each tier — side by side.
-          </p>
-        </div>
-
-        <div className="overflow-x-auto rounded-xl border border-border">
-          <table className="w-full text-sm min-w-[560px]">
-            <thead>
-              <tr className="border-b border-border bg-surface-1">
-                <th className="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wide text-muted-fg w-[40%]">
-                  Feature
-                </th>
-                <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-muted-fg">Free</th>
-                <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-primary-400">
-                  Pro <span className="text-amber-400 text-[9px] normal-case ml-1">soon</span>
-                </th>
-                <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-muted-fg">
-                  Business <span className="text-amber-400 text-[9px] normal-case ml-1">soon</span>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {comparisonFeatures.map((row, idx) => (
-                <tr
-                  key={row.feature}
-                  className={`border-b border-border/40 transition-colors hover:bg-surface-1/40 ${idx % 2 === 0 ? "" : "bg-surface-1/20"}`}
-                >
-                  <td className="py-3 px-4 text-xs text-foreground font-medium">{row.feature}</td>
-                  <td className="py-3 px-4 text-center text-xs text-muted-fg">{row.free}</td>
-                  <td className="py-3 px-4 text-center text-xs font-semibold text-primary-400">{row.pro}</td>
-                  <td className="py-3 px-4 text-center text-xs text-muted-fg">{row.business}</td>
+          <div className="overflow-x-auto rounded-xl border border-border">
+            <table className="w-full text-sm min-w-[560px]">
+              <thead>
+                <tr className="border-b border-border bg-surface-1">
+                  <th className="py-3 px-4 text-left text-xs font-semibold uppercase tracking-wide text-muted-fg w-[40%]">
+                    Feature
+                  </th>
+                  <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-muted-fg">Free</th>
+                  <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-primary-400">Pro</th>
+                  <th className="py-3 px-4 text-center text-xs font-semibold uppercase tracking-wide text-muted-fg">Business</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </FadeInSection>
-    </Section>
+              </thead>
+              <tbody>
+                {comparisonFeatures.map((row, idx) => (
+                  <tr
+                    key={row.feature}
+                    className={`border-b border-border/40 transition-colors hover:bg-surface-1/40 ${idx % 2 === 0 ? "" : "bg-surface-1/20"}`}
+                  >
+                    <td className="py-3 px-4 text-xs text-foreground font-medium">{row.feature}</td>
+                    <td className="py-3 px-4 text-center text-xs text-muted-fg">{row.free}</td>
+                    <td className="py-3 px-4 text-center text-xs font-semibold text-primary-400">{row.pro}</td>
+                    <td className="py-3 px-4 text-center text-xs text-muted-fg">{row.business}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </FadeInSection>
+      </Section>
+
+      {/* Payment Modal */}
+      <PaymentModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        plan={selectedPlan}
+      />
+    </>
   );
 }

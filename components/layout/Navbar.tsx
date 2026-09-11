@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
+import { Logo } from "../ui/Logo";
 import { useCurrentUser, signOut } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 
@@ -290,12 +291,7 @@ export function Navbar() {
             className="flex items-center gap-2.5 group flex-shrink-0 cursor-pointer"
             onClick={handleLogoClick}
           >
-            <div className="h-8 w-8 rounded-xl bg-gradient-to-tr from-primary-600 to-primary-400 flex items-center justify-center shadow-[0_0_16px_rgba(20,184,160,0.5)] group-hover:scale-105 transition-transform duration-200">
-              <span className="text-white font-bold text-sm font-heading">N</span>
-            </div>
-            <span className="font-heading font-bold text-lg sm:text-xl tracking-tight text-foreground group-hover:text-primary-400 transition-colors">
-              Nexora
-            </span>
+            <Logo variant="horizontal" size="md" priority />
           </Link>
 
           {/* Desktop Navigation Links — visible on lg: (1024px+) */}

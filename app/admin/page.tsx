@@ -45,16 +45,21 @@ export default function AdminDashboardPage() {
   const [user, setUser] = useState<UserSession | null>(null);
   const [stats, setStats] = useState<Stats | null>(null);
   const [recent, setRecent] = useState<RecentItem[]>([]);
+  const [pendingPayments, setPendingPayments] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const loadData = useCallback(async () => {
     setLoading(true);
     setUser(getStoredUser());
-    const [statsData, requests, messages] = await Promise.all([
+    const [statsData, requests, messages, paymentStats] = await Promise.all([
       fetchWithAuth<Stats>(`${API_BASE_URL}/api/admin/stats`),
       fetchWithAuth<RecentItem[]>(`${API_BASE_URL}/api/admin/requests?limit=5`),
       fetchWithAuth<RecentItem[]>(`${API_BASE_URL}/api/admin/messages?limit=5`),
+      fetchWithAuth<{ awaiting: number }>(`${API_BASE_URL}/api/payment/admin/stats`),
     ]);
+    if (paymentStats && (paymentStats as any).awaiting !== undefined) {
+      setPendingPayments((paymentStats as any).awaiting);
+    }
     setStats(statsData ?? { totalUsers: 0, totalRequests: 0, totalMessages: 0, totalTeamMembers: 4 });
     const reqItems: RecentItem[] = ((requests as unknown as { data?: RecentItem[] })?.data || (Array.isArray(requests) ? requests : []))
       .slice(0, 4)
@@ -205,6 +210,36 @@ export default function AdminDashboardPage() {
             </div>
           </div>
         </div>
+
+        {/* Pending Payments Alert Banner */}
+        {pendingPayments > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-[0_0_25px_rgba(245,158,11,0.15)]"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center justify-center text-lg flex-shrink-0 animate-pulse">
+                💳
+              </div>
+              <div>
+                <p className="text-sm font-bold text-white flex items-center gap-2">
+                  <span>{pendingPayments} Payment Confirmation{pendingPayments > 1 ? "s" : ""} Awaiting Review</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">Action Required</span>
+                </p>
+                <p className="text-xs text-neutral-300 mt-0.5">
+                  Clients submitted bKash/Nagad transactions for Pro/Business plans. Verify screenshots & activate plans.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/admin/payments"
+              className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold text-xs shadow-md transition-all text-center shrink-0"
+            >
+              Review Payments ({pendingPayments}) →
+            </Link>
+          </motion.div>
+        )}
 
         {/* Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">

@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Section } from "../ui/Section";
 import { Badge } from "../ui/Badge";
 import { Button } from "../ui/Button";
+import { Logo } from "../ui/Logo";
 import { FadeInSection } from "../motion/FadeInSection";
 
 export function AboutHeroSection() {
@@ -19,19 +20,24 @@ export function AboutHeroSection() {
       <div className="absolute top-1/3 -right-24 w-96 h-96 bg-amber-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
-        {/* Breadcrumb / Category Tag */}
+        {/* Category Tag with Official Brand Emblem */}
         <FadeInSection from="bottom" delay={0.05}>
-          <div className="inline-flex items-center gap-2 mb-6">
-            <Link
-              href="/"
-              className="text-xs text-muted-fg hover:text-primary-400 transition-colors"
-            >
-              Home
-            </Link>
-            <span className="text-xs text-muted-fg/40">/</span>
-            <Badge variant="primary" size="sm" dot>
-              About Nexora Agency
-            </Badge>
+          <div className="flex flex-col items-center justify-center mb-6">
+            <div className="mb-4 group">
+              <Logo variant="mark" size={60} priority />
+            </div>
+            <div className="inline-flex items-center gap-2">
+              <Link
+                href="/"
+                className="text-xs text-muted-fg hover:text-primary-400 transition-colors"
+              >
+                Home
+              </Link>
+              <span className="text-xs text-muted-fg/40">/</span>
+              <Badge variant="primary" size="sm" dot>
+                About Nexora Agency
+              </Badge>
+            </div>
           </div>
         </FadeInSection>
 

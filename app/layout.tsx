@@ -35,11 +35,27 @@ export const metadata: Metadata = {
   description:
     "Nexora is a premium digital agency specializing in web development, UI/UX design, and AI-powered website generation. We build fast, beautiful, and scalable digital products.",
   keywords: ["web agency", "AI website builder", "Next.js", "web development", "UI/UX design"],
-  authors: [{ name: "Nexora Agency" }],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [
+      { url: "/apple-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
     siteName: "Nexora Agency",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "Nexora Agency Logo",
+      },
+    ],
   },
 };
 

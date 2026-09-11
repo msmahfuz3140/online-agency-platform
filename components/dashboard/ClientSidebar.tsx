@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut, type UserSession } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/ui/Logo";
 
 interface ClientSidebarProps {
   user: UserSession | null;
@@ -133,9 +134,7 @@ export function ClientSidebar({
       {/* Brand Header */}
       <div className="flex items-center justify-between px-4 py-5 border-b border-white/[0.06] min-h-[65px]">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
-          <span className="h-8 w-8 shrink-0 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-sm shadow-[0_0_20px_rgba(20,184,160,0.4)] group-hover:scale-105 transition-transform">
-            N
-          </span>
+          <Logo variant="mark" size={34} />
           <AnimatePresence>
             {!collapsed && (
               <motion.div
@@ -299,8 +298,12 @@ export function ClientSidebar({
                     ⚡ {user?.aiCreditsRemaining ?? 5} cr
                   </span>
                   <span className="text-neutral-600">•</span>
-                  <span className="text-[10px] text-amber-300 font-mono capitalize leading-none truncate">
-                    {user?.role || "VIP"}
+                  <span className="text-[10px] text-amber-300 font-mono capitalize leading-none truncate font-bold">
+                    {user?.plan === "business"
+                      ? "💎 Business VIP"
+                      : user?.plan === "pro"
+                      ? "👑 Pro Member"
+                      : (user?.role || "Client")}
                   </span>
                 </div>
               </motion.div>

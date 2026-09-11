@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut, type UserSession } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
+import { Logo } from "@/components/ui/Logo";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
 
@@ -25,6 +26,7 @@ const notifIconMap: Record<string, string> = {
   message: "💬",
   reply: "✉️",
   user_register: "👤",
+  payment: "💳",
 };
 
 function formatTimeAgo(dateString: string): string {
@@ -184,17 +186,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
         )}
 
         <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <span className="h-8 w-8 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-sm shadow-[0_0_20px_rgba(20,184,160,0.35)] group-hover:scale-105 transition-transform">
-            N
-          </span>
-          <div className="hidden sm:flex flex-col">
-            <span className="font-heading font-bold text-sm tracking-tight text-white leading-none">
-              Nexora
-            </span>
-            <span className="text-[10px] text-primary-400 font-mono leading-none mt-1">
-              Client Portal
-            </span>
-          </div>
+          <Logo variant="horizontal" size="sm" subtitle="Client Portal" />
         </Link>
 
         <div className="h-4 w-px bg-white/[0.1] hidden sm:block shrink-0" />
@@ -221,6 +213,28 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           <span>🌐</span>
           <span>Main Site</span>
         </Link>
+
+        {/* Active Plan Pill */}
+        {user?.plan && user.plan !== "free" ? (
+          <div
+            className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold font-mono tracking-wider shadow-sm shrink-0 ${
+              user.plan === "business"
+                ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]"
+                : "bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-[0_0_12px_rgba(20,184,160,0.2)]"
+            }`}
+          >
+            <span>{user.plan === "business" ? "💎" : "👑"}</span>
+            <span className="uppercase">{user.plan}</span>
+          </div>
+        ) : (
+          <Link
+            href="/pricing"
+            className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-primary-500/30 text-xs text-neutral-300 hover:text-white transition-all shrink-0"
+          >
+            <span>Upgrade</span>
+            <span className="text-primary-400">⚡</span>
+          </Link>
+        )}
 
         {/* AI Credits Pill */}
         <div className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-300 text-xs font-mono font-medium shadow-[0_0_12px_rgba(20,184,160,0.15)] shrink-0">

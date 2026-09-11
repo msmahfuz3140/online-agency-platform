@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
 import { Button } from "../ui/Button";
+import { Logo } from "../ui/Logo";
 import { FadeInSection } from "../motion/FadeInSection";
 import { StaggerList } from "../motion/StaggerList";
 
@@ -34,7 +35,12 @@ export function AgencyIntroSection() {
       <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
         {/* Left */}
         <FadeInSection from="left">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-3">Who we are</p>
+          <div className="flex items-center gap-3 mb-4">
+            <Logo variant="mark" size={38} />
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary-400 font-mono">
+              Nexora Agency • Mission
+            </span>
+          </div>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             A small team with an <span className="gradient-text">outsized impact.</span>
           </h2>

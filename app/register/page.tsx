@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
+import { Logo } from "@/components/ui/Logo";
 import { useToastPortal } from "@/components/ui/useToastPortal";
 import { signUpEmail, signInSocial } from "@/lib/auth-client";
 
@@ -347,12 +348,7 @@ export default function RegisterPage() {
         {/* Top Branding Navigation */}
         <div className="flex items-center justify-between mb-8">
           <Link href="/" className="inline-flex items-center gap-2.5 group">
-            <span className="h-9 w-9 rounded-xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-base shadow-[0_0_20px_rgba(20,184,160,0.4)] group-hover:scale-105 transition-transform">
-              N
-            </span>
-            <span className="font-heading font-bold text-lg text-foreground tracking-tight">
-              Nexora<span className="text-primary-400">.</span>
-            </span>
+            <Logo variant="horizontal" size="md" showDot priority />
           </Link>
 
           <Link

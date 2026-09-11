@@ -150,9 +150,21 @@ export default function ClientDashboardPage() {
                   <span>Executive Command Center</span>
                 </span>
 
-                <span className="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-amber-400/15 text-amber-300 border border-amber-400/30 capitalize">
-                  {isFounderOrStaff ? "👑 Founder & Super Admin Tier" : "💎 Enterprise VIP Client"}
-                </span>
+                {user?.plan && user.plan !== "free" ? (
+                  <span
+                    className={`px-3 py-1 rounded-full text-[11px] font-mono font-bold border uppercase tracking-wider ${
+                      user.plan === "business"
+                        ? "bg-amber-400/20 text-amber-300 border-amber-400/40 shadow-[0_0_14px_rgba(245,158,11,0.3)]"
+                        : "bg-teal-500/20 text-teal-300 border-teal-500/40 shadow-[0_0_14px_rgba(20,184,160,0.3)]"
+                    }`}
+                  >
+                    {user.plan === "business" ? "💎 Business VIP Plan" : "👑 Pro Plan Active"}
+                  </span>
+                ) : (
+                  <span className="px-2.5 py-1 rounded-full text-[11px] font-mono font-medium bg-amber-400/15 text-amber-300 border border-amber-400/30 capitalize">
+                    {isFounderOrStaff ? "👑 Founder & Super Admin Tier" : "💎 Client Portal"}
+                  </span>
+                )}
 
                 <span className="px-2.5 py-1 rounded-full text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 hidden sm:inline-block">
                   ⚡ 24h Delivery SLA Active
@@ -203,6 +215,64 @@ export default function ClientDashboardPage() {
               NEXORA
             </div>
           </div>
+
+          {/* Active VIP Plan Benefits Card */}
+          {user?.plan && user.plan !== "free" && (
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`p-5 sm:p-6 rounded-3xl border relative overflow-hidden ${
+                user.plan === "business"
+                  ? "bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border-amber-500/30 shadow-[0_0_30px_rgba(245,158,11,0.08)]"
+                  : "bg-gradient-to-r from-teal-500/10 via-teal-500/5 to-transparent border-teal-500/30 shadow-[0_0_30px_rgba(20,184,160,0.08)]"
+              }`}
+            >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-3.5">
+                  <div
+                    className={`h-11 w-11 rounded-2xl flex items-center justify-center text-xl shrink-0 ${
+                      user.plan === "business"
+                        ? "bg-amber-400/20 text-amber-300 border border-amber-400/30"
+                        : "bg-teal-500/20 text-teal-300 border border-teal-500/30"
+                    }`}
+                  >
+                    {user.plan === "business" ? "💎" : "👑"}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-sm font-bold text-white capitalize">
+                        {user.plan} Plan Subscription Active
+                      </h3>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                        Active VIP
+                      </span>
+                    </div>
+                    <p className="text-xs text-neutral-300 mt-0.5">
+                      {user.plan === "business"
+                        ? "500 AI Blueprint Credits • Dedicated Project Manager • Priority 24/7 SLA • Custom Contracts Unlocked"
+                        : "100 AI Blueprint Credits • All 50+ Premium Templates • Code Ownership & GitHub Export • Priority Support Unlocked"}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("ai-builder")}
+                    className="px-3.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-white transition-all"
+                  >
+                    ⚡ Use AI Credits ({user?.aiCreditsRemaining ?? 100})
+                  </button>
+                  <Link
+                    href="/pricing"
+                    className="px-3.5 py-1.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] text-xs font-semibold text-neutral-400 hover:text-white transition-all"
+                  >
+                    Manage Plan
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
 
           {/* Staff & Admin Access Banner (visible for founder / staff accounts) */}
           {isFounderOrStaff && (

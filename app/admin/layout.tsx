@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getStoredUser, setStoredUser, getSession, type UserSession } from "@/lib/auth-client";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminLayoutProvider, useAdminLayout } from "@/components/admin/AdminLayoutContext";
+import { Logo } from "@/components/ui/Logo";
 
 const ALLOWED_STAFF_ROLES = ["superadmin", "admin", "manager", "support", "developer", "editor"];
 
@@ -91,9 +92,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return (
       <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-lg shadow-[0_0_32px_rgba(20,184,160,0.5)] animate-pulse">
-            N
-          </div>
+          <Logo variant="mark" size={56} className="animate-pulse" priority />
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-primary-500 animate-bounce" style={{ animationDelay: "0ms" }} />
             <span className="h-2 w-2 rounded-full bg-primary-500 animate-bounce" style={{ animationDelay: "150ms" }} />

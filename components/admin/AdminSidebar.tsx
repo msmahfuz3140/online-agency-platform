@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { signOut } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { Logo } from "@/components/ui/Logo";
 
 interface NavItem {
   href: string;
@@ -86,10 +87,19 @@ function SparklesIcon() {
   );
 }
 
+function CreditCardIcon() {
+  return (
+    <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-6.75 4.5h16.5a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5H3.75A2.25 2.25 0 0 0 1.5 6.75v10.5a2.25 2.25 0 0 0 2.25 2.25Z" />
+    </svg>
+  );
+}
+
 interface AdminSidebarProps {
   user: { name: string; email: string; role: string } | null;
   requestsBadge?: number;
   messagesBadge?: number;
+  paymentsBadge?: number;
   mobileOpen?: boolean;
   onCloseMobile?: () => void;
 }
@@ -98,14 +108,27 @@ export function AdminSidebar({
   user,
   requestsBadge = 0,
   messagesBadge = 0,
+  paymentsBadge = 0,
   mobileOpen = false,
   onCloseMobile,
 }: AdminSidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const [sidebarProfileOpen, setSidebarProfileOpen] = useState(false);
+  const [livePendingPayments, setLivePendingPayments] = useState(0);
   const sidebarProfileRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000"}/api/payment/admin/stats`)
+      .then(res => res.json())
+      .then(data => {
+        if (data?.success && data?.data?.awaiting !== undefined) {
+          setLivePendingPayments(data.data.awaiting);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -139,6 +162,13 @@ export function AdminSidebar({
       label: "My Workspace",
       icon: <SparklesIcon />,
       allowed: true,
+    },
+    {
+      href: "/admin/payments",
+      label: "Payments",
+      icon: <CreditCardIcon />,
+      badge: paymentsBadge || livePendingPayments,
+      allowed: isSuperAdminOrAdmin || isManager,
     },
     {
       href: "/admin/team",
@@ -191,9 +221,7 @@ export function AdminSidebar({
       {/* Logo */}
       <div className="flex items-center gap-3 px-4 py-5 border-b border-white/[0.06] min-h-[65px]">
         <Link href="/admin" className="flex items-center gap-3 group shrink-0">
-          <span className="h-8 w-8 shrink-0 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-sm shadow-[0_0_16px_rgba(20,184,160,0.4)] group-hover:scale-105 transition-transform">
-            N
-          </span>
+          <Logo variant="mark" size={34} />
           <AnimatePresence>
             {!collapsed && (
               <motion.div
@@ -502,13 +530,7 @@ export function AdminSidebar({
                 onClick={onCloseMobile}
                 className="flex items-center gap-3 group shrink-0"
               >
-                <span className="h-8 w-8 shrink-0 rounded-lg bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center font-heading font-black text-black text-sm shadow-[0_0_16px_rgba(20,184,160,0.4)]">
-                  N
-                </span>
-                <div className="flex flex-col leading-none">
-                  <span className="font-heading font-bold text-sm text-white tracking-tight">Nexora</span>
-                  <span className="text-[10px] text-primary-400 font-mono font-medium">Admin Panel</span>
-                </div>
+                <Logo variant="horizontal" size="sm" subtitle="Admin Panel" />
               </Link>
 
               <button

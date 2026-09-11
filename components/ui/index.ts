@@ -8,3 +8,4 @@ export type { ToastData, ToastType } from "./Toast";
 export { useToast } from "./useToast";
 export { useToastPortal } from "./useToastPortal";
 export { Skeleton, CardSkeleton, StatCardSkeleton } from "./SkeletonLoader";
+export { FileUpload } from "./FileUpload";

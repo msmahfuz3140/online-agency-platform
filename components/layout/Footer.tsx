@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "../ui/Logo";
 
 const footerLinks = {
   Services: [
@@ -30,10 +31,12 @@ export function Footer() {
           {/* Brand col — full width on xs, spans 2 cols on sm */}
           <div className="col-span-2 sm:col-span-2 lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 group w-fit">
-              <div className="h-8 w-8 rounded-lg bg-primary-500 flex items-center justify-center shadow-[0_0_12px_rgba(20,184,160,0.3)]">
-                <span className="text-white font-bold text-sm">N</span>
-              </div>
-              <span className="font-heading font-bold text-lg text-foreground">Nexora</span>
+              <Logo
+                variant="horizontal"
+                size="md"
+                subtitle="Ideas • Websites • Growth"
+                showDot
+              />
             </Link>
             <p className="mt-4 text-sm text-muted-fg leading-relaxed max-w-xs">
               Premium digital agency specializing in web development and AI-powered website generation. We build products that convert.

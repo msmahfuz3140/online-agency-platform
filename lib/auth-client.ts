@@ -11,6 +11,10 @@ export interface UserSession {
   email: string;
   role: string;
   aiCreditsRemaining: number;
+  plan?: "free" | "pro" | "business";
+  planStatus?: "active" | "inactive" | "expired";
+  planExpiresAt?: string | null;
+  planActivatedAt?: string | null;
 }
 
 export interface AuthResponse {
@@ -246,22 +250,56 @@ export async function signInSocial(
  */
 export async function getSession(): Promise<UserSession | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/get-session`, {
-      credentials: "include",
-    });
-    if (!res.ok) return getStoredUser();
-    const data = await res.json();
-    if (data && data.user) {
-      const formattedUser: UserSession = {
-        id: data.user.id || data.user._id || `usr_${Date.now()}`,
-        name: data.user.name || data.user.email?.split("@")[0] || "User",
-        email: data.user.email || "",
-        role: data.user.role || "user",
-        aiCreditsRemaining: data.user.aiCreditsRemaining ?? 5,
-      };
-      setStoredUser(formattedUser);
-      return formattedUser;
+    const [authRes, meRes] = await Promise.all([
+      fetch(`${API_BASE_URL}/api/auth/get-session`, { credentials: "include" }).catch(() => null),
+      fetch(`${API_BASE_URL}/api/user/me`, { credentials: "include" }).catch(() => null),
+    ]);
+
+    let meData: any = null;
+    if (meRes && meRes.ok) {
+      const meJson = await meRes.json().catch(() => null);
+      if (meJson?.success && meJson?.user) {
+        meData = meJson.user;
+      }
     }
+
+    if (authRes && authRes.ok) {
+      const data = await authRes.json();
+      if (data && data.user) {
+        const formattedUser: UserSession = {
+          id: data.user.id || data.user._id || meData?.id || `usr_${Date.now()}`,
+          name: meData?.name || data.user.name || data.user.email?.split("@")[0] || "User",
+          email: meData?.email || data.user.email || "",
+          role: meData?.role || data.user.role || "user",
+          aiCreditsRemaining: meData?.aiCreditsRemaining ?? data.user.aiCreditsRemaining ?? 5,
+          plan: meData?.plan || "free",
+          planStatus: meData?.planStatus || "active",
+          planExpiresAt: meData?.planExpiresAt || null,
+          planActivatedAt: meData?.planActivatedAt || null,
+        };
+        setStoredUser(formattedUser);
+        return formattedUser;
+      }
+    }
+
+    if (meData) {
+      const stored = getStoredUser();
+      const updated: UserSession = {
+        ...(stored || {}),
+        id: meData.id || stored?.id || `usr_${Date.now()}`,
+        name: meData.name || stored?.name || "User",
+        email: meData.email || stored?.email || "",
+        role: meData.role || stored?.role || "user",
+        aiCreditsRemaining: meData.aiCreditsRemaining ?? stored?.aiCreditsRemaining ?? 5,
+        plan: meData.plan || "free",
+        planStatus: meData.planStatus || "active",
+        planExpiresAt: meData.planExpiresAt || null,
+        planActivatedAt: meData.planActivatedAt || null,
+      };
+      setStoredUser(updated);
+      return updated;
+    }
+
     return getStoredUser();
   } catch {
     return getStoredUser();
