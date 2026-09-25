@@ -19,7 +19,7 @@ const footerLinks = {
   Resources: [
     { label: "Pricing", href: "/pricing" },
     { label: "FAQ", href: "/#faq" },
-    { label: "Request a Project", href: "/request" },
+    { label: "Request a Project", href: "/request-project" },
   ],
 };
 
@@ -111,8 +111,8 @@ export function Footer() {
             © {new Date().getFullYear()} Nexora Agency. All rights reserved.
           </p>
           <div className="flex gap-4 text-xs text-muted-fg">
-            <Link href="#" className="hover:text-foreground transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

@@ -10,7 +10,8 @@ import { ClientSidebar } from "@/components/dashboard/ClientSidebar";
 import { ProjectPipelineTracker } from "@/components/dashboard/ProjectPipelineTracker";
 import { AiGeneratorLauncher } from "@/components/dashboard/AiGeneratorLauncher";
 import { ClientMessagesInbox } from "@/components/dashboard/ClientMessagesInbox";
-import { getStoredUser, getSession, type UserSession } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { getStoredUser, setStoredUser, getSession, type UserSession } from "@/lib/auth-client";
 
 const creditSparkline = [20, 40, 30, 60, 50, 80, 70, 90, 85, 95, 90, 100];
 const sprintSparkline = [10, 25, 40, 35, 55, 65, 70, 75, 80, 85, 90, 95];
@@ -18,32 +19,65 @@ const edgeSparkline   = [99, 100, 99, 100, 100, 99, 100, 100, 100, 100, 100, 100
 const slaSparkline    = [90, 92, 95, 94, 96, 98, 97, 99, 98, 99, 100, 100];
 
 export default function ClientDashboardPage() {
+  const router = useRouter();
   const [user, setUser] = useState<UserSession | null>(null);
   const [activeTab, setActiveTab] = useState<"overview" | "projects" | "ai-builder" | "support" | "messages">("overview");
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {
     setMounted(true);
-    const stored = getStoredUser();
-    if (stored) {
-      setUser(stored);
-    } else {
-      // Graceful fallback during session sync
-      setUser({
-        id: "usr_founder_01",
-        name: "MD.MAHFUZUL HAQUE",
-        email: "mdmahfuzulhaque3140@gmail.com",
-        role: "superadmin",
-        aiCreditsRemaining: 5,
-      });
+
+    async function verifyAuth() {
+      // 1. Check local session storage first
+      const stored = getStoredUser();
+      if (stored && stored.id && stored.email) {
+        setUser(stored);
+        setCheckingAuth(false);
+        return;
+      }
+
+      // 2. Query backend for active session
+      try {
+        const sessionUser = await getSession();
+        if (sessionUser && sessionUser.id && sessionUser.email) {
+          setUser(sessionUser);
+          setStoredUser(sessionUser);
+          setCheckingAuth(false);
+          return;
+        }
+      } catch (err) {
+        console.warn("Session check error on dashboard:", err);
+      }
+
+      // 3. Dev-only localhost preview fallback
+      const isLocalhost =
+        typeof window !== "undefined" &&
+        (window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1" ||
+          process.env.NODE_ENV === "development");
+
+      if (isLocalhost) {
+        const devFounder: UserSession = {
+          id: "usr_founder_01",
+          name: "MD.MAHFUZUL HAQUE",
+          email: "mdmahfuzulhaque3140@gmail.com",
+          role: "superadmin",
+          aiCreditsRemaining: 5,
+        };
+        setUser(devFounder);
+        setStoredUser(devFounder);
+        setCheckingAuth(false);
+        return;
+      }
+
+      // 4. In production, unauthenticated visitors are redirected to /login
+      setCheckingAuth(false);
+      router.replace("/login?redirect=/dashboard");
     }
 
-    getSession().then((sessionUser) => {
-      if (sessionUser) {
-        setUser(sessionUser);
-      }
-    });
+    verifyAuth();
 
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
@@ -52,14 +86,27 @@ export default function ClientDashboardPage() {
         setActiveTab(tabParam as any);
       }
     }
-  }, []);
+  }, [router]);
 
-  if (!mounted) return null;
+  if (!mounted || (checkingAuth && !user)) {
+    return (
+      <div className="min-h-screen bg-[#070c16] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 rounded-xl bg-primary-500/20 border border-primary-500/40 flex items-center justify-center animate-pulse">
+            <span className="text-primary-400 font-bold font-mono">NX</span>
+          </div>
+          <p className="text-xs text-neutral-400 font-medium tracking-wide">Loading Client Workspace…</p>
+        </div>
+      </div>
+    );
+  }
 
-  const userRole = (user?.role || "superadmin").toLowerCase();
+  if (!user) return null;
+
+  const userRole = (user.role || "user").toLowerCase();
   const isFounderOrStaff =
     ["superadmin", "admin", "manager", "developer", "support", "editor"].includes(userRole) ||
-    user?.email?.toLowerCase().includes("mahfuz");
+    Boolean(user.email?.toLowerCase().includes("mahfuz"));
 
   return (
     <div className="flex h-screen bg-[#070c16] text-foreground overflow-hidden relative">

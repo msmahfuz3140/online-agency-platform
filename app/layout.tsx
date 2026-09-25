@@ -27,7 +27,10 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://online-agency-platform.vercel.app";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     default: "Nexora Agency — Premium Web & AI Solutions",
     template: "%s | Nexora Agency",
