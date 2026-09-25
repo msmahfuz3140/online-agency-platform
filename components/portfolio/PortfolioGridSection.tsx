@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../ui/Section";
 import { Card } from "../ui/Card";
@@ -32,31 +33,81 @@ export interface ProjectItem {
   icon: string;
   year: string;
   badge?: string;
+  image?: string;
 }
 
 const projects: ProjectItem[] = [
   {
-    id: "finflow-saas",
-    title: "Finflow",
-    tagline: "Multi-tenant finance SaaS dashboard",
+    id: "tutor-finder",
+    title: "Tutor Finder",
+    tagline: "MediQueue: Elevating Tutor Booking UX",
     category: "SaaS & Web App",
     description:
-      "A comprehensive multi-tenant SaaS platform for finance teams — real-time analytics, role-based access control, Stripe billing integration, and a beautiful recharts dashboard.",
+      "An intuitive tutor discovery and booking platform featuring automated slot scheduling, verified tutor profiles, and comprehensive booking UX.",
     features: [
-      "Multi-tenant workspace isolation",
-      "Real-time data with WebSocket updates",
-      "Stripe subscription & invoice management",
-      "Role-based access (Owner, Admin, Viewer)",
-      "Export CSV / PDF financial reports",
+      "Real-time tutor slot scheduling & booking",
+      "Verified tutor identity & credential badges",
+      "Cross-device responsive interface (Mobile, Tablet, Desktop)",
+      "Automated confirmation & notification dispatch",
+      "Student booking dashboard & session calendar",
     ],
-    tech: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Stripe", "Recharts"],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "Express.js", "MongoDB"],
     liveUrl: "#",
     githubUrl: "#",
     gradient: "from-primary-500/25 via-primary-500/10 to-transparent",
     accentColor: "text-primary-400",
-    icon: "📊",
+    icon: "🎓",
     year: "2025",
     badge: "Featured",
+    image: "/images/projects/tutor-finder.png",
+  },
+  {
+    id: "blood-donation",
+    title: "Blood Donation",
+    tagline: "Be a Hero: Emergency Blood Donor Network",
+    category: "SaaS & Web App",
+    description:
+      "A mission-critical emergency blood donor matching and request system connecting donors, hospitals, and blood banks with instant geolocation alerts.",
+    features: [
+      "Emergency blood request dispatch system",
+      "Blood group compatibility & availability tracker",
+      "Donor profile management & donation history",
+      "Interactive blood bank locator & direct call integration",
+      "Real-time SMS / Push notification alert pipeline",
+    ],
+    tech: ["React", "Node.js", "MongoDB", "Express", "REST API"],
+    liveUrl: "#",
+    githubUrl: "#",
+    gradient: "from-red-500/25 via-red-500/10 to-transparent",
+    accentColor: "text-red-400",
+    icon: "🩸",
+    year: "2025",
+    badge: "Featured",
+    image: "/images/projects/blood-donation.png",
+  },
+  {
+    id: "coaching-lms",
+    title: "Coaching Center",
+    tagline: "Coaching LMS: Modern EdTech Solution",
+    category: "SaaS & Web App",
+    description:
+      "A modern EdTech learning management system engineered for coaching institutes — course catalogs, student analytics, notice boards, and role-based administration.",
+    features: [
+      "Centralized course management & enrollment tracker",
+      "Role-based workspaces (Admin, Teacher, Student)",
+      "Real-time notice board & announcements module",
+      "Student progress analytics & performance metrics",
+      "Interactive course cards & category navigation",
+    ],
+    tech: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Tailwind CSS"],
+    liveUrl: "#",
+    githubUrl: "#",
+    gradient: "from-amber-500/25 via-amber-500/10 to-transparent",
+    accentColor: "text-amber-400",
+    icon: "📚",
+    year: "2025",
+    badge: "Featured",
+    image: "/images/projects/coaching-center.jpg",
   },
   {
     id: "bloom-ecommerce",
@@ -289,11 +340,22 @@ export function PortfolioGridSection({
               <Card hover padding="none" className="group overflow-hidden h-full flex flex-col">
                 {/* Project visual header */}
                 <div
-                  className={`relative h-44 bg-gradient-to-br ${project.gradient} border-b border-border flex items-center justify-center overflow-hidden`}
+                  className={`relative h-44 bg-neutral-900 border-b border-border flex items-center justify-center overflow-hidden`}
                 >
-                  <span className="text-5xl select-none opacity-60 group-hover:opacity-90 group-hover:scale-110 transition-all duration-300">
-                    {project.icon}
-                  </span>
+                  {project.image ? (
+                    <Image
+                      src={project.image}
+                      alt={`${project.title} thumbnail`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out"
+                    />
+                  ) : (
+                    <span className="text-5xl select-none opacity-60 group-hover:opacity-90 group-hover:scale-110 transition-all duration-300">
+                      {project.icon}
+                    </span>
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
                   {/* Overlay badges */}
                   <div className="absolute top-3 left-3 flex gap-2">
                     <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900/80 text-muted-fg border border-border backdrop-blur-sm">
