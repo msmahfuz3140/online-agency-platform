@@ -166,45 +166,58 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
   ].includes((user?.role || "").toLowerCase()) || user?.email?.toLowerCase().includes("mahfuz");
 
   return (
-    <header className="sticky top-0 z-30 h-16 border-b border-white/[0.07] bg-[#080e1a]/90 backdrop-blur-2xl px-3 sm:px-6 lg:px-8 flex items-center justify-between transition-all shrink-0">
-      {/* Left: Hamburger & Brand Identity & Environment Switcher */}
-      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-        {/* Mobile Hamburger Toggle Button */}
-        {onOpenMobileSidebar && (
-          <button
-            type="button"
-            onClick={onOpenMobileSidebar}
-            aria-label="Open sidebar menu"
-            className="md:hidden p-2 rounded-xl text-neutral-300 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-all cursor-pointer shrink-0"
-          >
-            <div className="w-4 h-4 flex flex-col justify-center gap-[4px]">
-              <span className="block h-0.5 w-4 bg-current rounded-full" />
-              <span className="block h-0.5 w-4 bg-current rounded-full" />
-              <span className="block h-0.5 w-4 bg-current rounded-full" />
+    <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#080e1a]/95 backdrop-blur-2xl transition-all shrink-0 w-full">
+      {/* Top Navbar Row */}
+      <div className="h-14 sm:h-16 px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2 max-w-full">
+        {/* Left: Hamburger & Brand Identity & Environment Switcher */}
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
+          {/* Mobile Hamburger Toggle Button */}
+          {onOpenMobileSidebar && (
+            <button
+              type="button"
+              onClick={onOpenMobileSidebar}
+              aria-label="Open sidebar menu"
+              className="md:hidden p-2 rounded-xl text-neutral-300 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] active:scale-95 transition-all cursor-pointer shrink-0"
+            >
+              <div className="w-4 h-4 flex flex-col justify-center gap-[3.5px]">
+                <span className="block h-0.5 w-4 bg-current rounded-full" />
+                <span className="block h-0.5 w-4 bg-current rounded-full" />
+                <span className="block h-0.5 w-4 bg-current rounded-full" />
+              </div>
+            </button>
+          )}
+
+          {/* Adaptive Logo */}
+          <Link href="/" className="flex items-center gap-2 group shrink-0">
+            <div className="sm:hidden flex items-center gap-1.5">
+              <Logo variant="mark" size={26} />
+              <span className="font-heading font-bold text-sm text-foreground group-hover:text-primary-400 transition-colors">
+                Nexora<span className="text-primary-400">.</span>
+              </span>
             </div>
-          </button>
-        )}
+            <div className="hidden sm:block">
+              <Logo variant="horizontal" size="sm" subtitle="Client Portal" />
+            </div>
+          </Link>
 
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <Logo variant="horizontal" size="sm" subtitle="Client Portal" />
-        </Link>
+          <div className="h-4 w-px bg-white/[0.1] hidden sm:block shrink-0" />
 
-        <div className="h-4 w-px bg-white/[0.1] hidden sm:block shrink-0" />
+          {/* Dedicated Environment Switcher */}
+          <div className="shrink-0">
+            <WorkspaceSwitcher current="dashboard" align="left" />
+          </div>
 
-        {/* Dedicated Environment Switcher */}
-        <WorkspaceSwitcher current="dashboard" align="left" />
-
-        {/* Live system clock & pulsing status */}
-        <div className="hidden xl:flex items-center gap-2 ml-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 font-mono shrink-0">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
-          <span className="font-semibold">{time || "00:00:00"}</span>
-          <span className="text-neutral-500">•</span>
-          <span className="text-[10px] text-emerald-400 font-sans font-medium">99.99% Edge SLA</span>
+          {/* Live system clock & pulsing status */}
+          <div className="hidden xl:flex items-center gap-2 ml-1 px-2.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-[11px] text-emerald-300 font-mono shrink-0">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-ping" />
+            <span className="font-semibold">{time || "00:00:00"}</span>
+            <span className="text-neutral-500">•</span>
+            <span className="text-[10px] text-emerald-400 font-sans font-medium">99.99% Edge SLA</span>
+          </div>
         </div>
-      </div>
 
-      {/* Right: Quick actions, notifications, and profile */}
-      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+        {/* Right: Quick actions, notifications, and profile */}
+        <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
         {/* Quick link to main site */}
         <Link
           href="/"
@@ -485,6 +498,37 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
         </AnimatePresence>
         </div>
       </div>
-    </header>
-  );
+    </div>
+
+    {/* Mobile Horizontal Quick-Tab Navigator */}
+    {onSelectTab && (
+      <div className="md:hidden border-t border-white/[0.06] bg-[#070c18]/95 px-2.5 py-1.5 flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+        {[
+          { id: "overview", label: "Overview", icon: "📊" },
+          { id: "projects", label: "Sprints", icon: "💼" },
+          { id: "ai-builder", label: "AI Builder", icon: "⚡" },
+          { id: "messages", label: "Inbox", icon: "💬" },
+          { id: "support", label: "Support", icon: "🛡️" },
+        ].map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => onSelectTab(tab.id)}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer ${
+                isActive
+                  ? "bg-primary-500/20 text-primary-300 border border-primary-500/40 shadow-[0_0_10px_rgba(20,184,160,0.25)]"
+                  : "bg-white/[0.03] text-neutral-400 border border-white/[0.06] hover:text-white"
+              }`}
+            >
+              <span className="text-xs">{tab.icon}</span>
+              <span>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    )}
+  </header>
+);
 }
