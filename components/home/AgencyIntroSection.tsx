@@ -19,7 +19,7 @@ const highlights = [
   },
   {
     icon: "🤖",
-    title: "AI-Powered Generation",
+    title: "AI-Powered Generation (Coming Soon)",
     desc: "Generate a fully structured website from your business brief in minutes using our Claude-powered engine.",
   },
   {
@@ -37,7 +37,7 @@ export function AgencyIntroSection() {
         <FadeInSection from="left">
           <div className="flex items-center gap-3 mb-4">
             <Logo variant="mark" size={38} />
-            <span className="text-xs font-semibold uppercase tracking-widest text-primary-400 font-mono">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 font-mono">
               Nexora Agency • Mission
             </span>
           </div>

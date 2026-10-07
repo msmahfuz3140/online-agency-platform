@@ -31,7 +31,7 @@ const presets: PresetSite[] = [
     category: "B2B Software",
     icon: "🚀",
     prompt: "Modern dark-mode landing page for an AI analytics platform with real-time dashboards and team workflows.",
-    themeColor: "text-primary-400 border-primary-500/40 bg-primary-500/10",
+    themeColor: "text-primary-600 dark:text-primary-400 border-primary-500/40 bg-primary-500/10",
     accentBg: "from-primary-500/20 via-primary-500/5 to-transparent",
     navTitle: "CloudFlow AI",
     heroBadge: "v2.4 Released with Claude Sonnet 4.6",
@@ -50,7 +50,7 @@ const presets: PresetSite[] = [
     category: "Cyber Security",
     icon: "🛡️",
     prompt: "Hardened cybersecurity agency website offering penetration testing, zero-day threat defense, and compliance audits.",
-    themeColor: "text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
+    themeColor: "text-emerald-600 dark:text-emerald-400 border-emerald-500/40 bg-emerald-500/10",
     accentBg: "from-emerald-500/20 via-emerald-500/5 to-transparent",
     navTitle: "Nexus Security",
     heroBadge: "OWASP & SOC2 Type II Certified",
@@ -69,7 +69,7 @@ const presets: PresetSite[] = [
     category: "Coffee & Food",
     icon: "☕",
     prompt: "Boutique specialty coffee roastery website with online ordering, bean subscription, and cafe locator.",
-    themeColor: "text-amber-400 border-amber-500/40 bg-amber-500/10",
+    themeColor: "text-amber-600 dark:text-amber-400 border-amber-500/40 bg-amber-500/10",
     accentBg: "from-amber-500/20 via-amber-500/5 to-transparent",
     navTitle: "Aura Roasters",
     heroBadge: "Direct-Trade Ethically Sourced Beans",
@@ -88,7 +88,7 @@ const presets: PresetSite[] = [
     category: "Design Agency",
     icon: "✨",
     prompt: "Award-winning creative design studio portfolio specializing in 3D WebGL, branding, and luxury digital products.",
-    themeColor: "text-violet-400 border-violet-500/40 bg-violet-500/10",
+    themeColor: "text-violet-600 dark:text-violet-400 border-violet-500/40 bg-violet-500/10",
     accentBg: "from-violet-500/20 via-violet-500/5 to-transparent",
     navTitle: "Vanguard Studio",
     heroBadge: "Awwwards Site of the Day Winner",
@@ -258,7 +258,7 @@ export function AiGeneratorDemoSection() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-30 backdrop-blur-md bg-neutral-950/85 flex flex-col items-center justify-center p-6 text-center"
+                  className="absolute inset-0 z-30 backdrop-blur-md bg-background/85 dark:bg-neutral-950/85 flex flex-col items-center justify-center p-6 text-center"
                 >
                   <div className="h-12 w-12 rounded-2xl bg-primary-500/20 border border-primary-500 flex items-center justify-center animate-spin text-xl mb-4">
                     ⚡
@@ -276,7 +276,7 @@ export function AiGeneratorDemoSection() {
             {/* Generated Page Content */}
             <div className="relative z-10">
               {/* Generated Mini Navbar */}
-              <div className="flex items-center justify-between pb-6 mb-6 border-b border-neutral-800/80">
+              <div className="flex items-center justify-between pb-6 mb-6 border-b border-border">
                 <div className="flex items-center gap-2">
                   <div className="h-6 w-6 rounded bg-primary-500/20 border border-primary-500/40 flex items-center justify-center text-xs">
                     {activePreset.icon}
@@ -285,7 +285,7 @@ export function AiGeneratorDemoSection() {
                     {activePreset.navTitle}
                   </span>
                 </div>
-                <div className="hidden sm:flex items-center gap-4 text-xs text-neutral-400 font-medium">
+                <div className="hidden sm:flex items-center gap-4 text-xs text-muted-fg font-medium">
                   <span>Features</span>
                   <span>Pricing</span>
                   <span>About</span>
@@ -310,20 +310,20 @@ export function AiGeneratorDemoSection() {
                   {activePreset.headline}
                 </h3>
 
-                <p className="mt-3 text-xs sm:text-sm text-neutral-400 leading-relaxed max-w-lg">
+                <p className="mt-3 text-xs sm:text-sm text-muted-fg leading-relaxed max-w-lg">
                   {activePreset.subheadline}
                 </p>
 
                 <div className="mt-5 flex flex-wrap gap-2.5">
                   <button
                     type="button"
-                    className="px-4 py-2 rounded-xl bg-white text-neutral-950 text-xs sm:text-sm font-semibold hover:bg-neutral-200 transition-colors shadow-md"
+                    className="px-4 py-2 rounded-xl bg-neutral-900 text-white dark:bg-white dark:text-neutral-950 text-xs sm:text-sm font-semibold hover:bg-neutral-800 dark:hover:bg-neutral-200 transition-colors shadow-md"
                   >
                     {activePreset.ctaText} →
                   </button>
                   <button
                     type="button"
-                    className="px-4 py-2 rounded-xl bg-neutral-900 border border-neutral-800 text-neutral-300 text-xs sm:text-sm font-medium hover:bg-neutral-800 transition-colors"
+                    className="px-4 py-2 rounded-xl bg-surface-2 dark:bg-neutral-900 border border-border dark:border-neutral-800 text-foreground dark:text-neutral-300 text-xs sm:text-sm font-medium hover:bg-surface-3 dark:hover:bg-neutral-800 transition-colors"
                   >
                     Documentation
                   </button>
@@ -331,17 +331,17 @@ export function AiGeneratorDemoSection() {
               </div>
 
               {/* Generated 3 Features */}
-              <div className="mt-8 pt-6 border-t border-neutral-800/80 grid sm:grid-cols-3 gap-3">
+              <div className="mt-8 pt-6 border-t border-border grid sm:grid-cols-3 gap-3">
                 {activePreset.features.map((feat) => (
                   <div
                     key={feat.title}
-                    className="p-3 rounded-xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700 transition-colors"
+                    className="p-3 rounded-xl bg-card dark:bg-neutral-900/60 border border-border dark:border-neutral-800 hover:border-primary-500/30 dark:hover:border-neutral-700 transition-colors shadow-xs"
                   >
                     <span className="text-lg">{feat.icon}</span>
                     <h4 className="font-heading font-semibold text-xs text-foreground mt-1.5">
                       {feat.title}
                     </h4>
-                    <p className="text-[11px] text-neutral-400 leading-relaxed mt-1">
+                    <p className="text-[11px] text-muted-fg leading-relaxed mt-1">
                       {feat.desc}
                     </p>
                   </div>
@@ -350,8 +350,8 @@ export function AiGeneratorDemoSection() {
             </div>
 
             {/* Bottom Builder Action Bar */}
-            <div className="mt-8 pt-4 border-t border-neutral-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 relative z-10">
-              <p className="text-xs text-neutral-400 text-center sm:text-left">
+            <div className="mt-8 pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-3 relative z-10">
+              <p className="text-xs text-muted-fg text-center sm:text-left">
                 Want to generate a custom website for your business with full code export?
               </p>
               <Button size="sm" variant="primary" asChild className="whitespace-nowrap">

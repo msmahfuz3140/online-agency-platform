@@ -119,7 +119,7 @@ export function ServicesOverviewSection() {
       {/* Centered Section Header */}
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">
             Complete Digital Solutions
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -142,7 +142,7 @@ export function ServicesOverviewSection() {
             >
               <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform">{p.icon}</span>
               <div className="min-w-0">
-                <p className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary-400 transition-colors truncate">
+                <p className="text-xs sm:text-sm font-semibold text-foreground group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
                   {p.name}
                 </p>
                 <p className="text-[11px] text-muted-fg truncate mt-0.5">
@@ -175,7 +175,7 @@ export function ServicesOverviewSection() {
                   </Badge>
                 </div>
 
-                <h3 className="font-heading font-semibold text-sm sm:text-base text-foreground leading-snug group-hover:text-primary-400 transition-colors">
+                <h3 className="font-heading font-semibold text-sm sm:text-base text-foreground leading-snug group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                   {s.title}
                 </h3>
 
@@ -198,9 +198,9 @@ export function ServicesOverviewSection() {
 
               <div className="mt-5 pt-3.5 border-t border-border/60 flex items-center justify-between">
                 <span className="text-[11px] text-muted-fg">
-                  Delivery: <span className="text-primary-400 font-medium">{s.from}</span>
+                  Delivery: <span className="text-primary-600 dark:text-primary-400 font-medium">{s.from}</span>
                 </span>
-                <span className="text-xs text-primary-400 font-medium flex items-center gap-1">
+                <span className="text-xs text-primary-600 dark:text-primary-400 font-medium flex items-center gap-1">
                   Explore →
                 </span>
               </div>
@@ -213,7 +213,7 @@ export function ServicesOverviewSection() {
       <FadeInSection delay={0.2}>
         <div className="mt-12 p-6 sm:p-8 rounded-2xl border border-primary-500/30 bg-surface/80 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-4xl mx-auto shadow-[0_12px_36px_rgba(20,184,160,0.06)]">
           <div className="text-center sm:text-left">
-            <span className="text-xs font-mono font-semibold text-primary-400">16 SPECIALIZED OFFERINGS</span>
+            <span className="text-xs font-mono font-semibold text-primary-600 dark:text-primary-400">16 SPECIALIZED OFFERINGS</span>
             <h4 className="font-heading text-lg sm:text-xl font-bold text-foreground mt-0.5">
               Looking for our complete catalog of services & deliverables?
             </h4>

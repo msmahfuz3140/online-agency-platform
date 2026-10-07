@@ -135,7 +135,7 @@ export function ClientImpactSection() {
           <h3 className="font-heading font-bold text-lg sm:text-xl text-foreground">
             Transformation Spotlights
           </h3>
-          <span className="text-xs text-primary-400 font-medium hidden sm:inline">
+          <span className="text-xs text-primary-600 dark:text-primary-400 font-medium hidden sm:inline">
             Before vs. After Results
           </span>
         </div>
@@ -168,7 +168,7 @@ export function ClientImpactSection() {
 
               {/* Before Box */}
               <div className="p-3 rounded-xl bg-red-500/5 border border-red-500/20 mb-3">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-red-400 mb-1">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-red-600 dark:text-red-400 mb-1">
                   Before Nexora
                 </p>
                 <p className="text-xs text-muted-fg leading-snug">{item.before}</p>
@@ -176,7 +176,7 @@ export function ClientImpactSection() {
 
               {/* After Box */}
               <div className="p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-400 mb-1">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-1">
                   After Transformation
                 </p>
                 <p className="text-xs text-foreground/90 leading-snug">{item.after}</p>
@@ -186,7 +186,7 @@ export function ClientImpactSection() {
             <div className="mt-5 pt-3 border-t border-border/50">
               <Link
                 href="/portfolio"
-                className="text-xs font-semibold text-primary-400 group-hover:underline flex items-center justify-between"
+                className="text-xs font-semibold text-primary-600 dark:text-primary-400 group-hover:underline flex items-center justify-between"
               >
                 <span>Read Full Case Study</span>
                 <span>→</span>

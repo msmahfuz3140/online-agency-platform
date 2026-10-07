@@ -63,7 +63,7 @@ export function PricingPreviewSection() {
     <Section id="pricing">
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Pricing</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">Pricing</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">Transparent pricing.</h2>
           <p className="mt-3 sm:mt-4 text-sm text-muted-fg max-w-sm mx-auto">
             No surprise invoices. Fixed-scope packages with clear deliverables.
@@ -95,7 +95,7 @@ export function PricingPreviewSection() {
             <ul className="mt-5 sm:mt-6 space-y-2.5 flex-1">
               {p.features.map((f) => (
                 <li key={f} className="flex items-start gap-2 text-xs text-muted-fg">
-                  <svg className="h-4 w-4 text-primary-400 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                  <svg className="h-4 w-4 text-primary-600 dark:text-primary-400 mt-0.5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clipRule="evenodd" />
                   </svg>
                   {f}
@@ -115,7 +115,7 @@ export function PricingPreviewSection() {
       <FadeInSection delay={0.2}>
         <p className="text-center mt-7 sm:mt-8 text-xs text-muted-fg">
           Need something custom?{" "}
-          <Link href="/contact" className="text-primary-400 hover:underline">Let&apos;s talk →</Link>
+          <Link href="/contact" className="text-primary-600 dark:text-primary-400 hover:underline">Let&apos;s talk →</Link>
         </p>
       </FadeInSection>
     </Section>

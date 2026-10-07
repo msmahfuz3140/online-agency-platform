@@ -35,7 +35,7 @@ export function HeroSection() {
               transition={{ duration: 0.4 }}
             >
               <Badge variant="primary" dot className="mb-4 sm:mb-5">
-                Now with AI Website Generation
+                AI Website Builder · Coming Soon
               </Badge>
             </motion.div>
 
@@ -128,8 +128,8 @@ export function HeroSection() {
                   <p className="text-xs text-muted-fg mt-0.5">{proj.type} · Live</p>
                 </div>
                 <div className="ml-auto flex-shrink-0">
-                  <span className="inline-flex items-center gap-1 text-xs text-emerald-400">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400 animate-pulse" />
                     Live
                   </span>
                 </div>

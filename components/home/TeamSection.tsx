@@ -144,7 +144,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-primary-500/15 via-white/[0.04] to-amber-500/15 border border-primary-500/30 shadow-[0_0_20px_rgba(20,184,160,0.15)] mb-4">
             <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
-            <span className="text-[11px] font-mono font-bold tracking-widest text-primary-300 uppercase">
+            <span className="text-[11px] font-mono font-bold tracking-widest text-primary-700 dark:text-primary-300 uppercase">
               CST Core Leadership • Mymensingh Polytechnic Institute
             </span>
           </div>
@@ -166,7 +166,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   activeCategory === cat.id
                     ? "bg-primary-500 text-black shadow-[0_0_18px_rgba(20,184,160,0.4)] scale-105"
-                    : "bg-surface-2/80 text-muted-fg hover:text-white hover:bg-surface-3 border border-border/60"
+                    : "bg-surface-2 text-muted-fg hover:text-foreground hover:bg-surface-3 border border-border"
                 }`}
               >
                 <span>{cat.icon}</span>
@@ -330,7 +330,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                         {member.socialLinks?.email && (
                           <a
                             href={`mailto:${member.socialLinks.email}`}
-                            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:text-white dark:hover:bg-white/[0.08] transition-colors"
                             title="Direct Email"
                           >
                             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
@@ -340,7 +340,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                         )}
                       </div>
 
-                      <span className="text-[10px] font-mono text-primary-400 font-semibold">
+                      <span className="text-[10px] font-mono text-primary-600 dark:text-primary-400 font-semibold">
                         View Dossier →
                       </span>
                     </div>
@@ -348,7 +348,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                     {/* Primary Button */}
                     <Link
                       href={`/team/${member.slug}`}
-                      className="w-full py-2.5 px-4 rounded-xl bg-white/[0.05] hover:bg-primary-500 hover:text-black text-white text-xs font-bold text-center border border-white/10 hover:border-primary-500 shadow-sm transition-all duration-200 flex items-center justify-center gap-1.5 group/btn"
+                      className="w-full py-2.5 px-4 rounded-xl bg-surface-2 hover:bg-primary-500 hover:text-black text-foreground dark:text-white dark:bg-white/[0.05] text-xs font-bold text-center border border-border dark:border-white/10 hover:border-primary-500 shadow-sm transition-all duration-200 flex items-center justify-center gap-1.5 group/btn"
                     >
                       <span>Architectural Case Studies</span>
                       <span className="group-hover/btn:translate-x-1 transition-transform">→</span>
@@ -369,7 +369,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
               💎
             </div>
             <div>
-              <h4 className="font-heading font-bold text-white text-base">
+              <h4 className="font-heading font-bold text-foreground text-base">
                 Direct Engineering Partnership Guarantee
               </h4>
               <p className="text-xs text-muted-fg mt-0.5 max-w-xl">
@@ -381,7 +381,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
           <div className="flex items-center gap-3 shrink-0">
             <Link
               href="/team"
-              className="px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/10 text-xs font-semibold transition-colors"
+              className="px-4 py-2.5 rounded-xl bg-surface-2 hover:bg-surface-3 text-foreground dark:text-white border border-border text-xs font-semibold transition-colors"
             >
               All Team Credentials →
             </Link>

@@ -98,7 +98,7 @@ export function TrustGuaranteesSection() {
             </div>
 
             <div className="mt-5 pt-3.5 border-t border-border/60 flex items-start gap-2">
-              <span className="text-emerald-400 font-bold text-xs mt-0.5">✓</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-bold text-xs mt-0.5">✓</span>
               <p className="text-[11px] text-foreground/90 leading-snug">
                 {g.bullet}
               </p>

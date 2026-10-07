@@ -139,9 +139,9 @@ export function FloatingAiAssistant() {
               {isTyping && (
                 <div className="flex justify-start">
                   <div className="bg-surface-2 border border-border p-2.5 rounded-2xl rounded-bl-none text-muted-fg flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce delay-150" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce delay-300" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-500 dark:bg-primary-400 animate-bounce" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-500 dark:bg-primary-400 animate-bounce delay-150" />
+                    <span className="h-1.5 w-1.5 rounded-full bg-primary-500 dark:bg-primary-400 animate-bounce delay-300" />
                   </div>
                 </div>
               )}

@@ -106,9 +106,9 @@ export function ComparisonMatrixSection() {
                   <th className="p-4 sm:p-5 text-xs font-semibold text-muted-fg w-1/5">
                     DIY Builders (Wix/WP)
                   </th>
-                  <th className="p-4 sm:p-5 text-xs font-bold text-primary-500 dark:text-primary-400 bg-primary-500/10 border-x border-primary-500/30 w-1/4">
+                  <th className="p-4 sm:p-5 text-xs font-bold text-primary-700 dark:text-primary-400 bg-primary-500/10 border-x border-primary-500/30 w-1/4">
                     <div className="flex items-center gap-1.5">
-                      <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
+                      <span className="h-2 w-2 rounded-full bg-primary-600 dark:bg-primary-400 animate-pulse" />
                       <span>Nexora Hybrid</span>
                     </div>
                   </th>
@@ -132,7 +132,7 @@ export function ComparisonMatrixSection() {
                       {row.diy}
                     </td>
                     <td className="p-4 sm:p-5 font-semibold text-foreground bg-primary-500/10 border-x border-primary-500/30">
-                      <span className="text-primary-500 dark:text-primary-300 font-bold">{row.nexora}</span>
+                      <span className="text-primary-700 dark:text-primary-300 font-bold">{row.nexora}</span>
                     </td>
                   </tr>
                 ))}
@@ -142,7 +142,7 @@ export function ComparisonMatrixSection() {
 
           {/* Bottom highlight bar */}
           <div className="p-4 sm:p-5 bg-primary-500/10 border-t border-primary-500/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
-            <p className="text-xs text-primary-300 font-medium">
+            <p className="text-xs text-primary-800 dark:text-primary-300 font-semibold">
               💡 Get the power of a Silicon Valley agency + instant AI prototyping at 60% less cost.
             </p>
             <span className="text-xs font-bold text-foreground">

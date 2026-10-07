@@ -20,7 +20,7 @@ export function NewsletterSection() {
     <Section className="bg-surface/40">
       <FadeInSection>
         <div className="max-w-xl mx-auto text-center">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Newsletter</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">Newsletter</p>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold">Stay in the loop.</h2>
           <p className="mt-3 text-sm text-muted-fg leading-relaxed">
             Web dev deep-dives, agency insights, and occasional behind-the-scenes from our projects. Zero spam.

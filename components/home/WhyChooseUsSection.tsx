@@ -88,7 +88,7 @@ export function WhyChooseUsSection() {
       {/* Centered Section Header */}
       <FadeInSection>
         <div className="text-center mb-12 sm:mb-16">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">
             Why Clients Choose Us
           </p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
@@ -124,7 +124,7 @@ export function WhyChooseUsSection() {
                 {prop.title}
               </h3>
 
-              <p className="mt-1 text-xs font-semibold text-primary-400">
+              <p className="mt-1 text-xs font-semibold text-primary-600 dark:text-primary-400">
                 {prop.highlight}
               </p>
 
@@ -139,7 +139,7 @@ export function WhyChooseUsSection() {
                 {prop.perks.map((perk) => (
                   <li key={perk} className="flex items-center gap-2 text-[11px] text-muted-fg">
                     <svg
-                      className="h-3.5 w-3.5 text-primary-400 flex-shrink-0"
+                      className="h-3.5 w-3.5 text-primary-600 dark:text-primary-400 flex-shrink-0"
                       viewBox="0 0 20 20"
                       fill="currentColor"
                     >

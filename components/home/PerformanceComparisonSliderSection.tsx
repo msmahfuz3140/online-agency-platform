@@ -96,7 +96,7 @@ export function PerformanceComparisonSliderSection() {
               onClick={() => setSliderPos(15)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                 sliderPos < 30
-                  ? "bg-red-500/20 border-red-500/40 text-red-300"
+                  ? "bg-red-500/20 border-red-500/40 text-red-700 dark:text-red-300 font-semibold"
                   : "bg-surface-2 border-border text-muted-fg hover:text-foreground"
               }`}
             >
@@ -107,7 +107,7 @@ export function PerformanceComparisonSliderSection() {
               onClick={() => setSliderPos(50)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                 sliderPos >= 40 && sliderPos <= 60
-                  ? "bg-primary-500/20 border-primary-500/40 text-primary-300"
+                  ? "bg-primary-500/20 border-primary-500/40 text-primary-700 dark:text-primary-300 font-semibold"
                   : "bg-surface-2 border-border text-muted-fg hover:text-foreground"
               }`}
             >
@@ -118,7 +118,7 @@ export function PerformanceComparisonSliderSection() {
               onClick={() => setSliderPos(85)}
               className={`px-3.5 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                 sliderPos > 70
-                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-300"
+                  ? "bg-emerald-500/20 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 font-semibold"
                   : "bg-surface-2 border-border text-muted-fg hover:text-foreground"
               }`}
             >
@@ -273,11 +273,11 @@ export function PerformanceComparisonSliderSection() {
                   {m.title}
                 </p>
                 <div className="flex items-baseline gap-3 my-2">
-                  <span className="text-xs font-mono line-through text-red-400/80">{m.before}</span>
+                  <span className="text-xs font-mono line-through text-red-600 dark:text-red-400/80">{m.before}</span>
                   <span className="text-xs text-muted-fg">→</span>
                   <span className="font-heading text-2xl font-extrabold text-foreground">{m.after}</span>
                 </div>
-                <div className="inline-block px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-mono font-bold text-emerald-300 mb-3">
+                <div className="inline-block px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[11px] font-mono font-bold text-emerald-700 dark:text-emerald-300 mb-3">
                   {m.delta}
                 </div>
               </div>

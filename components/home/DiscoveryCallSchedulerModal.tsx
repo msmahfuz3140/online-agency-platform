@@ -116,7 +116,7 @@ export function DiscoveryCallSchedulerModal({
                         className={`p-2.5 rounded-xl border text-center transition-all ${
                           selectedDay === d.dayNum
                             ? "bg-primary-500 border-primary-500 text-white shadow-[0_0_16px_rgba(20,184,160,0.4)]"
-                            : "bg-surface border-border text-neutral-300 hover:bg-neutral-800"
+                            : "bg-surface border-border text-foreground hover:bg-surface-2 dark:hover:bg-neutral-800"
                         }`}
                       >
                         <p className="text-[10px] uppercase font-bold opacity-80">{d.label}</p>
@@ -142,7 +142,7 @@ export function DiscoveryCallSchedulerModal({
                           !slot.available
                             ? "opacity-30 cursor-not-allowed border-border/50 bg-surface-2 line-through"
                             : selectedTime === slot.time
-                            ? "bg-surface border-primary-500 text-primary-400 shadow-sm"
+                            ? "bg-surface border-primary-500 text-primary-600 dark:text-primary-400 shadow-sm"
                             : "bg-surface border-border text-foreground hover:border-primary-500/50"
                         }`}
                       >
@@ -168,7 +168,7 @@ export function DiscoveryCallSchedulerModal({
                 <button
                   type="button"
                   onClick={() => setStep("time")}
-                  className="text-xs text-primary-400 mb-3 hover:underline flex items-center gap-1"
+                  className="text-xs text-primary-600 dark:text-primary-400 mb-3 hover:underline flex items-center gap-1"
                 >
                   ← Change Time Slot
                 </button>
@@ -226,7 +226,7 @@ export function DiscoveryCallSchedulerModal({
                   </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-neutral-800 flex justify-end gap-2">
+                <div className="mt-6 pt-4 border-t border-border flex justify-end gap-2">
                   <Button type="button" variant="ghost" size="md" onClick={() => setStep("time")}>
                     Back
                   </Button>
@@ -239,7 +239,7 @@ export function DiscoveryCallSchedulerModal({
 
             {step === "confirmed" && (
               <div className="text-center py-4">
-                <div className="h-16 w-16 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-400 text-3xl flex items-center justify-center mx-auto mb-4 animate-bounce">
+                <div className="h-16 w-16 rounded-full bg-emerald-500/20 border border-emerald-500 text-emerald-600 dark:text-emerald-400 text-3xl flex items-center justify-center mx-auto mb-4 animate-bounce">
                   ✓
                 </div>
                 <h3 className="font-heading font-bold text-2xl text-foreground">

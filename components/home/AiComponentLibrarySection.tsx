@@ -141,7 +141,7 @@ export function AiComponentLibrarySection() {
               >
                 <span>{block.icon}</span>
                 <span>{block.name}</span>
-                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-primary-500/15 text-primary-400 font-mono">
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-primary-500/15 text-primary-600 dark:text-primary-400 font-mono font-semibold">
                   {block.variantsCount} variants
                 </span>
               </button>
@@ -184,14 +184,14 @@ export function AiComponentLibrarySection() {
 
                 {/* React Props Tags */}
                 <div className="mt-6">
-                  <p className="text-[11px] font-mono uppercase tracking-wider text-primary-500 dark:text-primary-400 font-bold mb-2">
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-primary-600 dark:text-primary-400 font-bold mb-2">
                     Configurable React Props:
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {activeTab.reactProps.map((prop) => (
                       <span
                         key={prop}
-                        className="text-[11px] px-2.5 py-1 rounded-lg bg-surface-2 border border-border font-mono text-muted-fg"
+                        className="text-[11px] px-2.5 py-1 rounded-lg bg-surface-2 border border-border font-mono text-foreground font-medium"
                       >
                         {prop}
                       </span>
@@ -200,7 +200,7 @@ export function AiComponentLibrarySection() {
                 </div>
 
                 <div className="mt-6 flex items-center gap-3 text-xs text-muted-fg">
-                  <span className="text-emerald-400 font-bold">✓</span>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
                   <span>Fully accessible (WAI-ARIA) &amp; TypeScript typed</span>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export function AiComponentLibrarySection() {
                       {activeTab.previewTitle}.tsx
                     </span>
                   </div>
-                  <span className="text-[10px] text-primary-500 dark:text-primary-400 font-bold">REACT TSX</span>
+                  <span className="text-[10px] text-primary-600 dark:text-primary-400 font-bold">REACT TSX</span>
                 </div>
 
                 <pre className="text-foreground/90 leading-relaxed overflow-x-auto">

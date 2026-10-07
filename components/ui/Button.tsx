@@ -25,13 +25,13 @@ const variantStyles: Record<Variant, string> = {
 
   secondary: [
     "bg-surface-2 text-foreground",
-    "hover:bg-neutral-700 active:bg-neutral-800",
+    "hover:bg-surface-3 active:bg-surface-2 dark:hover:bg-neutral-700 dark:active:bg-neutral-800",
     "border border-border",
   ].join(" "),
 
   ghost: [
     "bg-transparent text-foreground",
-    "hover:bg-neutral-800/60 active:bg-neutral-800",
+    "hover:bg-surface-2 active:bg-surface-3 dark:hover:bg-neutral-800/60 dark:active:bg-neutral-800",
     "border border-transparent hover:border-border",
   ].join(" "),
 

@@ -291,7 +291,7 @@ export function middleware(req: NextRequest) {
             <span className="px-3 py-1 rounded-lg border border-border/80 bg-surface-1 text-[11px] font-mono text-muted-fg">
               🎯 60 FPS Spring Physics
             </span>
-            <span className="px-3 py-1 rounded-lg border border-border/80 bg-surface-1 text-[11px] font-mono text-primary-400 font-bold">
+            <span className="px-3 py-1 rounded-lg border border-border/80 bg-surface-1 text-[11px] font-mono text-primary-600 dark:text-primary-400 font-bold">
               📱 100% Mobile Touch Ready
             </span>
           </div>
@@ -347,7 +347,7 @@ export function middleware(req: NextRequest) {
               onClick={() => setViewMode("code")}
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                 viewMode === "code"
-                  ? "bg-primary-500/20 text-primary-300 border border-primary-500/40 shadow-sm"
+                  ? "bg-primary-500/15 text-primary-700 dark:text-primary-300 border border-primary-500/40 shadow-sm"
                   : "text-muted-fg hover:text-foreground"
               }`}
             >
@@ -382,7 +382,7 @@ export function middleware(req: NextRequest) {
                 <button
                   type="button"
                   onClick={handleCopyCode}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-3 hover:bg-neutral-700 text-foreground border border-border transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-3 hover:bg-surface-2 dark:hover:bg-neutral-700 text-foreground border border-border transition-colors cursor-pointer"
                 >
                   {copiedCode ? "✓ Copied TypeScript" : "📋 Copy Source"}
                 </button>
@@ -394,7 +394,7 @@ export function middleware(req: NextRequest) {
           <div className="p-6 sm:p-8 flex-1 flex flex-col justify-center">
             {viewMode === "code" ? (
               /* --- Code View Drawer --- */
-              <div className="relative font-mono text-xs text-neutral-300 overflow-x-auto max-h-[420px] p-4 rounded-xl bg-black/60 border border-neutral-800 leading-relaxed">
+              <div className="relative font-mono text-xs text-neutral-200 overflow-x-auto max-h-[420px] p-4 rounded-xl bg-neutral-950 border border-neutral-800 leading-relaxed shadow-md">
                 <pre>
                   <code>{codeSnippets[activeTab]}</code>
                 </pre>
@@ -416,10 +416,10 @@ export function middleware(req: NextRequest) {
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="text-xs font-mono font-bold text-primary-400 uppercase tracking-wider">
+                          <span className="text-xs font-mono font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
                             ● ARR Velocity Telemetry
                           </span>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30 font-bold">
                             {activeMetrics.growth}
                           </span>
                         </div>
@@ -457,13 +457,13 @@ export function middleware(req: NextRequest) {
                       </div>
                       <div className="p-3.5 rounded-xl bg-surface-2/80 border border-border/80">
                         <span className="text-[11px] text-muted-fg block">Net Retention</span>
-                        <span className="text-base sm:text-lg font-bold text-emerald-400 font-mono">
+                        <span className="text-base sm:text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                           {activeMetrics.retention}
                         </span>
                       </div>
                       <div className="p-3.5 rounded-xl bg-surface-2/80 border border-border/80">
                         <span className="text-[11px] text-muted-fg block">LTV / CAC Ratio</span>
-                        <span className="text-base sm:text-lg font-bold text-primary-300 font-mono">
+                        <span className="text-base sm:text-lg font-bold text-primary-600 dark:text-primary-300 font-mono">
                           4.8x
                         </span>
                       </div>
@@ -476,7 +476,7 @@ export function middleware(req: NextRequest) {
                     </div>
 
                     {/* Interactive Animated SVG Chart */}
-                    <div className="p-4 sm:p-6 rounded-2xl bg-neutral-950/70 border border-neutral-800/80 relative">
+                    <div className="p-4 sm:p-6 rounded-2xl bg-surface-2/60 dark:bg-neutral-950/70 border border-border dark:border-neutral-800/80 relative">
                       <div className="flex items-center justify-between text-[11px] font-mono text-muted-fg mb-2">
                         <span>Revenue Curve ({timeframe})</span>
                         <span>Touch or hover data points</span>
@@ -550,7 +550,7 @@ export function middleware(req: NextRequest) {
                               top: `${Math.max(10, (chartPoints.points[hoveredPoint].y / chartPoints.height) * 100 - 30)}%`,
                             }}
                           >
-                            <div className="text-primary-300 font-bold">
+                            <div className="text-primary-600 dark:text-primary-300 font-bold">
                               {chartPoints.points[hoveredPoint].label}: ${chartPoints.points[hoveredPoint].val}K
                             </div>
                             <div className="text-[10px] text-muted-fg">Verified Stripe settlement</div>
@@ -572,7 +572,7 @@ export function middleware(req: NextRequest) {
                     className="space-y-8 text-center"
                   >
                     <div>
-                      <span className="text-xs font-mono font-bold text-primary-400 uppercase tracking-wider">
+                      <span className="text-xs font-mono font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
                         ● Fluid Spring Physics Action Dock
                       </span>
                       <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground mt-1">
@@ -730,7 +730,7 @@ export function middleware(req: NextRequest) {
                   >
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div>
-                        <span className="text-xs font-mono font-bold text-primary-400 uppercase tracking-wider">
+                        <span className="text-xs font-mono font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
                           ● Server-Driven UI Synthesis
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground mt-1">
@@ -741,7 +741,7 @@ export function middleware(req: NextRequest) {
                       {/* Stream telemetry indicator */}
                       <div className="flex items-center gap-2 text-xs font-mono">
                         <span className="text-muted-fg">Throughput:</span>
-                        <span className="px-2 py-0.5 rounded-md bg-surface-2 text-emerald-400 font-bold border border-border">
+                        <span className="px-2 py-0.5 rounded-md bg-surface-2 text-emerald-600 dark:text-emerald-400 font-bold border border-border">
                           184 tokens/s
                         </span>
                       </div>
@@ -762,7 +762,7 @@ export function middleware(req: NextRequest) {
                           onClick={() => handleGeneratePreset(preset.id as AiPreset)}
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                             aiPreset === preset.id
-                              ? "bg-primary-500/20 text-primary-300 border-primary-500/40 shadow-sm"
+                              ? "bg-primary-500/15 text-primary-700 dark:text-primary-300 border-primary-500/40 shadow-sm"
                               : "bg-surface-2 border-border text-muted-fg hover:text-foreground"
                           }`}
                         >
@@ -772,11 +772,11 @@ export function middleware(req: NextRequest) {
                     </div>
 
                     {/* Rendered Dynamic Component Preview */}
-                    <div className="p-6 rounded-2xl bg-neutral-950/80 border border-neutral-800 flex items-center justify-center min-h-[220px] relative overflow-hidden">
+                    <div className="p-6 rounded-2xl bg-surface-2/70 dark:bg-neutral-950/80 border border-border dark:border-neutral-800 flex items-center justify-center min-h-[220px] relative overflow-hidden">
                       {isGenerating ? (
                         <div className="text-center space-y-3">
                           <div className="w-12 h-12 rounded-full border-2 border-primary-500/20 border-t-primary-500 animate-spin mx-auto" />
-                          <p className="text-xs font-mono text-primary-300">
+                          <p className="text-xs font-mono text-primary-600 dark:text-primary-300">
                             Streaming UI AST Tokens... {streamProgress}%
                           </p>
                         </div>
@@ -839,11 +839,11 @@ export function middleware(req: NextRequest) {
                               <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-1">
                                 <div className="p-2 rounded-lg bg-surface-1 text-center">
                                   <span className="text-muted-fg text-[10px] block">Active Pods</span>
-                                  <span className="font-bold text-emerald-400">32 / 32 Healthy</span>
+                                  <span className="font-bold text-emerald-600 dark:text-emerald-400">32 / 32 Healthy</span>
                                 </div>
                                 <div className="p-2 rounded-lg bg-surface-1 text-center">
                                   <span className="text-muted-fg text-[10px] block">Cold Starts</span>
-                                  <span className="font-bold text-primary-300">0.00ms (Edge)</span>
+                                  <span className="font-bold text-primary-600 dark:text-primary-300">0.00ms (Edge)</span>
                                 </div>
                               </div>
                             </motion.div>
@@ -867,10 +867,10 @@ export function middleware(req: NextRequest) {
                               </div>
                               <ul className="space-y-1.5 text-xs text-muted-fg mb-4">
                                 <li className="flex items-center gap-1.5">
-                                  <span className="text-emerald-400">✓</span> Unlimited High-Velocity Sprints
+                                  <span className="text-emerald-600 dark:text-emerald-400">✓</span> Unlimited High-Velocity Sprints
                                 </li>
                                 <li className="flex items-center gap-1.5">
-                                  <span className="text-emerald-400">✓</span> Dedicated Senior Tech Lead
+                                  <span className="text-emerald-600 dark:text-emerald-400">✓</span> Dedicated Senior Tech Lead
                                 </li>
                               </ul>
                               <Button size="sm" variant="primary" className="w-full">
@@ -896,7 +896,7 @@ export function middleware(req: NextRequest) {
                   >
                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                       <div>
-                        <span className="text-xs font-mono font-bold text-primary-400 uppercase tracking-wider">
+                        <span className="text-xs font-mono font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider">
                           ● Quantifiable CRO Architecture
                         </span>
                         <h3 className="text-2xl sm:text-3xl font-extrabold text-foreground mt-1">
@@ -911,7 +911,7 @@ export function middleware(req: NextRequest) {
                           onClick={() => setAbVariant("v1-legacy")}
                           className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                             abVariant === "v1-legacy"
-                              ? "bg-neutral-800 text-neutral-300 shadow-sm"
+                              ? "bg-surface-3 dark:bg-neutral-800 text-foreground dark:text-neutral-300 shadow-sm"
                               : "text-muted-fg hover:text-foreground"
                           }`}
                         >
@@ -942,17 +942,17 @@ export function middleware(req: NextRequest) {
                         }`}
                       >
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-bold text-neutral-400">Variant A: Generic Agency Site</span>
-                          <span className="text-xs font-mono font-bold text-red-400">1.4% Conversion</span>
+                          <span className="text-xs font-bold text-muted-fg">Variant A: Generic Agency Site</span>
+                          <span className="text-xs font-mono font-bold text-red-600 dark:text-red-400">1.4% Conversion</span>
                         </div>
-                        <div className="p-4 rounded-xl bg-black/40 border border-neutral-800 space-y-2 mb-3">
-                          <p className="text-xs font-semibold text-neutral-300">"We build custom websites."</p>
-                          <p className="text-[11px] text-neutral-500">Generic layout, slow LCP (3.8s), no trust badges.</p>
-                          <div className="h-8 w-24 bg-neutral-700 rounded-md flex items-center justify-center text-[11px] text-neutral-400">
+                        <div className="p-4 rounded-xl bg-surface-2 dark:bg-black/40 border border-border dark:border-neutral-800 space-y-2 mb-3">
+                          <p className="text-xs font-semibold text-foreground dark:text-neutral-300">&quot;We build custom websites.&quot;</p>
+                          <p className="text-[11px] text-muted-fg">Generic layout, slow LCP (3.8s), no trust badges.</p>
+                          <div className="h-8 w-24 bg-surface-3 dark:bg-neutral-700 rounded-md flex items-center justify-center text-[11px] text-muted-fg dark:text-neutral-400 font-medium">
                             Submit Form
                           </div>
                         </div>
-                        <div className="flex justify-between text-[11px] font-mono text-neutral-500">
+                        <div className="flex justify-between text-[11px] font-mono text-muted-fg">
                           <span>Bounce Rate: 68.4%</span>
                           <span>Avg Time: 34s</span>
                         </div>
@@ -967,19 +967,19 @@ export function middleware(req: NextRequest) {
                         }`}
                       >
                         <div className="flex items-center justify-between mb-3">
-                          <span className="text-xs font-bold text-primary-300">Variant B: Nexora High-Velocity</span>
-                          <span className="text-xs font-mono font-bold text-emerald-400">8.9% Conversion (+535%)</span>
+                          <span className="text-xs font-bold text-primary-700 dark:text-primary-300">Variant B: Nexora High-Velocity</span>
+                          <span className="text-xs font-mono font-bold text-emerald-700 dark:text-emerald-400">8.9% Conversion (+535%)</span>
                         </div>
                         <div className="p-4 rounded-xl bg-primary-500/10 border border-primary-500/30 space-y-2 mb-3">
-                          <p className="text-xs font-semibold text-white">"Ship Production Next.js in 48 Hours."</p>
-                          <p className="text-[11px] text-primary-200/80">
+                          <p className="text-xs font-semibold text-foreground dark:text-white">&quot;Ship Production Next.js in 48 Hours.&quot;</p>
+                          <p className="text-[11px] text-muted-fg dark:text-primary-200/80">
                             Sub-second LCP (0.4s), interactive cost calculator, instant booking.
                           </p>
                           <div className="h-8 px-3 w-fit bg-primary-500 rounded-md flex items-center justify-center text-[11px] text-white font-bold">
                             Schedule 15-Min Sprint Call →
                           </div>
                         </div>
-                        <div className="flex justify-between text-[11px] font-mono text-emerald-400">
+                        <div className="flex justify-between text-[11px] font-mono text-emerald-600 dark:text-emerald-400">
                           <span>Bounce Rate: 18.2%</span>
                           <span>Avg Time: 3m 42s</span>
                         </div>
@@ -999,14 +999,14 @@ export function middleware(req: NextRequest) {
                         step={5000}
                         value={simulatedTraffic}
                         onChange={(e) => setSimulatedTraffic(Number(e.target.value))}
-                        className="w-full h-1.5 bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-primary-500"
+                        className="w-full h-1.5 bg-surface-3 dark:bg-neutral-800 rounded-lg appearance-none cursor-pointer accent-primary-500"
                       />
                       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 pt-1 text-xs">
                         <div className="text-muted-fg">
                           Additional Monthly Customers:{" "}
-                          <span className="text-emerald-400 font-bold font-mono">+{extraConversions} clients</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold font-mono">+{extraConversions} clients</span>
                         </div>
-                        <div className="text-primary-300 font-mono font-bold">
+                        <div className="text-primary-700 dark:text-primary-300 font-mono font-bold">
                           Projected Value Lift: +${extraRevenue} /mo
                         </div>
                       </div>

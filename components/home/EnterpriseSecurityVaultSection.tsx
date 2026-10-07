@@ -131,7 +131,7 @@ Governing Law: Standard International Commercial Law.`;
             <button
               type="button"
               onClick={() => setNdaModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border border-primary-500/40 bg-primary-500/10 hover:bg-primary-500/20 text-primary-300 transition-colors cursor-pointer shadow-[0_0_15px_rgba(20,184,160,0.2)]"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border border-primary-500/40 bg-primary-500/10 hover:bg-primary-500/20 text-primary-700 dark:text-primary-300 transition-colors cursor-pointer shadow-[0_0_15px_rgba(20,184,160,0.2)]"
             >
               <span>📄</span>
               <span>Preview Standard Mutual NDA Terms →</span>
@@ -186,7 +186,7 @@ Governing Law: Standard International Commercial Law.`;
               <div className="grid lg:grid-cols-12 gap-8 items-center">
                 {/* Left: Summary & Checklist */}
                 <div className="lg:col-span-7 space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-300 text-xs font-mono font-semibold">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary-500/30 bg-primary-500/10 text-primary-700 dark:text-primary-300 text-xs font-mono font-semibold">
                     <span>{activePillar.icon}</span>
                     <span>{activePillar.badge}</span>
                   </div>
@@ -206,14 +206,14 @@ Governing Law: Standard International Commercial Law.`;
                     <ul className="space-y-2.5">
                       {activePillar.checklist.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs text-muted-fg leading-relaxed">
-                          <span className="text-emerald-400 font-bold flex-shrink-0">✓</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold flex-shrink-0">✓</span>
                           <span>{item}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="mt-4 p-3 rounded-xl bg-neutral-900/80 border border-border/60 text-[11px] font-mono text-primary-300">
+                  <div className="mt-4 p-3 rounded-xl bg-surface-2 dark:bg-neutral-900/80 border border-border/60 text-[11px] font-mono text-primary-700 dark:text-primary-300">
                     {activePillar.protocolNote}
                   </div>
                 </div>
@@ -222,31 +222,31 @@ Governing Law: Standard International Commercial Law.`;
                 <div className="lg:col-span-5">
                   <div className="p-6 rounded-2xl border border-primary-500/30 bg-gradient-to-br from-primary-500/10 via-surface-2 to-surface-1 text-left space-y-4 shadow-lg">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary-400">
+                      <span className="text-xs font-mono font-bold uppercase tracking-widest text-primary-600 dark:text-primary-400">
                         Vault Verification
                       </span>
-                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="h-2 w-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
                     </div>
 
                     <div className="space-y-3">
-                      <div className="p-3 rounded-xl bg-black/40 border border-neutral-800 text-xs flex items-center justify-between">
+                      <div className="p-3 rounded-xl bg-surface-1 dark:bg-black/40 border border-border dark:border-neutral-800 text-xs flex items-center justify-between shadow-sm">
                         <span className="text-muted-fg">Client IP Handover:</span>
-                        <span className="font-mono font-bold text-emerald-400">100% Exclusive</span>
+                        <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">100% Exclusive</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-black/40 border border-neutral-800 text-xs flex items-center justify-between">
+                      <div className="p-3 rounded-xl bg-surface-1 dark:bg-black/40 border border-border dark:border-neutral-800 text-xs flex items-center justify-between shadow-sm">
                         <span className="text-muted-fg">Mutual NDA Execution:</span>
-                        <span className="font-mono font-bold text-primary-300">Standard Available</span>
+                        <span className="font-mono font-bold text-primary-700 dark:text-primary-300">Standard Available</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-black/40 border border-neutral-800 text-xs flex items-center justify-between">
+                      <div className="p-3 rounded-xl bg-surface-1 dark:bg-black/40 border border-border dark:border-neutral-800 text-xs flex items-center justify-between shadow-sm">
                         <span className="text-muted-fg">Post-Launch Warranty:</span>
                         <span className="font-mono font-bold text-foreground">14 Days Free</span>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-black/40 border border-neutral-800 text-xs flex items-center justify-between">
+                      <div className="p-3 rounded-xl bg-surface-1 dark:bg-black/40 border border-border dark:border-neutral-800 text-xs flex items-center justify-between shadow-sm">
                         <span className="text-muted-fg">Codebase Lock-in:</span>
-                        <span className="font-mono font-bold text-emerald-400">ZERO (Open Stack)</span>
+                        <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">ZERO (Open Stack)</span>
                       </div>
                     </div>
 
@@ -265,19 +265,19 @@ Governing Law: Standard International Commercial Law.`;
         {/* Global Security Ticker Bar */}
         <div className="mt-8 p-4 rounded-xl border border-border/70 bg-surface-1/50 flex flex-wrap items-center justify-around gap-4 text-xs font-mono text-muted-fg text-center">
           <span className="flex items-center gap-1.5">
-            <span className="text-emerald-400">●</span> 100% GITHUB REPO TRANSFER
+            <span className="text-emerald-600 dark:text-emerald-400">●</span> 100% GITHUB REPO TRANSFER
           </span>
           <span className="hidden sm:inline text-border">•</span>
           <span className="flex items-center gap-1.5">
-            <span className="text-primary-400">●</span> MUTUAL NDA SIGNED PRE-KICKOFF
+            <span className="text-primary-600 dark:text-primary-400">●</span> MUTUAL NDA SIGNED PRE-KICKOFF
           </span>
           <span className="hidden sm:inline text-border">•</span>
           <span className="flex items-center gap-1.5">
-            <span className="text-cyan-400">●</span> ZERO VENDOR LOCK-IN
+            <span className="text-cyan-600 dark:text-cyan-400">●</span> ZERO VENDOR LOCK-IN
           </span>
           <span className="hidden sm:inline text-border">•</span>
           <span className="flex items-center gap-1.5">
-            <span className="text-emerald-400">●</span> 14-DAY POST-LAUNCH WARRANTY
+            <span className="text-emerald-600 dark:text-emerald-400">●</span> 14-DAY POST-LAUNCH WARRANTY
           </span>
         </div>
       </div>
@@ -339,7 +339,7 @@ Governing Law: Standard International Commercial Law.`;
             </p>
           </div>
 
-          <div className="p-3 rounded-xl bg-primary-500/10 border border-primary-500/20 text-primary-300 font-mono text-[11px]">
+          <div className="p-3 rounded-xl bg-primary-500/10 border border-primary-500/20 text-primary-700 dark:text-primary-300 font-mono text-[11px]">
             Ready to execute a customized bilateral NDA with your corporate entity? Contact our legal desk at legal@nexora.agency or through our project kickoff form.
           </div>
         </div>

@@ -125,7 +125,7 @@ export function ClientPathwaySection() {
 
             <div>
               <div className="flex items-center justify-between mb-3">
-                <span className="font-mono text-[11px] font-bold text-primary-400">
+                <span className="font-mono text-[11px] font-bold text-primary-600 dark:text-primary-400">
                   {p.step}
                 </span>
                 <Badge variant={p.badgeVariant} size="sm">
@@ -137,7 +137,7 @@ export function ClientPathwaySection() {
                 {p.title}
               </h3>
 
-              <p className="mt-1 text-xs font-semibold text-primary-400">
+              <p className="mt-1 text-xs font-semibold text-primary-600 dark:text-primary-400">
                 {p.subtitle}
               </p>
 
@@ -154,7 +154,7 @@ export function ClientPathwaySection() {
               <ul className="mt-5 space-y-2 text-xs">
                 {p.features.map((feat) => (
                   <li key={feat} className="flex items-center gap-2 text-muted-fg">
-                    <span className="text-primary-400 font-bold">✓</span>
+                    <span className="text-primary-600 dark:text-primary-400 font-bold">✓</span>
                     <span>{feat}</span>
                   </li>
                 ))}

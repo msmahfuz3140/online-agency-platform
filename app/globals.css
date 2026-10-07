@@ -157,10 +157,21 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Glassmorphism — used sparingly (sticky nav, cards) */
 .glass {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+html.dark .glass,
+[data-theme="dark"] .glass {
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) .glass {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 }
 
 /* Gradient text utility */
@@ -194,8 +205,17 @@ h1, h2, h3, h4, h5, h6 {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 3px;
+}
+html.dark ::-webkit-scrollbar-thumb,
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) ::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #14b8a0;

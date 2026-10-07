@@ -195,7 +195,7 @@ export function SprintEngineRoadmapSection() {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-mono font-bold text-primary-400">{phase.days}</span>
+                  <span className="text-xs font-mono font-bold text-primary-600 dark:text-primary-400">{phase.days}</span>
                   <span className="text-sm">{phase.icon}</span>
                 </div>
                 <p className="text-xs font-bold text-foreground truncate">{phase.title}</p>
@@ -234,7 +234,7 @@ export function SprintEngineRoadmapSection() {
                     {activePhase.title}
                   </h3>
 
-                  <p className="text-xs font-mono text-primary-300">
+                  <p className="text-xs font-mono text-primary-600 dark:text-primary-300">
                     // {activePhase.tagline}
                   </p>
 
@@ -253,7 +253,7 @@ export function SprintEngineRoadmapSection() {
                           key={item}
                           className="flex items-start gap-2 text-xs text-muted-fg leading-snug"
                         >
-                          <span className="text-emerald-400 font-bold flex-shrink-0">✓</span>
+                          <span className="text-emerald-600 dark:text-emerald-400 font-bold flex-shrink-0">✓</span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -271,8 +271,8 @@ export function SprintEngineRoadmapSection() {
                       <span className="text-xl">{activePhase.artifact.icon}</span>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-neutral-900/90 border border-primary-500/20">
-                      <p className="text-xs font-mono text-primary-300">
+                    <div className="p-4 rounded-xl bg-surface-2 dark:bg-neutral-900/90 border border-primary-500/20">
+                      <p className="text-xs font-mono text-primary-700 dark:text-primary-300 font-medium">
                         {activePhase.artifact.value}
                       </p>
                     </div>
@@ -286,7 +286,7 @@ export function SprintEngineRoadmapSection() {
                       </div>
                       <div className="flex items-center justify-between">
                         <span>Client Review Gate:</span>
-                        <span className="font-mono text-emerald-400 font-bold">
+                        <span className="font-mono text-emerald-600 dark:text-emerald-400 font-bold">
                           100% Signed-Off
                         </span>
                       </div>
@@ -316,7 +316,7 @@ export function SprintEngineRoadmapSection() {
             </div>
             <Link
               href="/contact"
-              className="text-xs font-semibold text-primary-400 hover:text-primary-300 transition-colors flex-shrink-0"
+              className="text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors flex-shrink-0"
             >
               Learn about our warranty →
             </Link>

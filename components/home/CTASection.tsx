@@ -20,7 +20,7 @@ export function CTASection() {
           </div>
 
           <div className="relative z-10">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-3 sm:mb-4">
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-3 sm:mb-4">
               Ready when you are
             </p>
             <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">

@@ -51,7 +51,7 @@ export function ClientReviewsSection() {
     <Section id="testimonials" className="bg-surface/40">
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Testimonials</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">Testimonials</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Loved by the teams{" "}
             <br className="hidden sm:inline" />
@@ -70,7 +70,7 @@ export function ClientReviewsSection() {
             <p className="mt-4 text-sm text-foreground leading-relaxed">&ldquo;{r.text}&rdquo;</p>
             <div className="mt-5 flex items-center gap-3">
               <div className="h-9 w-9 rounded-full bg-primary-500/20 border border-primary-500/30 flex items-center justify-center">
-                <span className="text-xs font-bold text-primary-400">{r.avatar}</span>
+                <span className="text-xs font-bold text-primary-600 dark:text-primary-400">{r.avatar}</span>
               </div>
               <div>
                 <p className="text-sm font-semibold text-foreground">{r.name}</p>

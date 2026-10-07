@@ -38,7 +38,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
     <div className="border-b border-border">
       <button
         onClick={() => setOpen(!open)}
-        className="w-full flex items-center justify-between gap-4 py-5 text-left transition-colors hover:text-primary-400"
+        className="w-full flex items-center justify-between gap-4 py-5 text-left transition-colors hover:text-primary-600 dark:hover:text-primary-400"
         aria-expanded={open}
       >
         <span className="text-sm sm:text-base font-medium text-foreground">{q}</span>
@@ -76,7 +76,7 @@ export function FAQSection() {
       <div className="max-w-3xl mx-auto">
         <FadeInSection>
           <div className="text-center mb-10 sm:mb-14">
-            <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">FAQ</p>
+            <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">FAQ</p>
             <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
               Frequently Asked <span className="gradient-text">Questions</span>
             </h2>

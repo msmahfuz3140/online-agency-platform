@@ -34,7 +34,7 @@ export function HowItWorksSection() {
     <Section id="how-it-works">
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">The Process</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">The Process</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold">How it works</h2>
           <p className="mt-3 sm:mt-4 text-sm text-muted-fg max-w-md mx-auto">
             No black boxes. No ghost mode. A clear 4-step process that keeps you in the loop.
@@ -61,7 +61,7 @@ export function HowItWorksSection() {
                   <span className="text-lg">{s.icon}</span>
                 </div>
                 <div>
-                  <span className="font-mono text-xs text-primary-400 mb-1 block">{s.step}</span>
+                  <span className="font-mono text-xs text-primary-600 dark:text-primary-400 mb-1 block">{s.step}</span>
                   <h3 className="font-heading font-semibold text-sm sm:text-base text-foreground mb-1.5">{s.title}</h3>
                   <p className="text-xs text-muted-fg leading-relaxed">{s.desc}</p>
                 </div>

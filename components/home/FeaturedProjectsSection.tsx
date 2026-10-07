@@ -43,7 +43,7 @@ export function FeaturedProjectsSection() {
       {/* Centered, balanced header across all screen sizes */}
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <p className="text-xs font-semibold uppercase tracking-widest text-primary-400 mb-2">Our Work</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-2">Our Work</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             Featured <span className="gradient-text">Projects</span>
           </h2>
@@ -71,7 +71,7 @@ export function FeaturedProjectsSection() {
               </div>
             </div>
             <div className="p-4 sm:p-5 flex flex-col flex-1">
-              <h3 className="font-heading font-semibold text-base sm:text-lg text-foreground group-hover:text-primary-300 transition-colors">
+              <h3 className="font-heading font-semibold text-base sm:text-lg text-foreground group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors">
                 {p.title}
               </h3>
               <p className="mt-2 text-xs sm:text-sm text-muted-fg leading-relaxed flex-1">
@@ -79,7 +79,7 @@ export function FeaturedProjectsSection() {
               </p>
               <div className="mt-4 flex flex-wrap gap-1.5 pt-2 border-t border-border/50">
                 {p.tech.map((t) => (
-                  <span key={t} className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md bg-surface-2 text-neutral-300 border border-border">
+                  <span key={t} className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-md bg-surface-2 text-foreground dark:text-neutral-300 border border-border font-medium">
                     {t}
                   </span>
                 ))}

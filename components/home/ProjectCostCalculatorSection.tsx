@@ -157,7 +157,7 @@ export function ProjectCostCalculatorSection() {
           {/* 1. Project Type */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-400 font-bold text-xs flex items-center justify-center">
+              <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-600 dark:text-primary-400 font-bold text-xs flex items-center justify-center">
                 1
               </span>
               <h3 className="font-heading font-bold text-base sm:text-lg text-foreground">
@@ -193,7 +193,7 @@ export function ProjectCostCalculatorSection() {
                         {type.desc}
                       </p>
                     </div>
-                    <p className="text-[10px] text-primary-400 font-medium mt-3">
+                    <p className="text-[10px] text-primary-600 dark:text-primary-400 font-medium mt-3">
                       Est. Base: {type.baseDays} business days
                     </p>
                   </button>
@@ -206,7 +206,7 @@ export function ProjectCostCalculatorSection() {
           <div>
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-400 font-bold text-xs flex items-center justify-center">
+                <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-600 dark:text-primary-400 font-bold text-xs flex items-center justify-center">
                   2
                 </span>
                 <h3 className="font-heading font-bold text-base sm:text-lg text-foreground">
@@ -241,7 +241,7 @@ export function ProjectCostCalculatorSection() {
                     </div>
 
                     <div className="flex items-center gap-2 flex-shrink-0">
-                      <span className="text-xs font-semibold text-primary-400 font-mono">
+                      <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 font-mono">
                         +${addon.price}
                       </span>
                       <div
@@ -271,7 +271,7 @@ export function ProjectCostCalculatorSection() {
           {/* 3. Delivery Urgency */}
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-400 font-bold text-xs flex items-center justify-center">
+              <span className="h-6 w-6 rounded-full bg-primary-500/20 text-primary-600 dark:text-primary-400 font-bold text-xs flex items-center justify-center">
                 3
               </span>
               <h3 className="font-heading font-bold text-base sm:text-lg text-foreground">
@@ -302,7 +302,7 @@ export function ProjectCostCalculatorSection() {
                     : "bg-surface/50 border-border/70 text-muted-fg"
                 }`}
               >
-                <p className="text-xs font-bold text-primary-400">⚡ Express Delivery (+30%)</p>
+                <p className="text-xs font-bold text-primary-600 dark:text-primary-400">⚡ Express Delivery (+30%)</p>
                 <p className="text-[10px] text-muted-fg mt-0.5">Priority expedited delivery (40% faster)</p>
               </button>
             </div>
@@ -318,7 +318,7 @@ export function ProjectCostCalculatorSection() {
             <div className="relative z-10">
               <div className="flex items-center justify-between pb-4 border-b border-border">
                 <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-primary-400">
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400">
                     Estimate Summary
                   </p>
                   <h4 className="font-heading font-bold text-base text-foreground mt-0.5">
@@ -342,7 +342,7 @@ export function ProjectCostCalculatorSection() {
 
                 <div className="flex items-center justify-between p-3 rounded-xl bg-surface-2 border border-border text-xs">
                   <span className="text-muted-fg">Estimated Delivery:</span>
-                  <span className="font-semibold text-primary-400">
+                  <span className="font-semibold text-primary-600 dark:text-primary-400">
                     ~ {totalDays} Business Days
                   </span>
                 </div>
@@ -355,7 +355,7 @@ export function ProjectCostCalculatorSection() {
                 </p>
                 <div className="space-y-1.5 text-muted-fg">
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
                     <span>{selectedType.name} Base Architecture</span>
                   </div>
                   {selectedAddons.map((id) => {
@@ -363,17 +363,17 @@ export function ProjectCostCalculatorSection() {
                     if (!addon) return null;
                     return (
                       <div key={id} className="flex items-center gap-2">
-                        <span className="text-emerald-400 font-bold">✓</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
                         <span>{addon.name}</span>
                       </div>
                     );
                   })}
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
                     <span>14-Day Free Post-Launch Support</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold">✓</span>
                     <span>100% Full Code Ownership</span>
                   </div>
                 </div>

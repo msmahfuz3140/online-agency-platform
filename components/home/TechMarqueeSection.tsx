@@ -46,7 +46,7 @@ const dotColors: Record<TechItem["category"], string> = {
 function TechCard({ item }: { item: TechItem }) {
   return (
     <div className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-surface/80 border border-border/80 hover:border-primary-500/50 hover:bg-surface transition-all duration-200 shadow-sm whitespace-nowrap select-none group">
-      <span className="font-mono text-xs font-bold text-foreground group-hover:text-primary-400 transition-colors">
+      <span className="font-mono text-xs font-bold text-foreground group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
         {item.icon}
       </span>
       <span className="text-xs sm:text-sm font-semibold text-foreground tracking-tight">
@@ -62,7 +62,7 @@ export function TechMarqueeSection() {
     <section className="py-12 sm:py-16 border-y border-border/60 bg-surface/20 overflow-hidden relative">
       <FadeInSection>
         <div className="text-center mb-8 sm:mb-10 px-4">
-          <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-primary-400 mb-1.5">
+          <p className="text-[11px] sm:text-xs font-semibold uppercase tracking-widest text-primary-600 dark:text-primary-400 mb-1.5">
             Enterprise Tooling & Technologies
           </p>
           <h3 className="font-heading text-lg sm:text-xl font-bold text-foreground">
