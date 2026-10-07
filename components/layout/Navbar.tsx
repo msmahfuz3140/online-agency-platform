@@ -96,9 +96,9 @@ const navItems: NavItem[] = [
       {
         label: "Full Portfolio",
         href: "/portfolio",
-        desc: "All 8+ projects — SaaS, e-commerce, landing pages, portfolios & AI solutions",
+        desc: "All 10+ projects — live client e-commerce stores, SaaS platforms & web apps",
         icon: "💼",
-        badge: "8+ Projects",
+        badge: "10+ Projects",
       },
       {
         label: "Case Studies",

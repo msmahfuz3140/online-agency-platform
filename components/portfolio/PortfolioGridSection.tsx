@@ -38,6 +38,56 @@ export interface ProjectItem {
 
 const projects: ProjectItem[] = [
   {
+    id: "oldrank-bd",
+    title: "OldRank BD",
+    tagline: "Exclusive Jewelry, Fashion & Lifestyle E-Commerce Store",
+    category: "E-Commerce",
+    description:
+      "A complete, high-converting luxury e-commerce storefront delivered for OldRank BD — featuring mobile-first UI, category browsing, instant cart & order management, and live order tracking.",
+    features: [
+      "সম্পূর্ণ ই-কমার্স সিস্টেম (Complete E-Commerce Storefront)",
+      "মোবাইল রেসপনসিভ ডিজাইন (Mobile-First Luxury UI/UX)",
+      "পণ্য সার্চ ও ক্যাটাগরি ব্রাউজিং (Product Search & Filtering)",
+      "কার্ট ও অর্ডার সিস্টেম (Instant Cart & Checkout System)",
+      "লাইভ অর্ডার ট্র্যাকিং (Real-time Order Tracking Experience)",
+      "নিরাপদ ও দ্রুত কার্যক্ষমতা (High Performance & Security)",
+    ],
+    tech: ["Next.js", "TypeScript", "Tailwind CSS", "REST API", "E-Commerce"],
+    liveUrl: "https://oldrankbd.com",
+    githubUrl: "#",
+    gradient: "from-amber-500/25 via-amber-500/10 to-transparent",
+    accentColor: "text-amber-500 dark:text-amber-400",
+    icon: "👑",
+    year: "2026",
+    badge: "Client Live 🛍️",
+    image: "/images/projects/oldrankbd.jpg",
+  },
+  {
+    id: "gaxinmart",
+    title: "GaxinMart",
+    tagline: "Modern Multi-Category Retail & Marketplace E-Commerce Store",
+    category: "E-Commerce",
+    description:
+      "A next-generation multi-category retail e-commerce platform — featuring flash sale countdowns, one-click Cash on Delivery (COD) checkout, smart product search, and automated order tracking.",
+    features: [
+      "মাল্টি-ক্যাটাগরি রিটেল ক্যাটালগ (Multi-Category Catalog & Flash Deals)",
+      "ওয়ান-ক্লিক ক্যাশ অন ডেলিভারি (Cash on Delivery & Instant Checkout)",
+      "স্মার্ট প্রোডাক্ট সার্চ ও ফিল্টার (Smart Product Search & Filtering)",
+      "অটোমেটেড অর্ডার ট্র্যাকিং (Automated Order Tracking System)",
+      "সুপার ফাস্ট মোবাইল পারফরম্যান্স (Ultra-fast Loading & Edge Architecture)",
+      "প্রফিট ও লস অ্যানালিটিক্স ড্যাশবোর্ড (Store Analytics Integration)",
+    ],
+    tech: ["Next.js", "React", "Node.js", "MongoDB", "REST API"],
+    liveUrl: "https://gaxinmart.com",
+    githubUrl: "#",
+    gradient: "from-primary-500/25 via-primary-500/10 to-transparent",
+    accentColor: "text-primary-500 dark:text-primary-400",
+    icon: "🛍️",
+    year: "2026",
+    badge: "Client Live ⚡",
+    image: "/images/projects/gaxinmart.jpg",
+  },
+  {
     id: "tutor-finder",
     title: "Tutor Finder",
     tagline: "MediQueue: Elevating Tutor Booking UX",
@@ -375,24 +425,28 @@ export function PortfolioGridSection({
                   </div>
                   {/* Link icons top-right */}
                   <div className="absolute top-3 right-3 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Live demo of ${project.title}`}
-                      className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-primary-500/20 hover:border-primary-500/40 transition-all backdrop-blur-sm"
-                    >
-                      ↗
-                    </a>
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`GitHub source of ${project.title}`}
-                      className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-surface-3 transition-all backdrop-blur-sm"
-                    >
-                      ⌥
-                    </a>
+                    {project.liveUrl && project.liveUrl !== "#" && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Live demo of ${project.title}`}
+                        className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-primary-500/20 hover:border-primary-500/40 transition-all backdrop-blur-sm"
+                      >
+                        ↗
+                      </a>
+                    )}
+                    {project.githubUrl && project.githubUrl !== "#" && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`GitHub source of ${project.title}`}
+                        className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-surface-3 transition-all backdrop-blur-sm"
+                      >
+                        ⌥
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -439,22 +493,35 @@ export function PortfolioGridSection({
                       variant="primary"
                       size="sm"
                       asChild
-                      className="flex-1 text-xs"
+                      className="flex-1 text-xs font-semibold"
                     >
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                        Live Demo ↗
+                        {project.liveUrl.startsWith("http") ? "Visit Store ↗" : "Live Demo ↗"}
                       </a>
                     </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      asChild
-                      className="flex-1 text-xs"
-                    >
-                      <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                        GitHub
-                      </a>
-                    </Button>
+                    {project.githubUrl && project.githubUrl !== "#" ? (
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="flex-1 text-xs"
+                      >
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                          GitHub
+                        </a>
+                      </Button>
+                    ) : project.liveUrl.startsWith("http") ? (
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        asChild
+                        className="text-xs px-3"
+                      >
+                        <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" title="Live Store">
+                          Live 🌐
+                        </a>
+                      </Button>
+                    ) : null}
                   </div>
                 </div>
               </Card>

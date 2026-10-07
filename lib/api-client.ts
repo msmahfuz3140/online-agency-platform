@@ -81,7 +81,7 @@ export async function fetchPortfolio(category?: string): Promise<any[]> {
     }
 
     const res = await fetch(url.toString(), {
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: { Accept: "application/json" },
     });
 
