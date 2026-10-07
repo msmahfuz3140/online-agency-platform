@@ -90,7 +90,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (checking && !user) {
     return (
-      <div className="min-h-screen bg-[#0a0f1a] flex items-center justify-center">
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Logo variant="mark" size={56} className="animate-pulse" priority />
           <div className="flex items-center gap-2">
@@ -98,7 +98,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <span className="h-2 w-2 rounded-full bg-primary-500 animate-bounce" style={{ animationDelay: "150ms" }} />
             <span className="h-2 w-2 rounded-full bg-primary-500 animate-bounce" style={{ animationDelay: "300ms" }} />
           </div>
-          <p className="text-xs text-neutral-400 font-medium tracking-wide">Loading Admin Executive Hub…</p>
+          <p className="text-xs text-muted-fg font-medium tracking-wide">Loading Admin Executive Hub…</p>
         </div>
       </div>
     );
@@ -125,7 +125,7 @@ function AdminLayoutInner({
   const { mobileOpen, closeMobile } = useAdminLayout();
 
   return (
-    <div className="flex h-screen bg-[#0a0f1a] overflow-hidden">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden">
       <AdminSidebar
         user={user}
         mobileOpen={mobileOpen}

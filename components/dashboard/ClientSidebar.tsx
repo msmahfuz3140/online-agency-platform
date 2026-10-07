@@ -113,7 +113,7 @@ export function ClientSidebar({
       id: "ai-builder" as const,
       label: "AI Website Generator",
       icon: <SparklesIcon />,
-      badge: "PRO",
+      badge: "SOON",
     },
     {
       id: "messages" as const,
@@ -130,9 +130,9 @@ export function ClientSidebar({
   ];
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#080e1a] border-r border-white/[0.07] select-none">
+    <div className="flex flex-col h-full bg-surface-1 dark:bg-[#080e1a] border-r border-border select-none">
       {/* Brand Header */}
-      <div className="flex items-center justify-between px-4 py-5 border-b border-white/[0.06] min-h-[65px]">
+      <div className="flex items-center justify-between px-4 py-5 border-b border-border min-h-[65px]">
         <Link href="/" className="flex items-center gap-3 group shrink-0">
           <Logo variant="mark" size={34} />
           <AnimatePresence>
@@ -144,8 +144,8 @@ export function ClientSidebar({
                 transition={{ duration: 0.18 }}
                 className="flex flex-col leading-none overflow-hidden whitespace-nowrap"
               >
-                <span className="font-heading font-bold text-sm text-white tracking-tight">Nexora</span>
-                <span className="text-[10px] text-primary-400 font-mono font-medium mt-0.5">Client Portal</span>
+                <span className="font-heading font-bold text-sm text-foreground tracking-tight">Nexora</span>
+                <span className="text-[10px] text-primary-500 dark:text-primary-400 font-mono font-medium mt-0.5">Client Portal</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -182,8 +182,8 @@ export function ClientSidebar({
               title={collapsed ? item.label : undefined}
               className={`w-full relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 text-left cursor-pointer group ${
                 isActive
-                  ? "bg-primary-500/15 text-primary-300 shadow-[inset_0_0_0_1px_rgba(20,184,160,0.25)]"
-                  : "text-neutral-400 hover:text-white hover:bg-white/[0.04]"
+                  ? "bg-primary-500/15 text-primary-500 dark:text-primary-300 shadow-[inset_0_0_0_1px_rgba(20,184,160,0.25)]"
+                  : "text-muted-fg hover:text-foreground hover:bg-surface-2"
               }`}
             >
               {isActive && (
@@ -193,7 +193,7 @@ export function ClientSidebar({
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
-              <span className={`shrink-0 relative z-10 ${isActive ? "text-primary-400" : "text-neutral-500 group-hover:text-neutral-300"}`}>
+              <span className={`shrink-0 relative z-10 ${isActive ? "text-primary-500 dark:text-primary-400" : "text-muted-fg group-hover:text-foreground"}`}>
                 {item.icon}
               </span>
               <AnimatePresence>
@@ -209,11 +209,11 @@ export function ClientSidebar({
                     {item.badge != null && (
                       <span
                         className={`text-[9px] font-mono font-bold px-1.5 py-0.2 rounded-full border ${
-                          item.badge === "PRO"
-                            ? "bg-primary-500/20 text-primary-300 border-primary-500/30"
+                          item.badge === "SOON"
+                            ? "bg-amber-500/20 text-amber-500 dark:text-amber-300 border-amber-500/30"
                             : item.badge === "<45m"
-                            ? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
-                            : "bg-amber-500/20 text-amber-300 border-amber-500/30"
+                            ? "bg-emerald-500/20 text-emerald-500 dark:text-emerald-300 border-emerald-500/30"
+                            : "bg-primary-500/20 text-primary-500 dark:text-primary-300 border-primary-500/30"
                         }`}
                       >
                         {item.badge}
@@ -227,14 +227,14 @@ export function ClientSidebar({
         })}
 
         {/* Shortcuts Section */}
-        <div className="pt-4 mt-4 border-t border-white/[0.06]">
-          <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-neutral-400">
+        <div className="pt-4 mt-4 border-t border-border">
+          <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-muted-fg">
             {!collapsed ? "Quick Actions" : "•••"}
           </div>
 
           <Link
             href="/request-project"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
           >
             <span className="text-sm">💼</span>
             {!collapsed && <span className="truncate">New Project Brief</span>}
@@ -242,7 +242,7 @@ export function ClientSidebar({
 
           <Link
             href="/dashboard/settings"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
           >
             <span className="text-sm">⚙️</span>
             {!collapsed && <span className="truncate">Account Settings</span>}
@@ -250,7 +250,7 @@ export function ClientSidebar({
 
           <Link
             href="/portfolio"
-            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
           >
             <span className="text-sm">🌐</span>
             {!collapsed && <span className="truncate">Live Portfolios</span>}
@@ -259,22 +259,22 @@ export function ClientSidebar({
 
         {/* Staff / Super Admin Executive Hub shortcut */}
         {isStaff && (
-          <div className="pt-4 mt-4 border-t border-white/[0.06]">
-            <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-amber-400/90 font-semibold">
+          <div className="pt-4 mt-4 border-t border-border">
+            <div className="px-2 pb-2 text-[10px] font-mono uppercase tracking-wider text-amber-500 dark:text-amber-400 font-semibold">
               {!collapsed ? "Executive Portal" : "👑"}
             </div>
 
             <Link
               href="/admin"
-              className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors shadow-sm"
+              className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-amber-500 dark:text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors shadow-sm"
             >
-              <span className="shrink-0 text-amber-400"><ShieldCheckIcon /></span>
+              <span className="shrink-0 text-amber-500 dark:text-amber-400"><ShieldCheckIcon /></span>
               {!collapsed && <span className="truncate">🛡️ Admin Executive Hub</span>}
             </Link>
 
             <Link
               href="/admin/team"
-              className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors mt-1"
+              className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors mt-1"
             >
               <span className="text-sm">👥</span>
               {!collapsed && <span className="truncate">Team Access & Roles</span>}
@@ -284,13 +284,13 @@ export function ClientSidebar({
       </nav>
 
       {/* Bottom User Area & Collapse Toggle */}
-      <div className="border-t border-white/[0.06] p-2.5 space-y-1.5">
+      <div className="border-t border-border p-2.5 space-y-1.5">
         {/* User Card */}
         <Link
           href="/dashboard/settings"
-          className="p-2 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-primary-500/30 hover:bg-white/[0.06] transition-all flex items-center gap-2.5 overflow-hidden group cursor-pointer"
+          className="p-2 rounded-xl bg-surface-2/70 border border-border hover:border-primary-500/30 hover:bg-surface-2 transition-all flex items-center gap-2.5 overflow-hidden group cursor-pointer"
         >
-          <div className="h-8 w-8 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shrink-0">
+          <div className="h-8 w-8 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-500 dark:text-primary-300 shrink-0">
             {user?.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
@@ -306,15 +306,15 @@ export function ClientSidebar({
                 exit={{ opacity: 0 }}
                 className="flex-1 min-w-0"
               >
-                <p className="text-xs font-semibold text-white group-hover:text-primary-300 transition-colors truncate leading-tight">
+                <p className="text-xs font-semibold text-foreground group-hover:text-primary-500 dark:group-hover:text-primary-300 transition-colors truncate leading-tight">
                   {user?.name || "Client"}
                 </p>
                 <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="text-[10px] text-primary-400 font-mono leading-none">
+                  <span className="text-[10px] text-primary-500 dark:text-primary-400 font-mono leading-none">
                     ⚡ {user?.aiCreditsRemaining ?? 5} cr
                   </span>
-                  <span className="text-neutral-600">•</span>
-                  <span className="text-[10px] text-amber-300 font-mono capitalize leading-none truncate font-bold">
+                  <span className="text-muted-fg">•</span>
+                  <span className="text-[10px] text-amber-500 dark:text-amber-300 font-mono capitalize leading-none truncate font-bold">
                     {user?.plan === "business"
                       ? "💎 Business VIP"
                       : user?.plan === "pro"
@@ -333,7 +333,7 @@ export function ClientSidebar({
             type="button"
             onClick={handleSignOut}
             title={collapsed ? "Sign Out" : undefined}
-            className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+            className="flex-1 flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium text-red-500 dark:text-red-400 hover:bg-red-500/10 hover:text-red-400 transition-colors cursor-pointer"
           >
             <span>🚪</span>
             {!collapsed && <span className="text-[11px]">Sign Out</span>}
@@ -344,7 +344,7 @@ export function ClientSidebar({
             type="button"
             onClick={() => setCollapsed(!collapsed)}
             aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-            className="hidden md:flex p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+            className="hidden md:flex p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
           >
             <motion.div animate={{ rotate: collapsed ? 180 : 0 }} transition={{ duration: 0.2 }}>
               <ChevronLeftIcon />

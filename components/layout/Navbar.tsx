@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "../ui/Button";
 import { Logo } from "../ui/Logo";
+import { ThemeToggle } from "../ui/ThemeToggle";
 import { useCurrentUser, signOut } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 
@@ -64,7 +65,7 @@ const navItems: NavItem[] = [
         href: "/services?category=ai",
         desc: "Claude Sonnet API & automated web engines",
         icon: "🤖",
-        badge: "AI Live",
+        badge: "Coming Soon",
       },
       {
         label: "Cloud Hosting & Maintenance",
@@ -74,6 +75,7 @@ const navItems: NavItem[] = [
       },
     ],
   },
+
   {
     label: "Work",
     children: [
@@ -281,8 +283,8 @@ export function Navbar() {
         <div
           className={`mx-auto max-w-7xl w-full h-14 sm:h-16 rounded-2xl sm:rounded-full px-3.5 sm:px-6 flex items-center justify-between pointer-events-auto transition-all duration-300 ${
             scrolled || mobileOpen
-              ? "bg-neutral-950/90 backdrop-blur-2xl border border-neutral-800 shadow-[0_12px_40px_rgba(0,0,0,0.7)] ring-1 ring-white/5"
-              : "bg-neutral-950/60 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              ? "bg-surface/90 dark:bg-neutral-950/90 backdrop-blur-2xl border border-border/80 dark:border-neutral-800 shadow-md dark:shadow-[0_12px_40px_rgba(0,0,0,0.7)] ring-1 ring-black/5 dark:ring-white/5"
+              : "bg-surface/75 dark:bg-neutral-950/60 backdrop-blur-xl border border-border/60 dark:border-white/10 shadow-sm dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
           }`}
         >
           {/* Logo */}
@@ -317,10 +319,10 @@ export function Navbar() {
                   >
                     <button
                       type="button"
-                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-all duration-150 ${
+                      className={`flex items-center gap-1.5 px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-all duration-150 cursor-pointer ${
                         isDropdownOpen || isActive
-                          ? "text-white bg-neutral-800/90 shadow-sm"
-                          : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
+                          ? "text-foreground bg-surface-2 dark:bg-neutral-800/90 shadow-sm font-semibold"
+                          : "text-muted-fg hover:text-foreground hover:bg-surface-2/60 dark:hover:bg-neutral-800/50"
                       }`}
                       aria-expanded={isDropdownOpen}
                     >
@@ -328,7 +330,7 @@ export function Navbar() {
                       <motion.span
                         animate={{ rotate: isDropdownOpen ? 180 : 0 }}
                         transition={{ duration: 0.2 }}
-                        className="text-[10px] text-neutral-400"
+                        className="text-[10px] text-muted-fg"
                       >
                         ▾
                       </motion.span>
@@ -342,7 +344,7 @@ export function Navbar() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.18, ease: "easeOut" }}
-                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-88 p-2 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800/90 shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-white/10"
+                          className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-88 p-2 rounded-2xl bg-surface/95 dark:bg-neutral-950/95 backdrop-blur-2xl border border-border dark:border-neutral-800/90 shadow-xl dark:shadow-[0_24px_70px_rgba(0,0,0,0.85)] z-50 overflow-hidden ring-1 ring-black/5 dark:ring-white/10"
                         >
                           <div className="space-y-1">
                             {item.children?.map((child) => (
@@ -350,7 +352,7 @@ export function Navbar() {
                                 key={child.label}
                                 href={child.href}
                                 onClick={() => setActiveDropdown(null)}
-                                className="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-neutral-900/90 border border-transparent hover:border-neutral-800 transition-all duration-150 group"
+                                className="flex items-start gap-2.5 p-2.5 rounded-xl hover:bg-surface-2 dark:hover:bg-neutral-900/90 border border-transparent hover:border-border dark:hover:border-neutral-800 transition-all duration-150 group"
                               >
                                 <span className="h-8 w-8 rounded-lg bg-surface-2 border border-border flex items-center justify-center text-base flex-shrink-0 group-hover:scale-105 group-hover:border-primary-500/40 transition-all">
                                   {child.icon}
@@ -401,8 +403,8 @@ export function Navbar() {
                   href={item.href || "#"}
                   className={`px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-all duration-150 ${
                     isActive
-                      ? "text-white bg-neutral-800/90 shadow-sm"
-                      : "text-neutral-300 hover:text-white hover:bg-neutral-800/50"
+                      ? "text-foreground bg-surface-2 dark:bg-neutral-800/90 shadow-sm font-semibold"
+                      : "text-muted-fg hover:text-foreground hover:bg-surface-2/60 dark:hover:bg-neutral-800/50"
                   }`}
                 >
                   {item.label}
@@ -459,7 +461,7 @@ export function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 8, scale: 0.96 }}
                       transition={{ duration: 0.16, ease: "easeOut" }}
-                      className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800 shadow-[0_24px_70px_rgba(0,0,0,0.85)] ring-1 ring-white/10 p-2.5 z-50 overflow-hidden"
+                      className="absolute right-0 top-full mt-2 w-72 rounded-2xl bg-surface/95 dark:bg-neutral-950/95 backdrop-blur-2xl border border-border dark:border-neutral-800 shadow-xl dark:shadow-[0_24px_70px_rgba(0,0,0,0.85)] ring-1 ring-black/5 dark:ring-white/10 p-2.5 z-50 overflow-hidden"
                     >
                       {/* User Info Header */}
                       <div className="p-3 rounded-xl bg-surface-1/90 border border-border/70 mb-2">
@@ -486,11 +488,11 @@ export function Navbar() {
                         {/* Admin links if staff */}
                         {(["superadmin", "admin", "manager", "developer", "support", "editor"].includes((user.role || "").toLowerCase()) ||
                           user.email?.toLowerCase().includes("mahfuz")) && (
-                          <div className="mb-2 pb-2 border-b border-white/[0.08] space-y-1">
+                          <div className="mb-2 pb-2 border-b border-border dark:border-white/[0.08] space-y-1">
                             <Link
                               href="/admin"
                               onClick={() => setProfileDropdownOpen(false)}
-                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-500 dark:text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
                             >
                               <span className="text-sm">🛡️</span>
                               <span>Admin Executive Hub</span>
@@ -499,7 +501,7 @@ export function Navbar() {
                             <Link
                               href="/admin/team"
                               onClick={() => setProfileDropdownOpen(false)}
-                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-200 hover:text-white hover:bg-neutral-900 transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                             >
                               <span className="text-sm">👥</span>
                               <span>Team Members & Roles</span>
@@ -508,7 +510,7 @@ export function Navbar() {
                             <Link
                               href="/admin/workspace"
                               onClick={() => setProfileDropdownOpen(false)}
-                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-200 hover:text-white hover:bg-neutral-900 transition-colors"
+                              className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                             >
                               <span className="text-sm">⚡</span>
                               <span>Personal Workspace</span>
@@ -519,7 +521,7 @@ export function Navbar() {
                         <Link
                           href="/dashboard"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">📊</span>
                           <span className="font-medium">Client Dashboard</span>
@@ -528,7 +530,7 @@ export function Navbar() {
                         <Link
                           href="/dashboard/messages"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-primary-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-primary-500 dark:text-primary-300 hover:text-primary-600 dark:hover:text-white hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">💬</span>
                           <span className="font-medium">My Messages &amp; Inquiries</span>
@@ -537,16 +539,17 @@ export function Navbar() {
                         <Link
                           href="/dashboard#ai-generator"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">⚡</span>
                           <span className="font-medium">AI Website Generator</span>
+                          <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-500 dark:text-amber-300 border border-amber-500/30 ml-auto">Soon</span>
                         </Link>
 
                         <Link
                           href="/request-project"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">💼</span>
                           <span className="font-medium">Request Custom Project</span>
@@ -555,7 +558,7 @@ export function Navbar() {
                         <Link
                           href="/dashboard#settings"
                           onClick={() => setProfileDropdownOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-neutral-900 transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-neutral-900 transition-colors"
                         >
                           <span className="text-sm">⚙️</span>
                           <span className="font-medium">Account Settings</span>
@@ -570,7 +573,7 @@ export function Navbar() {
                             setProfileDropdownOpen(false);
                             await signOut();
                           }}
-                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                          className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-500 dark:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer"
                         >
                           <span>🚪</span>
                           <span className="font-semibold">Sign Out</span>
@@ -580,12 +583,15 @@ export function Navbar() {
                   )}
                 </AnimatePresence>
                 </div>
+
+                <ThemeToggle />
               </>
             ) : (
               <>
+                <ThemeToggle />
                 <Link
                   href="/login"
-                  className="text-xs lg:text-sm font-medium text-neutral-300 hover:text-white transition-colors px-2 py-1"
+                  className="text-xs lg:text-sm font-medium text-muted-fg hover:text-foreground transition-colors px-2 py-1"
                 >
                   Log in
                 </Link>
@@ -603,6 +609,8 @@ export function Navbar() {
 
           {/* Mobile & Tablet Right Cluster (< 1024px) */}
           <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+            <ThemeToggle className="h-8 w-8 rounded-full text-xs" />
+
             {isAuthenticated && user ? (
               <>
                 <WorkspaceSwitcher current="website" compact={true} align="right" />
@@ -622,7 +630,7 @@ export function Navbar() {
             ) : (
               <Link
                 href="/request-project"
-                className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-primary-500/15 border border-primary-500/30 text-primary-300 hover:bg-primary-500/25 transition-all shadow-sm"
+                className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-primary-500/15 border border-primary-500/30 text-primary-400 dark:text-primary-300 hover:bg-primary-500/25 transition-all shadow-sm"
               >
                 Brief ↗
               </Link>
@@ -633,7 +641,7 @@ export function Navbar() {
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="p-2 text-neutral-300 hover:text-white rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-all cursor-pointer"
+              className="p-2 text-foreground/80 hover:text-foreground rounded-xl bg-surface-2 border border-border hover:bg-surface-3 transition-all cursor-pointer"
             >
               <div className="w-4 h-4 flex flex-col justify-center gap-[4px]">
                 <motion.span
@@ -668,7 +676,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl lg:hidden"
+              className="fixed inset-0 z-50 bg-black/40 dark:bg-black/85 backdrop-blur-xl lg:hidden"
               onClick={() => setMobileOpen(false)}
             />
 
@@ -684,7 +692,7 @@ export function Navbar() {
               <div className="max-w-2xl mx-auto w-full space-y-4">
                 {/* 1. If Authenticated: Executive Profile & Ecosystem Switcher Card */}
                 {isAuthenticated && user && (
-                  <div className="rounded-2xl border border-white/[0.1] bg-[#0c1322]/90 backdrop-blur-2xl p-4 shadow-xl">
+                  <div className="rounded-2xl border border-border dark:border-white/[0.1] bg-surface/95 dark:bg-[#0c1322]/90 backdrop-blur-2xl p-4 shadow-xl">
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="relative h-10 w-10 rounded-full bg-gradient-to-br from-primary-500/30 via-amber-500/20 to-surface-1 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shrink-0">
@@ -698,8 +706,8 @@ export function Navbar() {
                           )}
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-xs font-bold text-white truncate leading-tight">{user.name}</p>
-                          <p className="text-[10px] text-neutral-400 truncate">{user.email}</p>
+                          <p className="text-xs font-bold text-foreground truncate leading-tight">{user.name}</p>
+                          <p className="text-[10px] text-muted-fg truncate">{user.email}</p>
                         </div>
                       </div>
 
@@ -709,13 +717,13 @@ export function Navbar() {
                     </div>
 
                     {/* Ecosystem Quick Access Grid */}
-                    <div className="mt-3 pt-3 border-t border-white/[0.08] grid grid-cols-2 gap-2">
+                    <div className="mt-3 pt-3 border-t border-border dark:border-white/[0.08] grid grid-cols-2 gap-2">
                       {((["superadmin", "admin", "manager", "developer", "support", "editor"].includes((user.role || "").toLowerCase())) ||
                         user.email?.toLowerCase().includes("mahfuz")) && (
                         <Link
                           href="/admin"
                           onClick={() => setMobileOpen(false)}
-                          className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 text-amber-300 text-xs font-semibold transition-all shadow-sm"
+                          className="flex items-center gap-2 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 hover:bg-amber-500/20 text-amber-500 dark:text-amber-300 text-xs font-semibold transition-all shadow-sm"
                         >
                           <span className="text-sm">🛡️</span>
                           <span className="truncate">Admin Hub</span>
@@ -725,7 +733,7 @@ export function Navbar() {
                       <Link
                         href="/dashboard"
                         onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 p-2.5 rounded-xl bg-primary-500/10 border border-primary-500/25 hover:bg-primary-500/20 text-primary-300 text-xs font-semibold transition-all shadow-sm"
+                        className="flex items-center gap-2 p-2.5 rounded-xl bg-primary-500/10 border border-primary-500/25 hover:bg-primary-500/20 text-primary-600 dark:text-primary-300 text-xs font-semibold transition-all shadow-sm"
                       >
                         <span className="text-sm">📊</span>
                         <span className="truncate">Client Portal</span>
@@ -734,7 +742,7 @@ export function Navbar() {
                       <Link
                         href="/dashboard/messages"
                         onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 p-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] text-white text-xs font-semibold transition-all shadow-sm"
+                        className="flex items-center gap-2 p-2.5 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 text-foreground dark:text-white text-xs font-semibold transition-all shadow-sm"
                       >
                         <span className="text-sm">💬</span>
                         <span className="truncate">Messages</span>
@@ -744,7 +752,7 @@ export function Navbar() {
                 )}
 
                 {/* 2. Nav Items with Luxury Accordions */}
-                <div className="rounded-2xl border border-white/[0.08] bg-[#0c1322]/80 backdrop-blur-2xl p-2 sm:p-3 space-y-1 shadow-2xl">
+                <div className="rounded-2xl border border-border dark:border-white/[0.08] bg-surface/90 dark:bg-[#0c1322]/80 backdrop-blur-2xl p-2 sm:p-3 space-y-1 shadow-2xl">
                   {navItems.map((item) => {
                     const hasChildren = item.children && item.children.length > 0;
                     const isExpanded = mobileExpanded === item.label;
@@ -753,24 +761,24 @@ export function Navbar() {
                       return (
                         <div
                           key={item.label}
-                          className="rounded-xl border border-white/[0.06] bg-white/[0.02] overflow-hidden"
+                          className="rounded-xl border border-border/80 dark:border-white/[0.06] bg-surface-2/40 dark:bg-white/[0.02] overflow-hidden"
                         >
                           <button
                             type="button"
                             onClick={() => setMobileExpanded(isExpanded ? null : item.label)}
-                            className="w-full flex items-center justify-between px-3.5 py-3 text-xs sm:text-sm font-semibold text-white hover:bg-white/[0.04] transition-colors"
+                            className="w-full flex items-center justify-between px-3.5 py-3 text-xs sm:text-sm font-semibold text-foreground dark:text-white hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                           >
                             <span className="flex items-center gap-2">
                               <span>{item.label === "Services" ? "⚡" : item.label === "Work" ? "💼" : "💳"}</span>
                               <span>{item.label}</span>
-                              <span className="text-[10px] text-neutral-500 font-mono">
+                              <span className="text-[10px] text-muted-fg font-mono">
                                 ({item.children?.length})
                               </span>
                             </span>
                             <motion.span
                               animate={{ rotate: isExpanded ? 180 : 0 }}
                               transition={{ duration: 0.18 }}
-                              className="text-xs text-neutral-400"
+                              className="text-xs text-muted-fg"
                             >
                               ▾
                             </motion.span>
@@ -789,7 +797,7 @@ export function Navbar() {
                                   <Link
                                     href="/services"
                                     onClick={() => setMobileOpen(false)}
-                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-300 text-xs font-bold transition-all mb-1 shadow-sm"
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-600 dark:text-primary-300 text-xs font-bold transition-all mb-1 shadow-sm"
                                   >
                                     <span className="flex items-center gap-2">
                                       <span>⚡</span>
@@ -804,23 +812,23 @@ export function Navbar() {
                                     key={child.label}
                                     href={child.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className="flex items-center gap-2.5 p-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/[0.05] transition-all"
+                                    className="flex items-center gap-2.5 p-2 rounded-xl text-xs text-muted-fg hover:text-foreground dark:text-neutral-300 dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.05] transition-all"
                                   >
-                                    <span className="h-7 w-7 rounded-lg bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-sm shrink-0">
+                                    <span className="h-7 w-7 rounded-lg bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] flex items-center justify-center text-sm shrink-0">
                                       {child.icon}
                                     </span>
                                     <div className="min-w-0 flex-1">
                                       <div className="flex items-center justify-between gap-1">
-                                        <p className="font-semibold text-white truncate text-xs">
+                                        <p className="font-semibold text-foreground dark:text-white truncate text-xs">
                                           {child.label}
                                         </p>
                                         {child.badge && (
-                                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-300 border border-primary-500/30 shrink-0">
+                                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-primary-500/20 text-primary-600 dark:text-primary-300 border border-primary-500/30 shrink-0">
                                             {child.badge}
                                           </span>
                                         )}
                                       </div>
-                                      <p className="text-[10px] text-neutral-500 truncate mt-0.5">
+                                      <p className="text-[10px] text-muted-fg truncate mt-0.5">
                                         {child.desc}
                                       </p>
                                     </div>
@@ -838,17 +846,17 @@ export function Navbar() {
                         key={item.label}
                         href={item.href || "#"}
                         onClick={() => setMobileOpen(false)}
-                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold text-muted-fg hover:text-foreground dark:text-neutral-300 dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                       >
                         <span>{item.label}</span>
-                        <span className="text-xs text-neutral-600">→</span>
+                        <span className="text-xs text-muted-fg">→</span>
                       </Link>
                     );
                   })}
                 </div>
 
                 {/* 3. Bottom Action CTA */}
-                <div className="p-3 rounded-2xl border border-white/[0.08] bg-[#0c1322]/80 backdrop-blur-2xl space-y-2">
+                <div className="p-3 rounded-2xl border border-border dark:border-white/[0.08] bg-surface/90 dark:bg-[#0c1322]/80 backdrop-blur-2xl space-y-2">
                   <Link
                     href="/request-project"
                     onClick={() => setMobileOpen(false)}

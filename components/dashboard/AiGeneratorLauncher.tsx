@@ -55,38 +55,38 @@ export function AiGeneratorLauncher({ creditsRemaining }: AiGeneratorLauncherPro
   };
 
   return (
-    <div className="relative rounded-3xl border border-primary-500/30 bg-gradient-to-br from-[#0c1322] via-[#09111e] to-[#070d18] p-4 sm:p-7 shadow-[0_20px_50px_rgba(20,184,160,0.08)] overflow-hidden">
+    <div className="relative rounded-3xl border border-primary-500/30 bg-surface-1 dark:bg-gradient-to-br dark:from-[#0c1322] dark:via-[#09111e] dark:to-[#070d18] p-4 sm:p-7 shadow-xl overflow-hidden">
       {/* Ambient background glow */}
       <div className="absolute top-0 right-0 w-80 h-80 bg-primary-500/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-0 left-1/3 w-60 h-60 bg-amber-500/8 rounded-full blur-[90px] pointer-events-none" />
 
       {/* Header */}
-      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-white/[0.08]">
+      <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-5 border-b border-border dark:border-white/[0.08]">
         <div>
           <div className="flex items-center gap-2 mb-1.5">
-            <span className="text-xs px-2.5 py-0.5 rounded-full bg-primary-500/20 border border-primary-500/40 text-primary-300 font-mono font-semibold flex items-center gap-1.5 shadow-[0_0_12px_rgba(20,184,160,0.2)]">
-              <span>⚡</span> Claude Sonnet 3.5 Engine
+            <span className="text-xs px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-500 dark:text-amber-300 font-mono font-semibold flex items-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.2)]">
+              <span>⏳</span> Coming Soon • In Active Development
             </span>
-            <span className="text-xs text-neutral-400 font-mono">• Instant Web Blueprint</span>
+            <span className="text-xs text-muted-fg font-mono">• Instant Web Blueprint</span>
           </div>
-          <h2 className="font-heading text-xl sm:text-2xl font-bold text-white tracking-tight">
+          <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground tracking-tight">
             AI Website Generator Engine
           </h2>
-          <p className="text-xs text-neutral-400 mt-1 max-w-xl leading-relaxed">
-            Type your business vision in plain English. The Claude engine outputs complete Next.js component blueprints in under 10 seconds.
+          <p className="text-xs text-muted-fg mt-1 max-w-xl leading-relaxed">
+            Type your business vision in plain English. The Claude engine outputs complete Next.js component blueprints in under 10 seconds. (Coming soon for automated generation).
           </p>
         </div>
 
         {/* Credit Token Counter */}
-        <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-white/[0.04] border border-white/[0.08] shadow-inner shrink-0">
-          <div className="h-9 w-9 rounded-xl bg-primary-500/20 border border-primary-500/40 flex items-center justify-center font-bold text-sm text-primary-300">
+        <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-surface-2 border border-border shadow-inner shrink-0">
+          <div className="h-9 w-9 rounded-xl bg-primary-500/20 border border-primary-500/40 flex items-center justify-center font-bold text-sm text-primary-400">
             ⚡
           </div>
           <div>
-            <div className="text-xs font-bold text-white font-mono">
+            <div className="text-xs font-bold text-foreground font-mono">
               {creditsRemaining} / 5 Credits
             </div>
-            <span className="text-[10px] text-emerald-400 font-medium">
+            <span className="text-[10px] text-emerald-500 font-medium">
               Free Daily Allocation Active
             </span>
           </div>
@@ -95,7 +95,7 @@ export function AiGeneratorLauncher({ creditsRemaining }: AiGeneratorLauncherPro
 
       {/* Preset Category Pills */}
       <div className="relative z-10 mt-5">
-        <span className="text-[11px] font-semibold text-neutral-400 uppercase tracking-wider block mb-2 font-mono">
+        <span className="text-[11px] font-semibold text-muted-fg uppercase tracking-wider block mb-2 font-mono">
           Suggested Archetypes:
         </span>
         <div className="flex flex-wrap gap-2">
@@ -106,8 +106,8 @@ export function AiGeneratorLauncher({ creditsRemaining }: AiGeneratorLauncherPro
               onClick={() => handleSelectPreset(preset)}
               className={`px-3 py-1.5 rounded-xl text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
                 activeCategory === preset.category
-                  ? "bg-primary-500/25 border border-primary-500/50 text-white font-semibold shadow-[0_0_14px_rgba(20,184,160,0.2)]"
-                  : "bg-white/[0.03] border border-white/[0.06] text-neutral-400 hover:text-white hover:bg-white/[0.06]"
+                  ? "bg-primary-500/25 border border-primary-500/50 text-foreground font-semibold shadow-[0_0_14px_rgba(20,184,160,0.2)]"
+                  : "bg-surface-2 border border-border text-muted-fg hover:text-foreground hover:bg-surface-3"
               }`}
             >
               <span>{preset.category === "SaaS Platform" ? "🚀" : preset.category === "E-Commerce" ? "🛍️" : preset.category === "FinTech" ? "💳" : "🎨"}</span>
@@ -119,16 +119,16 @@ export function AiGeneratorLauncher({ creditsRemaining }: AiGeneratorLauncherPro
 
       {/* Interactive Prompt Box */}
       <div className="relative z-10 mt-4 space-y-3">
-        <div className="relative rounded-2xl border border-white/[0.12] bg-[#070c16]/90 p-3 sm:p-4 focus-within:border-primary-500/70 focus-within:shadow-[0_0_24px_rgba(20,184,160,0.25)] transition-all">
+        <div className="relative rounded-2xl border border-border bg-surface-2/70 p-3 sm:p-4 focus-within:border-primary-500/70 focus-within:shadow-[0_0_24px_rgba(20,184,160,0.25)] transition-all">
           <textarea
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Describe your website concept (e.g. Modern dark-mode SaaS landing page for an AI agency with pricing tables, testimonials, and contact form)..."
+            placeholder="Describe your website concept (e.g. Modern SaaS landing page with pricing tables, testimonials, and contact form)..."
             rows={3}
-            className="w-full bg-transparent text-sm text-white placeholder-neutral-500 resize-none outline-none leading-relaxed"
+            className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-fg resize-none outline-none leading-relaxed"
           />
 
-          <div className="mt-2 pt-2 border-t border-white/[0.06] flex flex-wrap items-center justify-between gap-3">
+          <div className="mt-2 pt-2 border-t border-border flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2 text-[11px] text-neutral-500 font-mono">
               <span>Next.js 16</span>
               <span>•</span>

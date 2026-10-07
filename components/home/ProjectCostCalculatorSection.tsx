@@ -311,7 +311,7 @@ export function ProjectCostCalculatorSection() {
 
         {/* Right Summary Card (Sticky) */}
         <div className="sticky top-24">
-          <div className="p-6 sm:p-7 rounded-3xl bg-neutral-950 border border-primary-500/40 shadow-[0_20px_60px_rgba(0,0,0,0.6)] relative overflow-hidden">
+          <div className="p-6 sm:p-7 rounded-3xl bg-card dark:bg-neutral-950 border border-primary-500/40 shadow-xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] relative overflow-hidden">
             {/* Header glow */}
             <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-primary-500/15 blur-[60px] pointer-events-none" />
 
@@ -340,7 +340,7 @@ export function ProjectCostCalculatorSection() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-3 rounded-xl bg-surface border border-border text-xs">
+                <div className="flex items-center justify-between p-3 rounded-xl bg-surface-2 border border-border text-xs">
                   <span className="text-muted-fg">Estimated Delivery:</span>
                   <span className="font-semibold text-primary-400">
                     ~ {totalDays} Business Days

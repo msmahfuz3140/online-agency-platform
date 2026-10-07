@@ -25,7 +25,7 @@ const footerLinks = {
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-neutral-950">
+    <footer className="border-t border-border bg-surface-1 dark:bg-neutral-950 text-foreground transition-colors duration-200">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-10 lg:gap-12">
           {/* Brand col — full width on xs, spans 2 cols on sm */}
@@ -39,7 +39,7 @@ export function Footer() {
               />
             </Link>
             <p className="mt-4 text-sm text-muted-fg leading-relaxed max-w-xs">
-              Premium digital agency specializing in web development and AI-powered website generation. We build products that convert.
+              Premium digital agency specializing in full-stack web development, UI/UX design, and security engineering. We build products that convert.
             </p>
             <div className="mt-5 sm:mt-6 flex gap-3">
               {[
@@ -75,7 +75,7 @@ export function Footer() {
                   key={s.label}
                   href={s.href}
                   aria-label={s.label}
-                  className="flex items-center justify-center h-8 w-8 rounded-lg text-muted-fg hover:text-primary-400 hover:bg-neutral-800 transition-all"
+                  className="flex items-center justify-center h-8 w-8 rounded-lg text-muted-fg hover:text-primary-400 hover:bg-surface-2 dark:hover:bg-neutral-800 transition-all"
                 >
                   {s.icon}
                 </a>

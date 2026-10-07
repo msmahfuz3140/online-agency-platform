@@ -87,11 +87,11 @@ export function FloatingAiAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="mb-3 w-[calc(100vw-2.5rem)] sm:w-96 rounded-3xl bg-neutral-950/95 backdrop-blur-2xl border border-neutral-800 shadow-[0_24px_80px_rgba(0,0,0,0.85)] flex flex-col overflow-hidden ring-1 ring-white/10"
+            className="mb-3 w-[calc(100vw-2.5rem)] sm:w-96 rounded-3xl bg-surface/95 dark:bg-neutral-950/95 backdrop-blur-2xl border border-border dark:border-neutral-800 shadow-2xl flex flex-col overflow-hidden ring-1 ring-black/5 dark:ring-white/10"
             style={{ maxHeight: "520px", height: "480px" }}
           >
             {/* Header */}
-            <div className="p-4 bg-surface border-b border-border flex items-center justify-between">
+            <div className="p-4 bg-surface-1 border-b border-border flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="h-8 w-8 rounded-xl bg-primary-500/20 border border-primary-500/40 flex items-center justify-center text-primary-400 font-bold text-sm shadow-[0_0_12px_rgba(20,184,160,0.3)]">
                   🤖
@@ -99,16 +99,18 @@ export function FloatingAiAssistant() {
                 <div>
                   <h4 className="font-heading font-bold text-sm text-foreground flex items-center gap-1.5">
                     Nexora Assistant
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[9px] font-mono font-normal px-1.5 py-0.5 rounded-full bg-amber-500/15 text-amber-500 border border-amber-500/30">
+                      Coming Soon
+                    </span>
                   </h4>
-                  <p className="text-[10px] text-muted-fg">Powered by CST Engineers & AI</p>
+                  <p className="text-[10px] text-muted-fg">Powered by CST Engineers &amp; AI</p>
                 </div>
               </div>
 
               <button
                 onClick={() => setIsOpen(false)}
                 type="button"
-                className="h-7 w-7 rounded-full text-neutral-400 hover:text-white hover:bg-neutral-800 flex items-center justify-center text-sm transition-colors"
+                className="h-7 w-7 rounded-full text-muted-fg hover:text-foreground hover:bg-surface-2 flex items-center justify-center text-sm transition-colors"
                 aria-label="Close chat"
               >
                 ✕
@@ -116,7 +118,7 @@ export function FloatingAiAssistant() {
             </div>
 
             {/* Messages Body */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs">
+            <div className="flex-1 p-4 overflow-y-auto space-y-3 text-xs bg-surface">
               {messages.map((m) => (
                 <div
                   key={m.id}
@@ -126,7 +128,7 @@ export function FloatingAiAssistant() {
                     className={`max-w-[85%] p-3 rounded-2xl leading-relaxed ${
                       m.sender === "user"
                         ? "bg-primary-500 text-white rounded-br-none shadow-md font-medium"
-                        : "bg-surface border border-border text-neutral-300 rounded-bl-none"
+                        : "bg-surface-2 border border-border text-foreground rounded-bl-none"
                     }`}
                   >
                     {m.text}
@@ -136,7 +138,7 @@ export function FloatingAiAssistant() {
 
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-surface border border-border p-2.5 rounded-2xl rounded-bl-none text-muted-fg flex items-center gap-1">
+                  <div className="bg-surface-2 border border-border p-2.5 rounded-2xl rounded-bl-none text-muted-fg flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce" />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce delay-150" />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary-400 animate-bounce delay-300" />
@@ -147,7 +149,7 @@ export function FloatingAiAssistant() {
             </div>
 
             {/* Quick Prompts */}
-            <div className="px-3 py-2 bg-neutral-900/50 border-t border-border/50 flex gap-1.5 overflow-x-auto no-scrollbar">
+            <div className="px-3 py-2 bg-surface-2/60 border-t border-border/70 flex gap-1.5 overflow-x-auto no-scrollbar">
               {quickPrompts.map((q) => (
                 <button
                   key={q}
@@ -166,14 +168,14 @@ export function FloatingAiAssistant() {
                 e.preventDefault();
                 handleSend();
               }}
-              className="p-3 bg-surface border-t border-border flex gap-2"
+              className="p-3 bg-surface-1 border-t border-border flex gap-2"
             >
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Ask about pricing, tech stack, security..."
-                className="flex-1 h-9 px-3 rounded-xl bg-neutral-900 border border-border text-xs text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500"
+                className="flex-1 h-9 px-3 rounded-xl bg-surface-2 border border-border text-xs text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500"
               />
               <button
                 type="submit"
@@ -194,7 +196,11 @@ export function FloatingAiAssistant() {
       >
         <span className="text-base">🤖</span>
         <span>{isOpen ? "Close Assistant" : "Ask Nexora AI"}</span>
-        {!isOpen && <span className="h-2 w-2 rounded-full bg-emerald-300 animate-ping" />}
+        {!isOpen && (
+          <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-full bg-amber-400 text-black font-bold">
+            Soon
+          </span>
+        )}
       </button>
     </div>
   );

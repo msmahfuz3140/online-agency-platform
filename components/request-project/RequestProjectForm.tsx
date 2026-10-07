@@ -145,7 +145,7 @@ function InputField({
 }
 
 const inputClass =
-  "w-full bg-neutral-900/60 border border-neutral-700/60 rounded-xl px-4 py-3 text-sm text-neutral-100 placeholder-neutral-600 outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-200";
+  "w-full bg-surface-2/80 dark:bg-neutral-900/60 border border-border dark:border-neutral-700/60 rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-muted-fg outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all duration-200";
 
 // ─── Steps ────────────────────────────────────────────────────────────────────
 function Step1({
@@ -163,8 +163,8 @@ function Step1({
       className="space-y-5"
     >
       <div>
-        <h3 className="text-xl font-bold text-white mb-1">Your Contact Details</h3>
-        <p className="text-sm text-neutral-500">We'll use this to get back to you with a detailed proposal.</p>
+        <h3 className="text-xl font-bold text-foreground mb-1">Your Contact Details</h3>
+        <p className="text-sm text-muted-fg">We&apos;ll use this to get back to you with a detailed proposal.</p>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
         <InputField label="Full Name" id="clientName" required error={errors.clientName}>
@@ -259,8 +259,8 @@ function Step2({
                 onClick={() => onChange("projectType", pt.value)}
                 className={`flex flex-col items-center gap-1.5 p-3 rounded-xl border text-center transition-all duration-200 cursor-pointer
                   ${active
-                    ? "border-primary-500 bg-primary-500/15 text-primary-300 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
-                    : "border-neutral-700/60 bg-neutral-900/40 text-neutral-400 hover:border-neutral-600 hover:text-neutral-200"
+                    ? "border-primary-500 bg-primary-500/15 text-primary-400 dark:text-primary-300 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
+                    : "border-border dark:border-neutral-700/60 bg-surface-2 dark:bg-neutral-900/40 text-muted-fg hover:border-primary-500/40 hover:text-foreground"
                   }`}
               >
                 <span className="text-2xl">{pt.icon}</span>
@@ -283,13 +283,13 @@ function Step2({
           onChange={(e) => onChange("requirements", e.target.value)}
           className={`${inputClass} resize-none leading-relaxed ${errors.requirements ? "border-red-500/60 focus:ring-red-500/20 focus:border-red-500" : ""}`}
         />
-        <span className="text-xs text-neutral-600 self-end">{data.requirements.length}/10,000</span>
+        <span className="text-xs text-muted-fg self-end">{data.requirements.length}/10,000</span>
       </InputField>
 
       {/* Tech Stack */}
       <div>
-        <label className="text-sm font-semibold text-neutral-300 mb-3 block">
-          Preferred Tech Stack <span className="text-neutral-600 font-normal">(optional)</span>
+        <label className="text-sm font-semibold text-foreground mb-3 block">
+          Preferred Tech Stack <span className="text-muted-fg font-normal">(optional)</span>
         </label>
         <div className="flex flex-wrap gap-2">
           {TECH_STACK_OPTIONS.map((tech) => {
@@ -301,8 +301,8 @@ function Step2({
                 onClick={() => onTechToggle(tech)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all duration-200 cursor-pointer
                   ${active
-                    ? "border-primary-500 bg-primary-500/15 text-primary-300"
-                    : "border-neutral-700/60 bg-neutral-900/30 text-neutral-500 hover:border-neutral-600 hover:text-neutral-300"
+                    ? "border-primary-500 bg-primary-500/15 text-primary-400 dark:text-primary-300"
+                    : "border-border dark:border-neutral-700/60 bg-surface-2 dark:bg-neutral-900/30 text-muted-fg hover:border-primary-500/40 hover:text-foreground"
                   }`}
               >
                 {tech}
@@ -357,7 +357,7 @@ function Step3({
       {/* Budget */}
       <div>
         <label className="text-sm font-semibold text-neutral-300 mb-3 block">
-          Budget Range <span className="text-primary-400">*</span>
+          Budget Range <span className="text-primary-500">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {BUDGET_OPTIONS.map((opt) => (
@@ -368,13 +368,13 @@ function Step3({
               className={`flex flex-col gap-0.5 px-4 py-3.5 rounded-xl border text-left transition-all duration-200 cursor-pointer
                 ${data.budget === opt.value
                   ? "border-primary-500 bg-primary-500/15 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
-                  : "border-neutral-700/60 bg-neutral-900/40 hover:border-neutral-600"
+                  : "border-border dark:border-neutral-700/60 bg-surface-2 dark:bg-neutral-900/40 hover:border-primary-500/40"
                 }`}
             >
-              <span className={`text-sm font-bold ${data.budget === opt.value ? "text-primary-300" : "text-neutral-200"}`}>
+              <span className={`text-sm font-bold ${data.budget === opt.value ? "text-primary-400 dark:text-primary-300" : "text-foreground"}`}>
                 {opt.label}
               </span>
-              <span className="text-xs text-neutral-500">{opt.desc}</span>
+              <span className="text-xs text-muted-fg">{opt.desc}</span>
             </button>
           ))}
         </div>
@@ -385,8 +385,8 @@ function Step3({
 
       {/* Timeline */}
       <div>
-        <label className="text-sm font-semibold text-neutral-300 mb-3 block">
-          Desired Timeline <span className="text-primary-400">*</span>
+        <label className="text-sm font-semibold text-foreground mb-3 block">
+          Desired Timeline <span className="text-primary-500">*</span>
         </label>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
           {TIMELINE_OPTIONS.map((opt) => (
@@ -396,14 +396,14 @@ function Step3({
               onClick={() => onChange("timeline", opt.value)}
               className={`flex flex-col gap-0.5 px-4 py-3.5 rounded-xl border text-left transition-all duration-200 cursor-pointer
                 ${data.timeline === opt.value
-                  ? "border-accent-500 bg-accent-500/10 shadow-[0_0_14px_rgba(245,158,11,0.2)]"
-                  : "border-neutral-700/60 bg-neutral-900/40 hover:border-neutral-600"
+                  ? "border-amber-500 bg-amber-500/10 shadow-[0_0_14px_rgba(245,158,11,0.2)]"
+                  : "border-border dark:border-neutral-700/60 bg-surface-2 dark:bg-neutral-900/40 hover:border-amber-500/40"
                 }`}
             >
-              <span className={`text-sm font-bold ${data.timeline === opt.value ? "text-accent-400" : "text-neutral-200"}`}>
+              <span className={`text-sm font-bold ${data.timeline === opt.value ? "text-amber-500 dark:text-amber-400" : "text-foreground"}`}>
                 {opt.label}
               </span>
-              <span className="text-xs text-neutral-500">{opt.desc}</span>
+              <span className="text-xs text-muted-fg">{opt.desc}</span>
             </button>
           ))}
         </div>
@@ -615,7 +615,7 @@ export function RequestProjectForm() {
       <ToastPortal />
       <div className="w-full max-w-2xl mx-auto">
         {/* Glassmorphic card */}
-        <div className="relative rounded-2xl border border-neutral-800/60 bg-neutral-950/80 backdrop-blur-xl shadow-[0_0_60px_rgba(20,184,160,0.08)] overflow-hidden">
+        <div className="relative rounded-2xl border border-border bg-card dark:bg-neutral-950/80 backdrop-blur-xl shadow-2xl overflow-hidden">
           {/* Glow aura top */}
           <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-80 h-40 bg-primary-500/10 rounded-full blur-3xl pointer-events-none" />
 
@@ -646,12 +646,12 @@ export function RequestProjectForm() {
                   </AnimatePresence>
 
                   {/* Navigation */}
-                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-neutral-800/60">
+                  <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
                     <button
                       type="button"
                       onClick={handleBack}
                       disabled={step === 1}
-                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-neutral-700 text-sm text-neutral-400 hover:border-neutral-500 hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border text-sm text-muted-fg hover:border-neutral-500 hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
                     >
                       <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

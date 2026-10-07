@@ -17,6 +17,7 @@ interface AdminUser {
   role: string;
   isBlocked: boolean;
   aiCreditsRemaining: number;
+  servicesCount?: number;
   createdAt: string;
 }
 
@@ -117,12 +118,12 @@ export default function AdminUsersPage() {
       sortable: true,
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="h-7 w-7 rounded-full bg-primary-500/20 border border-primary-500/20 flex items-center justify-center text-[10px] font-bold text-primary-300 shrink-0">
+          <div className="h-7 w-7 rounded-full bg-primary-500/20 border border-primary-500/20 flex items-center justify-center text-[10px] font-bold text-primary-400 shrink-0">
             {row.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
-            <p className="text-xs font-semibold text-white leading-none">{row.name}</p>
-            <p className="text-[10px] text-neutral-500 mt-0.5">{row.email}</p>
+            <p className="text-xs font-semibold text-foreground leading-none">{row.name}</p>
+            <p className="text-[10px] text-muted-fg mt-0.5">{row.email}</p>
           </div>
         </div>
       ),
@@ -132,6 +133,26 @@ export default function AdminUsersPage() {
       label: "Role",
       sortable: true,
       render: (row) => <StatusBadge status={row.role} />,
+    },
+    {
+      key: "servicesCount",
+      label: "Services Taken",
+      sortable: true,
+      render: (row) => {
+        const count = row.servicesCount || 0;
+        return (
+          <span
+            className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-semibold ${
+              count > 0
+                ? "bg-primary-500/15 text-primary-400 border border-primary-500/30"
+                : "bg-surface-2 dark:bg-white/[0.04] text-muted-fg border border-border"
+            }`}
+          >
+            <span>💼</span>
+            <span>{count} service{count === 1 ? "" : "s"}</span>
+          </span>
+        );
+      },
     },
     {
       key: "isBlocked",
@@ -153,7 +174,7 @@ export default function AdminUsersPage() {
       label: "Joined",
       sortable: true,
       render: (row) => (
-        <span className="text-[11px] text-neutral-500">
+        <span className="text-[11px] text-muted-fg">
           {new Date(row.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
         </span>
       ),
@@ -161,7 +182,7 @@ export default function AdminUsersPage() {
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background text-foreground">
       <ToastPortal />
       <AdminTopBar
         title="User Management"
@@ -174,11 +195,11 @@ export default function AdminUsersPage() {
         {/* Header row */}
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-sm font-bold text-white">All Users</h2>
-            <p className="text-[11px] text-neutral-500 mt-0.5">Manage user accounts, roles, and access</p>
+            <h2 className="text-sm font-bold text-foreground">All Users</h2>
+            <p className="text-[11px] text-muted-fg mt-0.5">Manage user accounts, roles, access, and service orders</p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-[11px] text-neutral-600 font-mono">{users.length} total</span>
+            <span className="text-[11px] text-muted-fg font-mono">{users.length} total</span>
           </div>
         </div>
 

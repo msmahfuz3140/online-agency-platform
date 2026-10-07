@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { signOut } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 import { useAdminLayout } from "@/components/admin/AdminLayoutContext";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
@@ -150,7 +151,7 @@ export function AdminTopBar({
     : "MH";
 
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 py-2.5 sm:py-3 bg-[#0a0f1a]/85 backdrop-blur-2xl border-b border-white/[0.06] min-h-[60px] sm:min-h-[65px]">
+    <header className="sticky top-0 z-20 flex items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface-1/90 dark:bg-[#0a0f1a]/85 backdrop-blur-2xl border-b border-border dark:border-white/[0.06] min-h-[60px] sm:min-h-[65px]">
       {/* Left: Title & Environment Switcher */}
       <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
         {/* Mobile Hamburger Toggle Button */}
@@ -158,7 +159,7 @@ export function AdminTopBar({
           type="button"
           onClick={handleToggle}
           aria-label="Open navigation menu"
-          className="md:hidden p-2 rounded-xl text-neutral-300 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] transition-all cursor-pointer shrink-0"
+          className="md:hidden p-2 rounded-xl text-muted-fg hover:text-foreground bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 transition-all cursor-pointer shrink-0"
         >
           <div className="w-4 h-4 flex flex-col justify-center gap-[4px]">
             <span className="block h-0.5 w-4 bg-current rounded-full" />
@@ -168,29 +169,29 @@ export function AdminTopBar({
         </button>
 
         <div className="min-w-0">
-          <h1 className="font-heading text-sm sm:text-base font-bold text-white leading-tight truncate max-w-[160px] xs:max-w-[220px] sm:max-w-none">
+          <h1 className="font-heading text-sm sm:text-base font-bold text-foreground dark:text-white leading-tight truncate max-w-[160px] xs:max-w-[220px] sm:max-w-none">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-[11px] text-neutral-500 mt-0.5 truncate hidden sm:block">
+            <p className="text-[11px] text-muted-fg mt-0.5 truncate hidden sm:block">
               {subtitle}
             </p>
           )}
         </div>
 
-        <div className="h-5 w-px bg-white/[0.08] hidden sm:block shrink-0" />
+        <div className="h-5 w-px bg-border dark:bg-white/[0.08] hidden sm:block shrink-0" />
 
         <div className="shrink-0">
           <WorkspaceSwitcher current="admin" align="left" />
         </div>
       </div>
 
-      {/* Right: Quick Switchers + Search + Time + Notifications + Profile Avatar */}
+      {/* Right: Quick Switchers + Search + Time + ThemeToggle + Notifications + Profile Avatar */}
       <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
         {/* Quick 1-click pills to Dashboard and Main Site */}
         <Link
           href="/dashboard"
-          className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-500/10 border border-primary-500/25 text-primary-300 hover:bg-primary-500/20 text-xs font-semibold transition-all shadow-[0_0_12px_rgba(20,184,160,0.15)]"
+          className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary-500/10 border border-primary-500/25 text-primary-600 dark:text-primary-300 hover:bg-primary-500/20 text-xs font-semibold transition-all shadow-[0_0_12px_rgba(20,184,160,0.15)]"
         >
           <span>📊</span>
           <span>Client Dashboard</span>
@@ -198,7 +199,7 @@ export function AdminTopBar({
 
         <Link
           href="/"
-          className="hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-neutral-300 hover:text-white hover:bg-white/[0.08] text-xs font-medium transition-all"
+          className="hidden xl:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] text-muted-fg hover:text-foreground text-xs font-medium transition-all"
         >
           <span>🌐</span>
           <span>Main Site</span>
@@ -208,7 +209,7 @@ export function AdminTopBar({
         {onSearch && (
           <div className="relative hidden sm:block">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-muted-fg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -221,18 +222,21 @@ export function AdminTopBar({
               placeholder="Search..."
               value={searchValue}
               onChange={handleSearch}
-              className="pl-8 pr-3 py-1.5 text-xs bg-white/[0.04] border border-white/[0.08] rounded-xl text-white placeholder:text-neutral-600 focus:outline-none focus:border-primary-500/40 focus:bg-white/[0.06] w-48 transition-all"
+              className="pl-8 pr-3 py-1.5 text-xs bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500/40 w-48 transition-all"
             />
           </div>
         )}
 
         {/* Time */}
         <div className="hidden md:flex flex-col items-end leading-none">
-          <span className="text-[11px] font-mono text-white/70">{timeStr}</span>
-          <span className="text-[10px] text-neutral-600">{dateStr}</span>
+          <span className="text-[11px] font-mono text-muted-fg dark:text-white/70">{timeStr}</span>
+          <span className="text-[10px] text-muted-fg">{dateStr}</span>
         </div>
 
-        <div className="h-4 w-px bg-white/[0.08] hidden sm:block" />
+        <div className="h-4 w-px bg-border dark:bg-white/[0.08] hidden sm:block" />
+
+        {/* Theme Toggle Button */}
+        <ThemeToggle />
 
         {/* Notification Bell */}
         <div className="relative" ref={notifRef}>
@@ -240,7 +244,7 @@ export function AdminTopBar({
             type="button"
             onClick={() => setNotifOpen(!notifOpen)}
             aria-label="Notifications"
-            className="relative h-8 w-8 rounded-xl border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-neutral-400 hover:text-white hover:border-amber-500/30 transition-all cursor-pointer shrink-0"
+            className="relative h-8 w-8 rounded-xl border border-border dark:border-white/[0.08] bg-surface-2 dark:bg-white/[0.04] flex items-center justify-center text-muted-fg hover:text-foreground hover:border-amber-500/30 transition-all cursor-pointer shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />

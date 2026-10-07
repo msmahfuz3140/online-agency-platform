@@ -195,7 +195,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                 className="h-full flex"
               >
                 <div
-                  className={`w-full rounded-3xl bg-[#0c1222]/80 border ${accent.border} flex flex-col justify-between overflow-hidden shadow-2xl backdrop-blur-xl relative group hover:shadow-[0_20px_50px_rgba(0,0,0,0.8)] transition-all duration-300`}
+                  className={`w-full rounded-3xl bg-surface-1/90 dark:bg-[#0c1222]/80 border ${accent.border} flex flex-col justify-between overflow-hidden shadow-xl dark:shadow-2xl backdrop-blur-xl relative group hover:shadow-2xl transition-all duration-300`}
                 >
                   {/* Top Ambient Highlight Glow */}
                   <div
@@ -208,21 +208,21 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                     <div className="flex items-start justify-between gap-3">
                       {/* Avatar with Status Pulse */}
                       <div className="relative">
-                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-white/10 via-surface-2 to-surface-1 border-2 border-white/15 group-hover:border-primary-400/80 flex items-center justify-center font-heading font-black text-white text-xl shadow-lg transition-all duration-300 group-hover:scale-105">
+                        <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary-500/20 via-surface-2 to-surface-1 border-2 border-border dark:border-white/15 group-hover:border-primary-400/80 flex items-center justify-center font-heading font-black text-foreground dark:text-white text-xl shadow-lg transition-all duration-300 group-hover:scale-105">
                           {member.initials}
                         </div>
 
                         {/* Founder Crown / Badge */}
                         {isFounder ? (
                           <span
-                            className="absolute -top-2.5 -right-2.5 h-7 w-7 rounded-full bg-gradient-to-tr from-amber-400 to-amber-300 text-black border-2 border-[#0c1222] flex items-center justify-center text-xs font-black shadow-lg animate-bounce"
+                            className="absolute -top-2.5 -right-2.5 h-7 w-7 rounded-full bg-gradient-to-tr from-amber-400 to-amber-300 text-black border-2 border-background dark:border-[#0c1222] flex items-center justify-center text-xs font-black shadow-lg animate-bounce"
                             title="Founder & Systems Architect"
                           >
                             👑
                           </span>
                         ) : (
                           <span
-                            className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-[#0c1222] flex items-center justify-center"
+                            className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-500 border-2 border-background dark:border-[#0c1222] flex items-center justify-center"
                             title="Available for Q3 client delivery"
                           >
                             <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
@@ -232,11 +232,11 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
 
                       {/* Division Badge */}
                       <div className="flex flex-col items-end gap-1">
-                        <span className="text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/10 text-neutral-300 uppercase">
+                        <span className="text-[10px] font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-surface-2 border border-border text-muted-fg uppercase">
                           CST Core
                         </span>
-                        <span className="text-[9px] text-emerald-400 font-mono flex items-center gap-1">
-                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> Active Lead
+                        <span className="text-[9px] text-emerald-500 dark:text-emerald-400 font-mono flex items-center gap-1">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Active Lead
                         </span>
                       </div>
                     </div>
@@ -245,13 +245,13 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                     <div className="mt-5">
                       <div className="flex items-center gap-2">
                         <Link href={`/team/${member.slug}`} className="hover:underline">
-                          <h3 className="font-heading font-extrabold text-lg text-white group-hover:text-primary-300 transition-colors">
+                          <h3 className="font-heading font-extrabold text-lg text-foreground group-hover:text-primary-400 transition-colors">
                             {member.name}
                           </h3>
                         </Link>
                       </div>
 
-                      <p className="text-xs font-semibold text-primary-400 mt-0.5">
+                      <p className="text-xs font-semibold text-primary-500 dark:text-primary-400 mt-0.5">
                         {member.role}
                       </p>
 
@@ -261,8 +261,8 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                     </div>
 
                     {/* Department Pill */}
-                    <div className="mt-3 p-2.5 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-                      <p className="text-[11px] font-semibold text-neutral-200">
+                    <div className="mt-3 p-2.5 rounded-xl bg-surface-2/60 border border-border/80">
+                      <p className="text-[11px] font-semibold text-foreground">
                         {member.department}
                       </p>
                       <p className="text-[10px] text-muted-fg mt-0.5">
@@ -271,24 +271,24 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                     </div>
 
                     {/* Bio Snippet */}
-                    <p className="mt-3 text-xs text-neutral-400 leading-relaxed line-clamp-3">
+                    <p className="mt-3 text-xs text-muted-fg leading-relaxed line-clamp-3">
                       {member.bio}
                     </p>
 
                     {/* Key Highlight Metric Banner */}
-                    <div className="mt-4 py-2 px-3 rounded-xl bg-gradient-to-r from-white/[0.04] to-transparent border-l-2 border-primary-400">
+                    <div className="mt-4 py-2 px-3 rounded-xl bg-gradient-to-r from-surface-2 to-transparent border-l-2 border-primary-500">
                       <p className="text-[10px] uppercase font-mono tracking-wider text-muted-fg">Key Benchmark</p>
-                      <p className="text-xs font-bold font-heading text-white mt-0.5">
+                      <p className="text-xs font-bold font-heading text-foreground mt-0.5">
                         {accent.topStat}
                       </p>
                     </div>
 
                     {/* Tech Stack Chips */}
-                    <div className="mt-4 pt-3 border-t border-white/[0.06] flex flex-wrap gap-1">
+                    <div className="mt-4 pt-3 border-t border-border flex flex-wrap gap-1">
                       {member.skills.slice(0, 4).map((s) => (
                         <span
                           key={s}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/[0.04] text-neutral-300 border border-white/[0.06]"
+                          className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-surface-2 text-muted-fg border border-border"
                         >
                           {s}
                         </span>
@@ -297,7 +297,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                   </div>
 
                   {/* Footer & Actions */}
-                  <div className="p-5 pt-3 border-t border-white/[0.06] bg-black/30 relative z-10 flex flex-col gap-3">
+                  <div className="p-5 pt-3 border-t border-border dark:border-white/[0.06] bg-surface-2/40 dark:bg-black/30 relative z-10 flex flex-col gap-3">
                     <div className="flex items-center justify-between">
                       {/* Social icons */}
                       <div className="flex items-center gap-1.5">
@@ -306,7 +306,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                             href={member.socialLinks.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
                             title="GitHub Profile"
                           >
                             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -319,7 +319,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
                             href={member.socialLinks.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 rounded-lg text-neutral-400 hover:text-white hover:bg-white/[0.08] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
                             title="LinkedIn Profile"
                           >
                             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">

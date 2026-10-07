@@ -340,7 +340,7 @@ export function PortfolioGridSection({
               <Card hover padding="none" className="group overflow-hidden h-full flex flex-col">
                 {/* Project visual header */}
                 <div
-                  className={`relative h-44 bg-neutral-900 border-b border-border flex items-center justify-center overflow-hidden`}
+                  className={`relative h-44 bg-surface-2 border-b border-border flex items-center justify-center overflow-hidden`}
                 >
                   {project.image ? (
                     <Image
@@ -355,21 +355,21 @@ export function PortfolioGridSection({
                       {project.icon}
                     </span>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/80 via-neutral-950/20 to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
                   {/* Overlay badges */}
                   <div className="absolute top-3 left-3 flex gap-2">
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-neutral-900/80 text-muted-fg border border-border backdrop-blur-sm">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-1/90 text-foreground border border-border backdrop-blur-sm">
                       {project.year}
                     </span>
                     {project.badge && (
-                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary-500/20 text-primary-400 border border-primary-500/30">
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary-500/20 text-primary-500 dark:text-primary-400 border border-primary-500/30">
                         {project.badge}
                       </span>
                     )}
                   </div>
                   {/* Category chip at bottom */}
                   <div className="absolute bottom-3 left-3">
-                    <span className="text-[10px] px-2.5 py-1 rounded-full bg-neutral-900/80 text-muted-fg border border-border backdrop-blur-sm">
+                    <span className="text-[10px] px-2.5 py-1 rounded-full bg-surface-1/90 text-foreground border border-border backdrop-blur-sm">
                       {project.category}
                     </span>
                   </div>
@@ -380,7 +380,7 @@ export function PortfolioGridSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Live demo of ${project.title}`}
-                      className="h-7 w-7 rounded-lg bg-neutral-900/80 border border-border flex items-center justify-center text-xs hover:bg-primary-500/20 hover:border-primary-500/40 transition-all backdrop-blur-sm"
+                      className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-primary-500/20 hover:border-primary-500/40 transition-all backdrop-blur-sm"
                     >
                       ↗
                     </a>
@@ -389,7 +389,7 @@ export function PortfolioGridSection({
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`GitHub source of ${project.title}`}
-                      className="h-7 w-7 rounded-lg bg-neutral-900/80 border border-border flex items-center justify-center text-xs hover:bg-neutral-700/80 transition-all backdrop-blur-sm"
+                      className="h-7 w-7 rounded-lg bg-surface-1/90 border border-border flex items-center justify-center text-xs text-foreground hover:bg-surface-3 transition-all backdrop-blur-sm"
                     >
                       ⌥
                     </a>

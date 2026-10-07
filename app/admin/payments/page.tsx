@@ -164,7 +164,7 @@ export default function AdminPaymentsPage() {
   }, [payments, activeTab, methodFilter, searchQuery]);
 
   return (
-    <div className="flex-1 flex flex-col min-h-screen bg-[#070c16] text-white">
+    <div className="flex-1 flex flex-col min-h-screen bg-background text-foreground">
       <AdminTopBar
         title="Payments & Subscriptions"
         subtitle="Verify bKash, Nagad & Stripe payments and manage client plan activations"

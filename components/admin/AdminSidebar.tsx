@@ -228,10 +228,10 @@ export function AdminSidebar({
       <motion.aside
         animate={{ width: collapsed ? 68 : 240 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="relative hidden md:flex flex-col h-screen bg-[#0a0f1a] border-r border-white/[0.06] overflow-hidden shrink-0 z-30"
+        className="relative hidden md:flex flex-col h-screen bg-surface-1 dark:bg-[#0a0f1a] border-r border-border dark:border-white/[0.06] overflow-hidden shrink-0 z-30"
       >
       {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-white/[0.06] min-h-[65px]">
+      <div className="flex items-center gap-3 px-4 py-5 border-b border-border dark:border-white/[0.06] min-h-[65px]">
         <Link href="/admin" className="flex items-center gap-3 group shrink-0">
           <Logo variant="mark" size={34} />
           <AnimatePresence>
@@ -243,8 +243,8 @@ export function AdminSidebar({
                 transition={{ duration: 0.18 }}
                 className="flex flex-col leading-none overflow-hidden whitespace-nowrap"
               >
-                <span className="font-heading font-bold text-sm text-white tracking-tight">Nexora</span>
-                <span className="text-[10px] text-primary-400 font-mono font-medium">Admin Panel</span>
+                <span className="font-heading font-bold text-sm text-foreground dark:text-white tracking-tight">Nexora</span>
+                <span className="text-[10px] text-primary-500 dark:text-primary-400 font-mono font-medium">Admin Panel</span>
               </motion.div>
             )}
           </AnimatePresence>
@@ -262,8 +262,8 @@ export function AdminSidebar({
               title={collapsed ? item.label : undefined}
               className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 group ${
                 active
-                  ? "bg-primary-500/15 text-primary-300 shadow-[inset_0_0_0_1px_rgba(20,184,160,0.2)]"
-                  : "text-neutral-400 hover:text-white hover:bg-white/[0.05]"
+                  ? "bg-primary-500/15 text-primary-400 dark:text-primary-300 shadow-[inset_0_0_0_1px_rgba(20,184,160,0.2)]"
+                  : "text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-white/[0.05]"
               }`}
             >
               {active && (
@@ -525,7 +525,7 @@ export function AdminSidebar({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={onCloseMobile}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm md:hidden"
+            className="fixed inset-0 z-50 bg-black/50 dark:bg-black/80 backdrop-blur-sm md:hidden"
           />
           {/* Slide-out Drawer */}
           <motion.aside
@@ -533,10 +533,10 @@ export function AdminSidebar({
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 left-0 z-50 w-72 md:hidden bg-[#0a0f1a] border-r border-white/[0.08] flex flex-col shadow-[0_0_50px_rgba(0,0,0,0.9)] overflow-hidden"
+            className="fixed inset-y-0 left-0 z-50 w-72 md:hidden bg-surface-1 dark:bg-[#0a0f1a] border-r border-border dark:border-white/[0.08] flex flex-col shadow-2xl overflow-hidden"
           >
             {/* Mobile Drawer Header with Close Button */}
-            <div className="flex items-center justify-between px-4 py-4 border-b border-white/[0.06]">
+            <div className="flex items-center justify-between px-4 py-4 border-b border-border dark:border-white/[0.06]">
               <Link
                 href="/admin"
                 onClick={onCloseMobile}
@@ -548,7 +548,7 @@ export function AdminSidebar({
               <button
                 type="button"
                 onClick={onCloseMobile}
-                className="p-2 rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+                className="p-2 rounded-xl text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                 aria-label="Close navigation"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -568,8 +568,8 @@ export function AdminSidebar({
                     onClick={onCloseMobile}
                     className={`relative flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 ${
                       active
-                        ? "bg-primary-500/15 text-primary-300 border border-primary-500/25 shadow-inner"
-                        : "text-neutral-400 hover:text-white hover:bg-white/[0.05]"
+                        ? "bg-primary-500/15 text-primary-400 dark:text-primary-300 border border-primary-500/25 shadow-inner"
+                        : "text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-white/[0.05]"
                     }`}
                   >
                     <div className="flex items-center gap-3">

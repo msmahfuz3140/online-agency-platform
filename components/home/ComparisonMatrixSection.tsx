@@ -92,21 +92,21 @@ export function ComparisonMatrixSection() {
 
       {/* Comparison Table */}
       <FadeInSection delay={0.15}>
-        <div className="rounded-3xl border border-neutral-800 bg-neutral-950/80 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden ring-1 ring-white/5">
+        <div className="rounded-3xl border border-border bg-card shadow-lg dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden ring-1 ring-border/50">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse min-w-[620px]">
               <thead>
-                <tr className="border-b border-neutral-800 bg-surface/50">
+                <tr className="border-b border-border bg-surface-1">
                   <th className="p-4 sm:p-5 text-xs font-semibold uppercase tracking-wider text-muted-fg w-1/3">
                     Feature & Metric
                   </th>
-                  <th className="p-4 sm:p-5 text-xs font-semibold text-neutral-400 w-1/5">
+                  <th className="p-4 sm:p-5 text-xs font-semibold text-muted-fg w-1/5">
                     Traditional Agency
                   </th>
-                  <th className="p-4 sm:p-5 text-xs font-semibold text-neutral-400 w-1/5">
+                  <th className="p-4 sm:p-5 text-xs font-semibold text-muted-fg w-1/5">
                     DIY Builders (Wix/WP)
                   </th>
-                  <th className="p-4 sm:p-5 text-xs font-bold text-primary-400 bg-primary-500/10 border-x border-primary-500/30 w-1/4">
+                  <th className="p-4 sm:p-5 text-xs font-bold text-primary-500 dark:text-primary-400 bg-primary-500/10 border-x border-primary-500/30 w-1/4">
                     <div className="flex items-center gap-1.5">
                       <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
                       <span>Nexora Hybrid</span>
@@ -114,25 +114,25 @@ export function ComparisonMatrixSection() {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-800/60 text-xs sm:text-sm">
+              <tbody className="divide-y divide-border text-xs sm:text-sm">
                 {comparisonData.map((row, idx) => (
                   <tr
                     key={row.feature}
-                    className={`transition-colors hover:bg-neutral-900/40 ${
-                      idx % 2 === 0 ? "bg-transparent" : "bg-surface/20"
+                    className={`transition-colors hover:bg-surface-2/60 ${
+                      idx % 2 === 0 ? "bg-transparent" : "bg-surface-1/40"
                     }`}
                   >
                     <td className="p-4 sm:p-5 font-semibold text-foreground">
                       {row.feature}
                     </td>
-                    <td className="p-4 sm:p-5 text-neutral-400">
+                    <td className="p-4 sm:p-5 text-muted-fg">
                       {row.traditional}
                     </td>
-                    <td className="p-4 sm:p-5 text-neutral-400">
+                    <td className="p-4 sm:p-5 text-muted-fg">
                       {row.diy}
                     </td>
                     <td className="p-4 sm:p-5 font-semibold text-foreground bg-primary-500/10 border-x border-primary-500/30">
-                      <span className="text-primary-300 font-bold">{row.nexora}</span>
+                      <span className="text-primary-500 dark:text-primary-300 font-bold">{row.nexora}</span>
                     </td>
                   </tr>
                 ))}

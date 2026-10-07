@@ -3,7 +3,7 @@ import { blogPosts } from "@/lib/blog-data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const siteUrl = (
-    process.env.NEXT_PUBLIC_APP_URL || "https://online-agency-platform.vercel.app"
+    process.env.NEXT_PUBLIC_APP_URL || "https://nxoraagency.com"
   ).replace(/\/+$/, "");
 
   const staticRoutes: MetadataRoute.Sitemap = [

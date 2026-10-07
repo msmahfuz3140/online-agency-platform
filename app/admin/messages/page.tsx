@@ -676,7 +676,7 @@ export default function AdminMessagesPage() {
                       <p className="text-[11px]">Messages sent by clients under {cat.name} will appear here.</p>
                     </div>
                   ) : (
-                    <div className="rounded-2xl border border-white/[0.08] bg-[#080d19]/90 backdrop-blur-sm divide-y divide-white/[0.06] overflow-hidden shadow-lg">
+                    <div className="rounded-2xl border border-border dark:border-white/[0.08] bg-surface-1/90 dark:bg-[#080d19]/90 backdrop-blur-sm divide-y divide-border dark:divide-white/[0.06] overflow-hidden shadow-lg">
                       {catMessages.map((msg) => {
                         const replyCount = msg.replies?.length || 0;
                         const lastReply =
@@ -686,7 +686,7 @@ export default function AdminMessagesPage() {
                           <div
                             key={msg._id}
                             onClick={() => openDetail(msg)}
-                            className="group px-4 py-3.5 sm:px-5 sm:py-3.5 bg-[#080d19]/80 hover:bg-white/[0.04] transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-2.5 md:gap-4 relative overflow-hidden"
+                            className="group px-4 py-3.5 sm:px-5 sm:py-3.5 bg-surface-1/80 dark:bg-[#080d19]/80 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-all cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-2.5 md:gap-4 relative overflow-hidden"
                           >
                             {/* Left: Avatar + Sender Info + Subject & Preview */}
                             <div className="flex items-start md:items-center gap-3.5 min-w-0 flex-1">
@@ -802,7 +802,7 @@ export default function AdminMessagesPage() {
           </div>
         ) : (
           /* Master Table View with Click Anywhere on Row */
-          <div className="overflow-x-auto [scrollbar-width:thin] rounded-2xl border border-white/[0.08] bg-[#080d19]">
+          <div className="overflow-x-auto [scrollbar-width:thin] rounded-2xl border border-border dark:border-white/[0.08] bg-card dark:bg-[#080d19]">
             <DataTable
               columns={columns}
               data={filteredMessages}

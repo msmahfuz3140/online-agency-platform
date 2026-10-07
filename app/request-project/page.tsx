@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingAiAssistant } from "@/components/home/FloatingAiAssistant";
@@ -39,8 +39,8 @@ export default function RequestProjectPage() {
               {/* Left sidebar — info */}
               <aside className="w-full lg:w-80 xl:w-96 flex-shrink-0 space-y-5 lg:sticky lg:top-24">
                 {/* Why Nexora */}
-                <div className="rounded-2xl border border-neutral-800/60 bg-neutral-950/60 backdrop-blur-sm p-6 space-y-4">
-                  <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-widest">Why Nexora?</h2>
+                <div className="rounded-2xl border border-border bg-card dark:bg-neutral-950/60 backdrop-blur-sm p-6 space-y-4">
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-widest">Why Nexora?</h2>
                   {[
                     { icon: "🏗️", title: "Senior Engineers Only", desc: "Every project is built by mid-to-senior level specialists, never juniors." },
                     { icon: "⚡", title: "Proven Delivery Speed", desc: "Our agile sprints ship production-ready code 2× faster than the industry norm." },
@@ -50,16 +50,16 @@ export default function RequestProjectPage() {
                     <div key={item.title} className="flex gap-3">
                       <span className="text-2xl flex-shrink-0 mt-0.5">{item.icon}</span>
                       <div>
-                        <p className="text-sm font-semibold text-neutral-200">{item.title}</p>
-                        <p className="text-xs text-neutral-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                        <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                        <p className="text-xs text-muted-fg mt-0.5 leading-relaxed">{item.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
 
                 {/* Stats */}
-                <div className="rounded-2xl border border-neutral-800/60 bg-neutral-950/60 backdrop-blur-sm p-6">
-                  <h2 className="text-sm font-bold text-neutral-300 uppercase tracking-widest mb-4">Track Record</h2>
+                <div className="rounded-2xl border border-border bg-card dark:bg-neutral-950/60 backdrop-blur-sm p-6">
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-widest mb-4">Track Record</h2>
                   <div className="grid grid-cols-2 gap-4">
                     {[
                       { value: "50+", label: "Projects Shipped" },
@@ -69,7 +69,7 @@ export default function RequestProjectPage() {
                     ].map((stat) => (
                       <div key={stat.label} className="text-center">
                         <p className="text-2xl font-bold gradient-text">{stat.value}</p>
-                        <p className="text-xs text-neutral-500 mt-0.5">{stat.label}</p>
+                        <p className="text-xs text-muted-fg mt-0.5">{stat.label}</p>
                       </div>
                     ))}
                   </div>
@@ -77,8 +77,8 @@ export default function RequestProjectPage() {
 
                 {/* Direct contact */}
                 <div className="rounded-2xl border border-primary-500/20 bg-primary-500/5 p-5 space-y-3">
-                  <p className="text-sm font-semibold text-primary-300">Prefer direct contact?</p>
-                  <p className="text-xs text-neutral-400 leading-relaxed">
+                  <p className="text-sm font-semibold text-primary-600 dark:text-primary-300">Prefer direct contact?</p>
+                  <p className="text-xs text-muted-fg leading-relaxed">
                     Skip the form and email us directly. We read every message personally.
                   </p>
                   <a

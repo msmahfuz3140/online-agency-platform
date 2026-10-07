@@ -111,14 +111,14 @@ export function AiComponentLibrarySection() {
       {/* Header */}
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <Badge variant="primary" dot className="mb-3">
-            Modular React Engine
+          <Badge variant="warning" className="mb-3">
+            Coming Soon • Modular React Engine
           </Badge>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             AI-Powered <span className="gradient-text">Component Architecture</span>
           </h2>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-2xl mx-auto leading-relaxed">
-            Our AI doesn&apos;t spit out messy spaghetti code. It intelligently arranges curated, enterprise-grade Next.js React components tailored to your exact business.
+            Our upcoming AI system arranges curated, enterprise-grade Next.js React components tailored to your exact business. Handcrafted by our CST core engineers.
           </p>
         </div>
       </FadeInSection>
@@ -133,7 +133,7 @@ export function AiComponentLibrarySection() {
                 key={block.id}
                 type="button"
                 onClick={() => setActiveTab(block)}
-                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
                   isSelected
                     ? "bg-surface border-primary-500 text-foreground shadow-[0_0_20px_rgba(20,184,160,0.25)] scale-[1.02]"
                     : "bg-surface/60 border-border/80 text-muted-fg hover:text-foreground hover:bg-surface"
@@ -159,7 +159,7 @@ export function AiComponentLibrarySection() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.2 }}
-            className="rounded-3xl border border-neutral-800 bg-neutral-950/90 shadow-[0_20px_60px_rgba(0,0,0,0.7)] p-6 sm:p-8 relative overflow-hidden ring-1 ring-white/5"
+            className="rounded-3xl border border-border bg-card shadow-xl p-6 sm:p-8 relative overflow-hidden ring-1 ring-border/50"
           >
             {/* Ambient corner glow */}
             <div className="absolute top-0 right-0 w-72 h-72 rounded-full bg-primary-500/10 blur-[80px] pointer-events-none" />
@@ -169,8 +169,8 @@ export function AiComponentLibrarySection() {
               <div>
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-2xl">{activeTab.icon}</span>
-                  <Badge variant="primary" size="sm">
-                    {activeTab.category} Component
+                  <Badge variant="warning" size="sm">
+                    {activeTab.category} Component • Coming Soon
                   </Badge>
                 </div>
 
@@ -184,14 +184,14 @@ export function AiComponentLibrarySection() {
 
                 {/* React Props Tags */}
                 <div className="mt-6">
-                  <p className="text-[11px] font-mono uppercase tracking-wider text-primary-400 font-bold mb-2">
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-primary-500 dark:text-primary-400 font-bold mb-2">
                     Configurable React Props:
                   </p>
                   <div className="flex flex-wrap gap-1.5">
                     {activeTab.reactProps.map((prop) => (
                       <span
                         key={prop}
-                        className="text-[11px] px-2.5 py-1 rounded-lg bg-neutral-900 border border-neutral-800 font-mono text-neutral-300"
+                        className="text-[11px] px-2.5 py-1 rounded-lg bg-surface-2 border border-border font-mono text-muted-fg"
                       >
                         {prop}
                       </span>
@@ -201,13 +201,13 @@ export function AiComponentLibrarySection() {
 
                 <div className="mt-6 flex items-center gap-3 text-xs text-muted-fg">
                   <span className="text-emerald-400 font-bold">✓</span>
-                  <span>Fully accessible (WAI-ARIA) & TypeScript typed</span>
+                  <span>Fully accessible (WAI-ARIA) &amp; TypeScript typed</span>
                 </div>
               </div>
 
               {/* Right Code & Snippet Preview Box */}
-              <div className="rounded-2xl border border-neutral-800 bg-neutral-900/80 p-5 font-mono text-xs overflow-x-auto shadow-inner">
-                <div className="flex items-center justify-between pb-3 mb-3 border-b border-neutral-800 text-neutral-400 text-[11px]">
+              <div className="rounded-2xl border border-border bg-surface-1 p-5 font-mono text-xs overflow-x-auto shadow-inner">
+                <div className="flex items-center justify-between pb-3 mb-3 border-b border-border text-muted-fg text-[11px]">
                   <div className="flex items-center gap-1.5">
                     <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
                     <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
@@ -216,10 +216,10 @@ export function AiComponentLibrarySection() {
                       {activeTab.previewTitle}.tsx
                     </span>
                   </div>
-                  <span className="text-[10px] text-primary-400 font-bold">REACT TSX</span>
+                  <span className="text-[10px] text-primary-500 dark:text-primary-400 font-bold">REACT TSX</span>
                 </div>
 
-                <pre className="text-neutral-300 leading-relaxed overflow-x-auto">
+                <pre className="text-foreground/90 leading-relaxed overflow-x-auto">
                   <code>{activeTab.previewSnippet}</code>
                 </pre>
               </div>

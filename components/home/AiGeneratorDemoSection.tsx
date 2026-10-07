@@ -134,15 +134,19 @@ export function AiGeneratorDemoSection() {
       {/* Header */}
       <FadeInSection>
         <div className="text-center mb-10 sm:mb-14">
-          <Badge variant="primary" dot className="mb-3">
-            Live AI Preview Engine
+          <Badge variant="warning" className="mb-3">
+            Coming Soon • AI Studio
           </Badge>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight">
             See the <span className="gradient-text">AI Website Builder</span> in Action
           </h2>
           <p className="mt-3 sm:mt-4 text-sm sm:text-base text-muted-fg max-w-2xl mx-auto leading-relaxed">
-            Click any prompt preset below to watch our Claude-powered engine assemble structure, design tokens, copy, and React components in real time.
+            Preview our forthcoming Claude-powered engine assembling architecture, design tokens, copy, and React components in real time. Full automated engine launching soon!
           </p>
+          <div className="mt-4 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/25 text-amber-500 dark:text-amber-300 text-xs font-semibold">
+            <span>⏳</span>
+            <span>Coming Soon — Core agency custom development &amp; cybersecurity services are 100% active!</span>
+          </div>
         </div>
       </FadeInSection>
 
@@ -157,7 +161,7 @@ export function AiGeneratorDemoSection() {
                 type="button"
                 onClick={() => handleSelectPreset(p)}
                 disabled={isGenerating}
-                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 ${
+                className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl border text-xs sm:text-sm font-medium transition-all duration-200 cursor-pointer ${
                   isActive
                     ? "bg-surface-2 border-primary-500 shadow-[0_0_20px_rgba(20,184,160,0.25)] text-foreground scale-[1.02]"
                     : "bg-surface/70 border-border/80 text-muted-fg hover:text-foreground hover:bg-surface hover:border-border"
@@ -178,7 +182,7 @@ export function AiGeneratorDemoSection() {
       <FadeInSection delay={0.15}>
         <div className="max-w-4xl mx-auto mb-6 p-3.5 sm:p-4 rounded-2xl bg-surface/90 border border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg overflow-hidden">
           <div className="flex items-center gap-2.5 min-w-0 w-full overflow-hidden">
-            <span className="text-primary-400 font-mono text-xs font-bold px-2 py-1 rounded bg-primary-500/10 border border-primary-500/20 shrink-0">
+            <span className="text-primary-500 dark:text-primary-400 font-mono text-xs font-bold px-2 py-1 rounded bg-primary-500/10 border border-primary-500/20 shrink-0">
               PROMPT:
             </span>
             <p className="text-xs sm:text-sm text-foreground/90 truncate font-mono min-w-0 flex-1">
@@ -192,8 +196,8 @@ export function AiGeneratorDemoSection() {
               <button
                 type="button"
                 onClick={() => setActiveDevice("desktop")}
-                className={`px-2 py-1 rounded ${
-                  activeDevice === "desktop" ? "bg-surface text-foreground font-semibold" : "text-muted-fg"
+                className={`px-2 py-1 rounded cursor-pointer ${
+                  activeDevice === "desktop" ? "bg-surface text-foreground font-semibold shadow-xs" : "text-muted-fg"
                 }`}
                 aria-label="Desktop Preview"
               >
@@ -202,8 +206,8 @@ export function AiGeneratorDemoSection() {
               <button
                 type="button"
                 onClick={() => setActiveDevice("mobile")}
-                className={`px-2 py-1 rounded ${
-                  activeDevice === "mobile" ? "bg-surface text-foreground font-semibold" : "text-muted-fg"
+                className={`px-2 py-1 rounded cursor-pointer ${
+                  activeDevice === "mobile" ? "bg-surface text-foreground font-semibold shadow-xs" : "text-muted-fg"
                 }`}
                 aria-label="Mobile Preview"
               >
@@ -217,30 +221,30 @@ export function AiGeneratorDemoSection() {
       {/* Live Interactive Browser Preview Mockup */}
       <FadeInSection delay={0.2}>
         <div
-          className={`mx-auto rounded-3xl border border-neutral-800 bg-neutral-950 shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden transition-all duration-300 ${
+          className={`mx-auto rounded-3xl border border-border bg-card shadow-2xl overflow-hidden transition-all duration-300 ${
             activeDevice === "mobile" ? "max-w-sm" : "max-w-4xl"
           }`}
         >
           {/* Window Chrome Header */}
-          <div className="px-4 py-3 bg-neutral-900/90 border-b border-neutral-800 flex items-center justify-between gap-3">
+          <div className="px-4 py-3 bg-surface-2 border-b border-border flex items-center justify-between gap-3">
             <div className="flex items-center gap-1.5">
               <div className="h-3 w-3 rounded-full bg-red-500/80" />
               <div className="h-3 w-3 rounded-full bg-yellow-500/80" />
               <div className="h-3 w-3 rounded-full bg-green-500/80" />
             </div>
 
-            <div className="flex-1 max-w-xs mx-auto py-1 px-3 rounded-md bg-neutral-950/80 border border-neutral-800 text-[11px] font-mono text-neutral-400 text-center truncate">
+            <div className="flex-1 max-w-xs mx-auto py-1 px-3 rounded-md bg-surface border border-border text-[11px] font-mono text-muted-fg text-center truncate">
               🔒 https://preview.nexora.ai/generated/{activePreset.id}
             </div>
 
-            <div className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              LIVE
+            <div className="text-[10px] font-mono text-amber-500 dark:text-amber-400 flex items-center gap-1 font-semibold">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+              COMING SOON
             </div>
           </div>
 
           {/* Canvas Body */}
-          <div className="relative min-h-[460px] p-6 sm:p-8 bg-neutral-950 flex flex-col justify-between overflow-hidden">
+          <div className="relative min-h-[460px] p-6 sm:p-8 bg-surface-1 dark:bg-neutral-950 flex flex-col justify-between overflow-hidden">
             {/* Ambient inner glow based on theme */}
             <div
               className={`absolute top-0 right-0 w-80 h-80 rounded-full bg-gradient-to-br ${activePreset.accentBg} blur-[90px] pointer-events-none transition-all duration-500`}

@@ -109,7 +109,7 @@ export default function ClientDashboardPage() {
     Boolean(user.email?.toLowerCase().includes("mahfuz"));
 
   return (
-    <div className="flex h-screen bg-[#070c16] text-foreground overflow-hidden relative">
+    <div className="flex h-screen bg-background text-foreground overflow-hidden relative">
       {/* High-end ambient atmospheric glow */}
       <div className="absolute top-0 right-1/4 w-[600px] h-[350px] bg-primary-500/10 rounded-full blur-[150px] pointer-events-none -z-10" />
       <div className="absolute top-1/3 left-1/10 w-[500px] h-[300px] bg-amber-500/8 rounded-full blur-[140px] pointer-events-none -z-10" />
@@ -148,11 +148,11 @@ export default function ClientDashboardPage() {
           /* Dedicated Full-Height Messenger Cockpit - zero page jumping, pinned reply bar */
           <main className="flex-1 flex flex-col min-h-0 overflow-hidden px-2 sm:px-6 lg:px-8 py-2 sm:py-4 space-y-2 sm:space-y-3">
             {/* View Switcher Tabs */}
-            <div className="shrink-0 flex items-center gap-2 border-b border-white/[0.08] pb-2.5 overflow-x-auto">
+            <div className="shrink-0 flex items-center gap-2 border-b border-border dark:border-white/[0.08] pb-2.5 overflow-x-auto">
               {[
                 { id: "overview", label: "Overview & Analytics", icon: "📊" },
                 { id: "projects", label: "My Project Sprints (3)", icon: "💼" },
-                { id: "ai-builder", label: "AI Website Generator", icon: "⚡" },
+                { id: "ai-builder", label: "AI Website Generator (Soon)", icon: "⚡" },
                 { id: "messages", label: "Messages & Inbox", icon: "💬" },
                 { id: "support", label: "Founder Hotline & Support", icon: "🛡️" },
               ].map((tab) => (
@@ -168,7 +168,7 @@ export default function ClientDashboardPage() {
                   className={`px-3.5 sm:px-4 py-2 rounded-2xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-2 shrink-0 ${
                     activeTab === tab.id
                       ? "bg-primary-500/20 border border-primary-500/40 text-primary-300 shadow-[0_0_16px_rgba(20,184,160,0.2)]"
-                      : "bg-white/[0.02] border border-white/[0.05] text-neutral-400 hover:text-white hover:bg-white/[0.05]"
+                      : "bg-surface-2 dark:bg-white/[0.02] border border-border dark:border-white/[0.05] text-muted-fg hover:text-foreground hover:bg-surface-3"
                   }`}
                 >
                   <span>{tab.icon}</span>
@@ -186,7 +186,7 @@ export default function ClientDashboardPage() {
           /* Scrollable Main Viewport for Overview, Sprints, AI Builder, Support */
           <main className="flex-1 overflow-y-auto px-3.5 sm:px-6 lg:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
           {/* Executive Hero Command Header */}
-          <div className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-r from-[#0c1527] via-[#091120] to-[#070d18] p-5 sm:p-8 lg:p-9 overflow-hidden shadow-[0_24px_70px_rgba(0,0,0,0.6)]">
+          <div className="relative rounded-3xl border border-border dark:border-white/[0.08] bg-surface-1 dark:bg-gradient-to-r dark:from-[#0c1527] dark:via-[#091120] dark:to-[#070d18] p-5 sm:p-8 lg:p-9 overflow-hidden shadow-xl">
             {/* Grid texture */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-40" />
 
@@ -441,7 +441,7 @@ export default function ClientDashboardPage() {
             {[
               { id: "overview", label: "Overview & Analytics", icon: "📊" },
               { id: "projects", label: "My Project Sprints (3)", icon: "💼" },
-              { id: "ai-builder", label: "AI Website Generator", icon: "⚡" },
+              { id: "ai-builder", label: "AI Website Generator (Soon)", icon: "⚡" },
               { id: "messages", label: "Messages & Inbox", icon: "💬" },
               { id: "support", label: "Founder Hotline & Support", icon: "🛡️" },
             ].map((tab) => (

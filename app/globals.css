@@ -51,34 +51,66 @@
   --color-background:    var(--bg);
   --color-foreground:    var(--fg);
   --color-surface:       var(--surface);
+  --color-surface-1:     var(--surface-1);
   --color-surface-2:     var(--surface-2);
+  --color-surface-3:     var(--surface-3);
   --color-border:        var(--border-color);
   --color-muted:         var(--muted);
   --color-muted-fg:      var(--muted-fg);
+  --color-card:          var(--card);
+  --color-card-border:   var(--card-border);
 }
 
-/* Light Mode */
-:root {
-  --bg:         #ffffff;
-  --fg:         #0f172a;
-  --surface:    #f8fafc;
-  --surface-2:  #f1f5f9;
-  --border-color: #e2e8f0;
-  --muted:      #f1f5f9;
-  --muted-fg:   #64748b;
+@variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
+/* Light Mode (default) */
+:root,
+html[data-theme="light"],
+html.light {
+  --bg:            #ffffff;
+  --fg:            #0f172a;
+  --surface:       #ffffff;
+  --surface-1:     #f8fafc;
+  --surface-2:     #f1f5f9;
+  --surface-3:     #e2e8f0;
+  --border-color:  #e2e8f0;
+  --muted:         #f1f5f9;
+  --muted-fg:      #64748b;
+  --card:          #ffffff;
+  --card-border:   #e2e8f0;
 }
 
-/* Dark Mode */
+/* System Dark Mode fallback when no explicit light class */
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg:         #0a0f1a;
-    --fg:         #f0f4ff;
-    --surface:    #111827;
-    --surface-2:  #1e293b;
-    --border-color: #1e293b;
-    --muted:      #1e293b;
-    --muted-fg:   #64748b;
+  :root:not(.light) {
+    --bg:            #0a0f1a;
+    --fg:            #f0f4ff;
+    --surface:       #111827;
+    --surface-1:     #111827;
+    --surface-2:     #1e293b;
+    --surface-3:     #273549;
+    --border-color:  #1e293b;
+    --muted:         #1e293b;
+    --muted-fg:      #94a3b8;
+    --card:          #111827;
+    --card-border:   #1e293b;
   }
+}
+
+/* Explicit Dark Mode */
+html.dark,
+[data-theme="dark"] {
+  --bg:            #0a0f1a;
+  --fg:            #f0f4ff;
+  --surface:       #111827;
+  --surface-1:     #111827;
+  --surface-2:     #1e293b;
+  --surface-3:     #273549;
+  --border-color:  #1e293b;
+  --muted:         #1e293b;
+  --muted-fg:      #94a3b8;
+  --card:          #111827;
+  --card-border:   #1e293b;
 }
 
 /* ============================================================

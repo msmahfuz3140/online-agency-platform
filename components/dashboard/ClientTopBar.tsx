@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { signOut, type UserSession } from "@/lib/auth-client";
 import { WorkspaceSwitcher } from "@/components/layout/WorkspaceSwitcher";
 import { Logo } from "@/components/ui/Logo";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
@@ -166,7 +167,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
   ].includes((user?.role || "").toLowerCase()) || user?.email?.toLowerCase().includes("mahfuz");
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#080e1a]/95 backdrop-blur-2xl transition-all shrink-0 w-full">
+    <header className="sticky top-0 z-30 border-b border-border dark:border-white/[0.07] bg-surface-1/90 dark:bg-[#080e1a]/95 backdrop-blur-2xl transition-all shrink-0 w-full">
       {/* Top Navbar Row */}
       <div className="h-14 sm:h-16 px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2 max-w-full">
         {/* Left: Hamburger & Brand Identity & Environment Switcher */}
@@ -267,17 +268,20 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           </Link>
         )}
 
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
         {/* Notifications Popover */}
         <div className="relative" ref={notifRef}>
           <button
             type="button"
             onClick={() => setNotifOpen(!notifOpen)}
-            className="relative h-9 w-9 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] hover:border-primary-500/40 text-neutral-300 hover:text-white flex items-center justify-center transition-all cursor-pointer shrink-0"
+            className="relative h-9 w-9 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 hover:border-primary-500/40 text-muted-fg hover:text-foreground flex items-center justify-center transition-all cursor-pointer shrink-0"
             aria-label="Notifications"
           >
             <span className="text-sm">🔔</span>
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-primary-400 text-black font-black text-[9px] flex items-center justify-center shadow-[0_0_8px_rgba(20,184,160,0.8)] font-mono">
+              <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full bg-primary-500 text-white font-black text-[9px] flex items-center justify-center shadow-sm font-mono">
                 {unreadCount > 9 ? "9+" : unreadCount}
               </span>
             )}

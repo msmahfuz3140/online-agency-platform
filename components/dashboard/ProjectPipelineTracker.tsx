@@ -337,22 +337,22 @@ export function ProjectPipelineTracker() {
   };
 
   return (
-    <div className="rounded-3xl border border-white/[0.08] bg-[#0c1322]/80 backdrop-blur-2xl p-4 sm:p-7 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+    <div className="rounded-3xl border border-border dark:border-white/[0.08] bg-surface-1/90 dark:bg-[#0c1322]/80 backdrop-blur-2xl p-4 sm:p-7 shadow-xl">
       <ToastPortal />
 
       {/* Header with Title & Action */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-border dark:border-white/[0.08]">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
-            <span className="text-xs font-mono text-primary-400 uppercase tracking-wider font-semibold">
+            <span className="text-xs font-mono text-primary-500 dark:text-primary-400 uppercase tracking-wider font-semibold">
               Client Delivery Pipeline &amp; Sprint QA
             </span>
           </div>
-          <h2 className="font-heading text-xl sm:text-2xl font-bold text-white tracking-tight">
+          <h2 className="font-heading text-xl sm:text-2xl font-bold text-foreground dark:text-white tracking-tight">
             Live Sprint Milestones &amp; Deliverables
           </h2>
-          <p className="text-xs text-neutral-400 mt-1 max-w-xl">
+          <p className="text-xs text-muted-fg mt-1 max-w-xl">
             Track your bespoke web development sprints in real time. Inspect deliverables, test live staging builds, and review engineering milestones.
           </p>
         </div>
@@ -507,7 +507,7 @@ export function ProjectPipelineTracker() {
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.22 }}
-                    className="border-t border-white/[0.06] bg-black/30 p-4 sm:p-6 space-y-5"
+                    className="border-t border-border dark:border-white/[0.06] bg-surface-2/40 dark:bg-black/30 p-4 sm:p-6 space-y-5"
                   >
                     {/* Visual 5-Step Milestone Stepper */}
                     <div>

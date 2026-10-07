@@ -140,19 +140,19 @@ export function PerformanceComparisonSliderSection() {
             onTouchStart={() => setIsDragging(true)}
             onTouchEnd={() => setIsDragging(false)}
             onTouchMove={handleTouchMove}
-            className="relative h-[360px] sm:h-[420px] rounded-2xl border border-border/80 overflow-hidden select-none cursor-ew-resize shadow-2xl bg-neutral-950"
+            className="relative h-[360px] sm:h-[420px] rounded-2xl border border-border/80 overflow-hidden select-none cursor-ew-resize shadow-2xl bg-card dark:bg-neutral-950"
           >
             {/* RIGHT SIDE: NEXORA AFTER (Underneath base) */}
-            <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-[#031d17] p-6 sm:p-8 flex flex-col justify-between">
+            <div className="absolute inset-0 bg-gradient-to-br from-emerald-50/80 via-background to-teal-50/40 dark:from-neutral-950 dark:via-neutral-900 dark:to-[#031d17] p-6 sm:p-8 flex flex-col justify-between">
               {/* Header Info */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-emerald-500 animate-ping" />
-                  <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                  <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
                     AFTER: Nexora Next.js 15 + Edge Engine
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-mono font-bold">
+                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 text-xs font-mono font-bold">
                   <span>Score: 99/100</span>
                   <span>⚡</span>
                 </div>
@@ -160,8 +160,8 @@ export function PerformanceComparisonSliderSection() {
 
               {/* Mock UI Showcase */}
               <div className="my-auto space-y-4 max-w-lg ml-auto text-right">
-                <div className="inline-block text-left p-4 rounded-xl border border-primary-500/30 bg-surface-1/90 backdrop-blur-md shadow-[0_0_30px_rgba(20,184,160,0.15)]">
-                  <div className="flex items-center gap-2 text-xs font-mono text-primary-300 mb-2">
+                <div className="inline-block text-left p-4 rounded-xl border border-primary-500/30 bg-surface-1/95 dark:bg-surface-1/90 backdrop-blur-md shadow-[0_0_30px_rgba(20,184,160,0.15)]">
+                  <div className="flex items-center gap-2 text-xs font-mono text-primary-600 dark:text-primary-300 mb-2">
                     <span>✓ React Server Components</span>
                     <span>•</span>
                     <span>0ms Hydration Lag</span>
@@ -173,10 +173,10 @@ export function PerformanceComparisonSliderSection() {
                     Zero layout shift, AVIF responsive image assets, and instant Edge SSR globally distributed via 300+ PoPs.
                   </p>
                   <div className="mt-3 flex items-center gap-2 text-[11px] font-mono">
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold">
+                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 font-bold">
                       TTFB: 42ms
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-primary-500/20 text-primary-300 font-bold">
+                    <span className="px-2 py-0.5 rounded bg-primary-500/20 text-primary-700 dark:text-primary-300 font-bold">
                       LCP: 0.6s
                     </span>
                     <span className="px-2 py-0.5 rounded bg-surface-2 text-muted-fg">
@@ -187,7 +187,7 @@ export function PerformanceComparisonSliderSection() {
               </div>
 
               {/* Bottom status badge */}
-              <div className="flex items-center justify-end text-xs font-mono text-emerald-400">
+              <div className="flex items-center justify-end text-xs font-mono text-emerald-600 dark:text-emerald-400">
                 <span>● 100% Core Web Vitals Passed</span>
               </div>
             </div>
@@ -195,17 +195,17 @@ export function PerformanceComparisonSliderSection() {
             {/* LEFT SIDE: LEGACY BEFORE (Clipped dynamically by sliderPos) */}
             <div
               style={{ width: `${sliderPos}%` }}
-              className="absolute inset-y-0 left-0 border-r-2 border-primary-400 overflow-hidden bg-gradient-to-br from-[#1a0f0f] via-neutral-900 to-[#120a0a] p-6 sm:p-8 flex flex-col justify-between"
+              className="absolute inset-y-0 left-0 border-r-2 border-primary-400 overflow-hidden bg-gradient-to-br from-red-50/90 via-surface-1 to-orange-50/40 dark:from-[#1a0f0f] dark:via-neutral-900 dark:to-[#120a0a] p-6 sm:p-8 flex flex-col justify-between"
             >
               {/* Header Info */}
               <div className="flex items-center justify-between min-w-[320px] sm:min-w-[440px]">
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full bg-red-500" />
-                  <span className="text-xs font-mono font-bold text-red-400 uppercase tracking-wider">
+                  <span className="text-xs font-mono font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
                     BEFORE: Slow Legacy CMS / Monolith
                   </span>
                 </div>
-                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-mono font-bold">
+                <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-mono font-bold">
                   <span>Score: 31/100</span>
                   <span>⚠️</span>
                 </div>
@@ -213,26 +213,26 @@ export function PerformanceComparisonSliderSection() {
 
               {/* Sluggish Legacy Visual */}
               <div className="my-auto space-y-4 max-w-sm min-w-[280px]">
-                <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/30 backdrop-blur-md">
-                  <div className="flex items-center gap-2 text-xs font-mono text-red-400 mb-2">
+                <div className="p-4 rounded-xl border border-red-500/30 bg-red-50/80 dark:bg-red-950/30 backdrop-blur-md">
+                  <div className="flex items-center gap-2 text-xs font-mono text-red-600 dark:text-red-400 mb-2">
                     <span>⚠️ 42 Unused Plugins</span>
                     <span>•</span>
                     <span>Render Blocking</span>
                   </div>
-                  <h3 className="font-heading text-lg sm:text-xl font-bold text-neutral-300">
+                  <h3 className="font-heading text-lg sm:text-xl font-bold text-foreground">
                     Sluggish User Experience
                   </h3>
-                  <p className="text-xs text-neutral-400 mt-1 leading-relaxed">
+                  <p className="text-xs text-muted-fg mt-1 leading-relaxed">
                     9.4s Time to Interactive on 4G mobile, massive JavaScript bundles, unoptimized JPEGs causing high bounce rates.
                   </p>
                   <div className="mt-3 flex items-center gap-2 text-[11px] font-mono">
-                    <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold">
+                    <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-700 dark:text-red-300 font-bold">
                       TTFB: 2,840ms
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-300 font-bold">
+                    <span className="px-2 py-0.5 rounded bg-red-500/20 text-red-700 dark:text-red-300 font-bold">
                       LCP: 6.8s
                     </span>
-                    <span className="px-2 py-0.5 rounded bg-surface-2 text-neutral-500 line-through">
+                    <span className="px-2 py-0.5 rounded bg-surface-2 text-muted-fg line-through">
                       WordPress bloat
                     </span>
                   </div>
@@ -240,7 +240,7 @@ export function PerformanceComparisonSliderSection() {
               </div>
 
               {/* Bottom status badge */}
-              <div className="flex items-center text-xs font-mono text-red-400 min-w-[250px]">
+              <div className="flex items-center text-xs font-mono text-red-600 dark:text-red-400 min-w-[250px]">
                 <span>⨯ 3 Failed Core Web Vitals</span>
               </div>
             </div>
@@ -251,7 +251,7 @@ export function PerformanceComparisonSliderSection() {
               className="absolute inset-y-0 -translate-x-1/2 pointer-events-none flex flex-col items-center justify-center z-30"
             >
               <div className="w-1 h-full bg-primary-400 shadow-[0_0_16px_rgba(20,184,160,0.8)]" />
-              <div className="absolute top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-neutral-900 border-2 border-primary-400 flex items-center justify-center shadow-[0_0_24px_rgba(20,184,160,0.6)] text-xs font-bold text-primary-300 pointer-events-auto cursor-ew-resize hover:scale-110 active:scale-95 transition-transform">
+              <div className="absolute top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-surface-1 dark:bg-neutral-900 border-2 border-primary-500 dark:border-primary-400 flex items-center justify-center shadow-[0_0_24px_rgba(20,184,160,0.6)] text-xs font-bold text-primary-600 dark:text-primary-300 pointer-events-auto cursor-ew-resize hover:scale-110 active:scale-95 transition-transform">
                 ⇄
               </div>
             </div>

@@ -65,7 +65,7 @@ export function DiscoveryCallSchedulerModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md"
+            className="fixed inset-0 bg-black/40 dark:bg-black/80 backdrop-blur-md"
             onClick={onClose}
           />
 
@@ -75,7 +75,7 @@ export function DiscoveryCallSchedulerModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="relative w-full max-w-xl rounded-3xl bg-neutral-950 border border-neutral-800 shadow-[0_24px_80px_rgba(0,0,0,0.9)] p-6 sm:p-8 overflow-hidden z-10 ring-1 ring-white/10"
+            className="relative w-full max-w-xl rounded-3xl bg-card dark:bg-neutral-950 border border-border dark:border-neutral-800 shadow-2xl p-6 sm:p-8 overflow-hidden z-10"
           >
             {/* Header Ambient Glow */}
             <div className="absolute top-0 right-0 w-60 h-60 rounded-full bg-primary-500/15 blur-[70px] pointer-events-none" />
@@ -84,7 +84,7 @@ export function DiscoveryCallSchedulerModal({
             <button
               onClick={onClose}
               type="button"
-              className="absolute top-5 right-5 p-2 rounded-full text-neutral-400 hover:text-white hover:bg-neutral-800 transition-colors"
+              className="absolute top-5 right-5 p-2 rounded-full text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
               aria-label="Close scheduler"
             >
               ✕
@@ -140,10 +140,10 @@ export function DiscoveryCallSchedulerModal({
                         onClick={() => setSelectedTime(slot.time)}
                         className={`p-2.5 rounded-xl border text-xs font-semibold transition-all ${
                           !slot.available
-                            ? "opacity-30 cursor-not-allowed border-border/50 bg-neutral-900 line-through"
+                            ? "opacity-30 cursor-not-allowed border-border/50 bg-surface-2 line-through"
                             : selectedTime === slot.time
                             ? "bg-surface border-primary-500 text-primary-400 shadow-sm"
-                            : "bg-surface border-border text-neutral-300 hover:border-neutral-700"
+                            : "bg-surface border-border text-foreground hover:border-primary-500/50"
                         }`}
                       >
                         {slot.time}
@@ -152,7 +152,7 @@ export function DiscoveryCallSchedulerModal({
                   </div>
                 </div>
 
-                <div className="mt-8 pt-4 border-t border-neutral-800 flex justify-between items-center">
+                <div className="mt-8 pt-4 border-t border-border flex justify-between items-center">
                   <span className="text-xs text-muted-fg">
                     Selected: <strong className="text-foreground">{days.find((d) => d.dayNum === selectedDay)?.date} @ {selectedTime}</strong>
                   </span>
