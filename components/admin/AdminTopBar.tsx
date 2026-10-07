@@ -435,6 +435,18 @@ export function AdminTopBar({
                   </Link>
 
                   <Link
+                    href="/dashboard/settings?tab=security"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
+                  >
+                    <span className="text-sm">🔒</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-semibold text-foreground dark:text-white">Security &amp; Password</p>
+                      <p className="text-[10px] text-muted-fg truncate">Change or reset account password</p>
+                    </div>
+                  </Link>
+
+                  <Link
                     href="/"
                     onClick={() => setProfileOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"

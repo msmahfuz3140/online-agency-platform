@@ -10,6 +10,8 @@ import {
   getSession,
   updateUserProfile,
   changeUserPassword,
+  requestPasswordReset,
+  resetPasswordWithOtp,
   type UserSession,
 } from "@/lib/auth-client";
 import { uploadFile, validateFile } from "@/lib/upload";
@@ -60,6 +62,25 @@ export default function ClientSettingsPage() {
   const [showNew, setShowNew] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [savingPassword, setSavingPassword] = useState(false);
+
+  // OTP Reset Mode State
+  const [passwordMode, setPasswordMode] = useState<"change" | "reset">("change");
+  const [resetOtp, setResetOtp] = useState("");
+  const [resetNewPass, setResetNewPass] = useState("");
+  const [resetConfirmPass, setResetConfirmPass] = useState("");
+  const [resetOtpSent, setResetOtpSent] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetTimer, setResetTimer] = useState(0);
+
+  // Reset timer countdown
+  useEffect(() => {
+    if (resetTimer > 0) {
+      const interval = setInterval(() => {
+        setResetTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [resetTimer]);
 
   const fetchUserServices = async (userEmail: string, userId?: string) => {
     if (!userEmail) return;
@@ -248,6 +269,62 @@ export default function ClientSettingsPage() {
       toast("error", "Error", err.message || "Failed to change password.");
     } finally {
       setSavingPassword(false);
+    }
+  };
+
+  const handleSendProfileResetOtp = async () => {
+    if (!user?.email) {
+      toast("error", "Error", "No email address found for this user account.");
+      return;
+    }
+    setResetLoading(true);
+    const res = await requestPasswordReset(user.email);
+    setResetLoading(false);
+    if (res.success) {
+      toast("success", "OTP Dispatched 📬", `A 6-digit verification code has been dispatched to ${user.email}.`);
+      setResetOtpSent(true);
+      setResetTimer(45);
+    } else {
+      toast("error", "Error", res.error || "Failed to dispatch reset code.");
+    }
+  };
+
+  const handleProfileOtpReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user?.email) return;
+
+    if (!resetOtp.trim() || resetOtp.trim().length !== 6) {
+      toast("error", "Invalid Code", "Please enter the 6-digit verification code from your email.");
+      return;
+    }
+
+    if (resetNewPass.length < 6) {
+      toast("error", "Weak Password", "New password must be at least 6 characters long.");
+      return;
+    }
+
+    if (resetNewPass !== resetConfirmPass) {
+      toast("error", "Mismatch", "New password and confirmation do not match.");
+      return;
+    }
+
+    setResetLoading(true);
+    const res = await resetPasswordWithOtp({
+      email: user.email,
+      otp: resetOtp,
+      newPassword: resetNewPass,
+    });
+    setResetLoading(false);
+
+    if (res.success) {
+      toast("success", "Password Reset! 🎉", "Your password has been successfully reset. You can now use your new password.");
+      setResetOtp("");
+      setResetNewPass("");
+      setResetConfirmPass("");
+      setResetOtpSent(false);
+      setPasswordMode("change");
+    } else {
+      toast("error", "Reset Failed", res.error || "Failed to reset password. Please check your code.");
     }
   };
 
@@ -657,123 +734,264 @@ export default function ClientSettingsPage() {
               transition={{ duration: 0.2 }}
               className="space-y-6"
             >
-              <form onSubmit={handleSavePassword} className="p-5 sm:p-6 rounded-2xl bg-card border border-border backdrop-blur-xl space-y-5 max-w-2xl shadow-sm">
+              <div className="p-5 sm:p-6 rounded-2xl bg-card border border-border backdrop-blur-xl space-y-6 max-w-2xl shadow-sm">
                 <div>
                   <h3 className="text-sm font-bold uppercase tracking-wider text-foreground flex items-center gap-2">
-                    <span>🔒</span> Change Account Password
+                    <span>🔒</span> Account Password &amp; Credentials
                   </h3>
                   <p className="text-xs text-muted-fg mt-1">
-                    Keep your account secure by using a strong password with letters, numbers and symbols.
+                    Keep your account secure by choosing your preferred method to change or reset your password.
                   </p>
                 </div>
 
-                {/* Current Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-foreground">
-                    Current Password <span className="text-primary-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showCurrent ? "text" : "password"}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Enter current password"
-                      required
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrent(!showCurrent)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
-                    >
-                      {showCurrent ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                </div>
-
-                {/* New Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-foreground">
-                    New Password <span className="text-primary-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showNew ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="At least 6 characters"
-                      required
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNew(!showNew)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
-                    >
-                      {showNew ? "Hide" : "Show"}
-                    </button>
-                  </div>
-
-                  {/* Password Strength Indicator */}
-                  {newPassword && (
-                    <div className="space-y-1 pt-1">
-                      <div className="flex items-center justify-between text-[10px] font-mono">
-                        <span className="text-muted-fg">Strength:</span>
-                        <span className="text-foreground font-bold">{strength.label}</span>
-                      </div>
-                      <div className="h-1.5 w-full bg-surface-3 rounded-full overflow-hidden flex gap-1">
-                        <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 1 ? strength.color : "bg-surface-3"}`} />
-                        <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 3 ? strength.color : "bg-surface-3"}`} />
-                        <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 4 ? strength.color : "bg-surface-3"}`} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Confirm New Password */}
-                <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-foreground">
-                    Confirm New Password <span className="text-primary-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirm ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Re-type new password"
-                      required
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirm(!showConfirm)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
-                    >
-                      {showConfirm ? "Hide" : "Show"}
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-end pt-3 border-t border-border">
+                {/* Sub-tabs: Change vs OTP Reset */}
+                <div className="flex items-center gap-2 p-1 rounded-xl bg-surface-2 border border-border">
                   <button
-                    type="submit"
-                    disabled={savingPassword}
-                    className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 disabled:opacity-50 text-neutral-950 font-bold text-xs transition-all shadow-[0_0_20px_rgba(245,158,11,0.3)] flex items-center gap-2 cursor-pointer"
+                    type="button"
+                    onClick={() => setPasswordMode("change")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      passwordMode === "change"
+                        ? "bg-primary-500 text-white shadow-sm"
+                        : "text-muted-fg hover:text-foreground"
+                    }`}
                   >
-                    {savingPassword ? (
-                      <>
-                        <span className="w-3.5 h-3.5 border-2 border-neutral-950 border-t-transparent rounded-full animate-spin" />
-                        <span>Updating Password…</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>🛡️</span>
-                        <span>Update Password</span>
-                      </>
-                    )}
+                    🔒 Change with Current Password
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setPasswordMode("reset")}
+                    className={`flex-1 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      passwordMode === "reset"
+                        ? "bg-primary-500 text-white shadow-sm"
+                        : "text-muted-fg hover:text-foreground"
+                    }`}
+                  >
+                    📧 Reset via Email OTP
                   </button>
                 </div>
-              </form>
+
+                {passwordMode === "change" ? (
+                  /* OPTION A: Change Password with Current Password */
+                  <form onSubmit={handleSavePassword} className="space-y-5">
+                    {/* Current Password */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-semibold text-foreground">
+                          Current Password <span className="text-primary-500">*</span>
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => setPasswordMode("reset")}
+                          className="text-[11px] text-primary-400 hover:text-primary-300 font-medium transition-colors cursor-pointer"
+                        >
+                          Forgot Current Password?
+                        </button>
+                      </div>
+                      <div className="relative">
+                        <input
+                          type={showCurrent ? "text" : "password"}
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          placeholder="Enter current password"
+                          required
+                          className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowCurrent(!showCurrent)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
+                        >
+                          {showCurrent ? "Hide" : "Show"}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* New Password */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        New Password <span className="text-primary-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showNew ? "text" : "password"}
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="At least 6 characters"
+                          required
+                          className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNew(!showNew)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
+                        >
+                          {showNew ? "Hide" : "Show"}
+                        </button>
+                      </div>
+
+                      {/* Password Strength Indicator */}
+                      {newPassword && (
+                        <div className="space-y-1 pt-1">
+                          <div className="flex items-center justify-between text-[10px] font-mono">
+                            <span className="text-muted-fg">Strength:</span>
+                            <span className="text-foreground font-bold">{strength.label}</span>
+                          </div>
+                          <div className="h-1.5 w-full bg-surface-3 rounded-full overflow-hidden flex gap-1">
+                            <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 1 ? strength.color : "bg-surface-3"}`} />
+                            <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 3 ? strength.color : "bg-surface-3"}`} />
+                            <div className={`h-full flex-1 rounded-full transition-all ${strength.score >= 4 ? strength.color : "bg-surface-3"}`} />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Confirm New Password */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        Confirm New Password <span className="text-primary-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirm ? "text" : "password"}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Re-type new password"
+                          required
+                          className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirm(!showConfirm)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-fg hover:text-foreground text-xs cursor-pointer"
+                        >
+                          {showConfirm ? "Hide" : "Show"}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-end pt-3 border-t border-border">
+                      <button
+                        type="submit"
+                        disabled={savingPassword}
+                        className="px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white font-bold text-xs transition-all shadow-[0_0_20px_rgba(20,184,160,0.3)] flex items-center gap-2 cursor-pointer"
+                      >
+                        {savingPassword ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Updating Password…</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>🛡️</span>
+                            <span>Update Password</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  /* OPTION B: Reset via Email OTP */
+                  <form onSubmit={handleProfileOtpReset} className="space-y-5">
+                    <div className="p-4 rounded-xl bg-surface-2/60 border border-border space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs font-semibold text-foreground">Registered Email</p>
+                          <p className="text-[11px] text-muted-fg font-mono mt-0.5">{user?.email}</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleSendProfileResetOtp}
+                          disabled={resetLoading || resetTimer > 0}
+                          className="px-3.5 py-1.5 rounded-xl bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white text-xs font-semibold transition-all shadow-sm cursor-pointer flex items-center gap-1.5"
+                        >
+                          {resetLoading ? (
+                            <span className="w-3 h-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                          ) : (
+                            <span>📬</span>
+                          )}
+                          <span>
+                            {resetTimer > 0 ? `Resend (${resetTimer}s)` : resetOtpSent ? "Resend Code" : "Send 6-Digit OTP"}
+                          </span>
+                        </button>
+                      </div>
+                      {resetOtpSent && (
+                        <p className="text-[11px] text-emerald-400 font-medium">
+                          ✓ Verification code dispatched to {user?.email}. Please check your inbox.
+                        </p>
+                      )}
+                    </div>
+
+                    {/* 6-Digit OTP Input */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        6-Digit Verification Code <span className="text-primary-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        required
+                        value={resetOtp}
+                        onChange={(e) => setResetOtp(e.target.value.replace(/\D/g, ""))}
+                        placeholder="123456"
+                        disabled={resetLoading}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 border border-border text-center text-lg font-mono font-bold tracking-[8px] text-primary-400 focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/40"
+                      />
+                    </div>
+
+                    {/* New Password */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        New Password <span className="text-primary-500">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        value={resetNewPass}
+                        onChange={(e) => setResetNewPass(e.target.value)}
+                        placeholder="At least 6 characters"
+                        disabled={resetLoading}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
+                      />
+                    </div>
+
+                    {/* Confirm New Password */}
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-semibold text-foreground">
+                        Confirm New Password <span className="text-primary-500">*</span>
+                      </label>
+                      <input
+                        type="password"
+                        required
+                        value={resetConfirmPass}
+                        onChange={(e) => setResetConfirmPass(e.target.value)}
+                        placeholder="Re-type new password"
+                        disabled={resetLoading}
+                        className="w-full px-3.5 py-2.5 rounded-xl bg-surface-2 border border-border text-foreground text-xs focus:outline-none focus:border-primary-500/50 focus:ring-1 focus:ring-primary-500/30 transition-all placeholder:text-muted-fg/60"
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-end pt-3 border-t border-border">
+                      <button
+                        type="submit"
+                        disabled={resetLoading || !resetOtp || !resetNewPass}
+                        className="px-6 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white font-bold text-xs transition-all shadow-[0_0_20px_rgba(20,184,160,0.3)] flex items-center gap-2 cursor-pointer"
+                      >
+                        {resetLoading ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                            <span>Resetting…</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>🔐</span>
+                            <span>Reset Password via OTP</span>
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
             </motion.div>
           )}
 

@@ -8,6 +8,7 @@ import { StatusBadge } from "@/components/admin/StatusBadge";
 import { Modal, ConfirmModal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useToastPortal } from "@/components/ui/useToastPortal";
+import { teamMembersData } from "@/lib/team-data";
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
@@ -98,6 +99,8 @@ export default function AdminTeamPage() {
 
   const loadTeam = useCallback(async () => {
     setLoading(true);
+
+    // Tier 1: Try authenticated Admin Team endpoint
     try {
       const res = await fetch(`${API_BASE_URL}/api/admin/team`, {
         credentials: "include",
@@ -105,15 +108,63 @@ export default function AdminTeamPage() {
       });
       if (res.ok) {
         const json = await res.json();
-        setTeam(json.data || []);
-      } else {
-        toast("error", "Error", "Failed to load team members from database");
+        if (json.data && Array.isArray(json.data) && json.data.length > 0) {
+          setTeam(json.data);
+          setLoading(false);
+          return;
+        }
       }
-    } catch {
-      toast("error", "Network Error", "Unable to connect to backend service");
+    } catch (err) {
+      console.warn("Could not load from /api/admin/team, attempting public team route:", err);
     }
+
+    // Tier 2: Fallback to public /api/team endpoint
+    try {
+      const pubRes = await fetch(`${API_BASE_URL}/api/team`, {
+        cache: "no-store",
+        headers: { Accept: "application/json" },
+      });
+      if (pubRes.ok) {
+        const pubJson = await pubRes.json();
+        if (pubJson.data && Array.isArray(pubJson.data) && pubJson.data.length > 0) {
+          const mapped: TeamStaff[] = pubJson.data.map((m: any, idx: number) => ({
+            id: m._id || m.id || m.slug || `tm_${idx}`,
+            name: m.name,
+            email: m.socialLinks?.email || `${m.slug}@nexora.agency`,
+            role: m.shortRole || "developer",
+            department: m.department || "Computer Science & Technology (CST)",
+            title: m.role || "Team Specialist",
+            permissions: m.skills || ["manage_requests", "view_analytics"],
+            status: "active",
+            avatar: m.image || m.initials,
+            createdAt: m.createdAt || new Date().toISOString(),
+          }));
+          setTeam(mapped);
+          setLoading(false);
+          return;
+        }
+      }
+    } catch (pubErr) {
+      console.warn("Could not load from /api/team, falling back to local team records:", pubErr);
+    }
+
+    // Tier 3: Resilient offline fallback using curated team records
+    const fallbackTeam: TeamStaff[] = teamMembersData.map((m, idx) => ({
+      id: m.slug || `tm_${idx}`,
+      name: m.name,
+      email: m.socialLinks?.email || `${m.slug}@nexora.agency`,
+      role: m.shortRole || "developer",
+      department: m.department || "Computer Science & Technology (CST)",
+      title: m.role || "Team Specialist",
+      permissions: m.skills || ["manage_requests", "view_analytics"],
+      status: "active",
+      avatar: m.image || m.initials,
+      createdAt: new Date().toISOString(),
+    }));
+
+    setTeam(fallbackTeam);
     setLoading(false);
-  }, [toast, getAuthHeaders]);
+  }, [getAuthHeaders]);
 
   useEffect(() => {
     setCurrentUser(getStoredUser());

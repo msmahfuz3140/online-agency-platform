@@ -469,6 +469,15 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   </Link>
 
                   <Link
+                    href="/dashboard/settings?tab=security"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-300 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
+                  >
+                    <span className="text-sm">🔒</span>
+                    <span>Change Password</span>
+                  </Link>
+
+                  <Link
                     href="/request-project"
                     onClick={() => setProfileOpen(false)}
                     className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-300 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"

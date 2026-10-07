@@ -2,9 +2,48 @@
 
 import { useEffect, useState } from "react";
 
-const API_BASE_URL = (
+export function getApiBaseUrl(): string {
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      if (process.env.NEXT_PUBLIC_API_URL?.includes("localhost")) {
+        return process.env.NEXT_PUBLIC_API_URL.replace(/\/+$/, "");
+      }
+      return "http://localhost:5000";
+    }
+  }
+  return (
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://online-agency-platform-backend.vercel.app"
+  ).replace(/\/+$/, "");
+}
+
+export const API_BASE_URL = (
   process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app"
 ).replace(/\/+$/, "");
+
+export async function apiFetch(path: string, init?: RequestInit): Promise<Response> {
+  const primary = getApiBaseUrl();
+  const secondary = "https://online-agency-platform-backend.vercel.app";
+
+  try {
+    const res = await fetch(`${primary}${path}`, init);
+    if (!res.ok && res.status === 404 && primary !== secondary) {
+      try {
+        const fallbackRes = await fetch(`${secondary}${path}`, init);
+        if (fallbackRes.ok) return fallbackRes;
+      } catch {}
+    }
+    return res;
+  } catch (primaryErr) {
+    if (primary !== secondary) {
+      try {
+        return await fetch(`${secondary}${path}`, init);
+      } catch {}
+    }
+    throw primaryErr;
+  }
+}
 
 export interface UserSession {
   id: string;
@@ -67,7 +106,7 @@ export async function signUpEmail(data: {
   password: string;
 }): Promise<AuthResponse> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/sign-up/email`, {
+    const res = await apiFetch("/api/auth/sign-up/email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -85,12 +124,9 @@ export async function signUpEmail(data: {
       };
     }
 
-    // Immediately sign out via the cookie-clearing endpoint so Better Auth
-    // destroys the auto-created session. We do NOT store the user in
-    // localStorage — the user must explicitly sign in on /login.
     setStoredUser(null);
     try {
-      await fetch(`${API_BASE_URL}/api/auth/sign-out`, {
+      await apiFetch("/api/auth/sign-out", {
         method: "POST",
         credentials: "include",
       });
@@ -125,7 +161,7 @@ export async function signInEmail(data: {
   password: string;
 }): Promise<AuthResponse> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/sign-in/email`, {
+    const res = await apiFetch("/api/auth/sign-in/email", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -172,7 +208,7 @@ export async function signInEmail(data: {
  */
 export async function signOut(): Promise<{ success: boolean }> {
   try {
-    await fetch(`${API_BASE_URL}/api/auth/sign-out`, {
+    await apiFetch("/api/auth/sign-out", {
       method: "POST",
       credentials: "include",
     });
@@ -198,7 +234,7 @@ export async function signInSocial(
         ? `${window.location.origin}/dashboard`
         : "http://localhost:3000/dashboard");
 
-    const res = await fetch(`${API_BASE_URL}/api/auth/sign-in/social`, {
+    const res = await apiFetch("/api/auth/sign-in/social", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -253,11 +289,25 @@ export async function signInSocial(
 /**
  * Fetch current session
  */
-export async function getSession(): Promise<UserSession | null> {
+export async function getSession(tokenOverride?: string): Promise<UserSession | null> {
   try {
+    let token = tokenOverride;
+    if (!token && typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      token = params.get("session_token") || params.get("token") || undefined;
+    }
+
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+    };
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+      headers["x-session-token"] = token;
+    }
+
     const [authRes, meRes] = await Promise.all([
-      fetch(`${API_BASE_URL}/api/auth/get-session`, { credentials: "include" }).catch(() => null),
-      fetch(`${API_BASE_URL}/api/user/me`, { credentials: "include" }).catch(() => null),
+      apiFetch("/api/auth/get-session", { credentials: "include", headers }).catch(() => null),
+      apiFetch("/api/user/me", { credentials: "include", headers }).catch(() => null),
     ]);
 
     let meData: any = null;
@@ -287,6 +337,17 @@ export async function getSession(): Promise<UserSession | null> {
           createdAt: meData?.createdAt || undefined,
         };
         setStoredUser(formattedUser);
+
+        // If authenticated via URL token param, clean up URL
+        if (token && typeof window !== "undefined") {
+          try {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("session_token");
+            url.searchParams.delete("token");
+            window.history.replaceState({}, document.title, url.toString());
+          } catch {}
+        }
+
         return formattedUser;
       }
     }
@@ -310,6 +371,16 @@ export async function getSession(): Promise<UserSession | null> {
         createdAt: meData.createdAt || stored?.createdAt,
       };
       setStoredUser(updated);
+
+      if (token && typeof window !== "undefined") {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.delete("session_token");
+          url.searchParams.delete("token");
+          window.history.replaceState({}, document.title, url.toString());
+        } catch {}
+      }
+
       return updated;
     }
 
@@ -329,7 +400,7 @@ export async function updateUserProfile(data: {
   company?: string;
 }): Promise<{ success: boolean; user?: UserSession; message?: string; error?: string }> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/user/profile`, {
+    const res = await apiFetch("/api/user/profile", {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -373,9 +444,18 @@ export async function changeUserPassword(data: {
   newPassword: string;
 }): Promise<{ success: boolean; message?: string; error?: string }> {
   try {
-    const res = await fetch(`${API_BASE_URL}/api/user/change-password`, {
+    const stored = getStoredUser();
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    };
+    if (stored?.email) headers["x-user-email"] = stored.email;
+    if (stored?.id) headers["x-user-id"] = stored.id;
+    if (stored?.role) headers["x-user-role"] = stored.role;
+
+    const res = await apiFetch("/api/user/change-password", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers,
       credentials: "include",
       body: JSON.stringify(data),
     });
@@ -388,6 +468,58 @@ export async function changeUserPassword(data: {
     return { success: true, message: json.message || "Password updated successfully." };
   } catch (err: any) {
     return { success: false, error: err.message || "Network error changing password." };
+  }
+}
+
+/**
+ * Request 6-digit OTP code to reset forgotten password
+ */
+export async function requestPasswordReset(email: string): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await apiFetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({ email: email.trim() }),
+    });
+
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) {
+      return { success: false, error: json.message || "Failed to send reset code. Please check your email." };
+    }
+
+    return { success: true, message: json.message || "Reset code sent to your email." };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Network error requesting password reset." };
+  }
+}
+
+/**
+ * Verify OTP code and set new password
+ */
+export async function resetPasswordWithOtp(data: {
+  email: string;
+  otp: string;
+  newPassword: string;
+}): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const res = await apiFetch("/api/auth/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        email: data.email.trim(),
+        otp: data.otp.trim(),
+        newPassword: data.newPassword,
+      }),
+    });
+
+    const json = await res.json().catch(() => ({}));
+    if (!res.ok || !json.success) {
+      return { success: false, error: json.message || "Failed to reset password." };
+    }
+
+    return { success: true, message: json.message || "Password successfully reset." };
+  } catch (err: any) {
+    return { success: false, error: err.message || "Network error resetting password." };
   }
 }
 

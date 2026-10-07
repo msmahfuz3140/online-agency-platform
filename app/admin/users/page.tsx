@@ -1,14 +1,12 @@
 "use client";
 
 import React, { useEffect, useState, useCallback } from "react";
-import { getStoredUser, type UserSession } from "@/lib/auth-client";
+import { getStoredUser, apiFetch, type UserSession } from "@/lib/auth-client";
 import { AdminTopBar } from "@/components/admin/AdminTopBar";
 import { DataTable, type Column } from "@/components/admin/DataTable";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { ConfirmModal } from "@/components/ui/Modal";
 import { useToastPortal } from "@/components/ui/useToastPortal";
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://online-agency-platform-backend.vercel.app";
 
 interface AdminUser {
   id: string;
@@ -32,23 +30,57 @@ export default function AdminUsersPage() {
     targetUser: AdminUser | null;
   }>({ open: false, type: "block", targetUser: null });
   const [actionLoading, setActionLoading] = useState(false);
+
+  // Role Change Modal State
+  const [roleModalOpen, setRoleModalOpen] = useState(false);
+  const [selectedUserForRole, setSelectedUserForRole] = useState<AdminUser | null>(null);
+  const [newRoleSelection, setNewRoleSelection] = useState<string>("user");
+  const [roleLoading, setRoleLoading] = useState(false);
+
   const { toast, ToastPortal } = useToastPortal();
+
+  const AVAILABLE_ROLES = [
+    { id: "user", label: "User / Client", desc: "Default client access to personal dashboard and service briefs" },
+    { id: "superadmin", label: "Super Admin", desc: "Full executive control over all settings, users, and system permissions" },
+    { id: "admin", label: "Admin", desc: "Platform operations, orders, and sprint management" },
+    { id: "manager", label: "Project Manager", desc: "Manages sprints, updates clients, reviews requests" },
+    { id: "developer", label: "Software Engineer", desc: "Engineering implementation, technical deliverables" },
+    { id: "cyber_security", label: "Cyber Security Specialist", desc: "Infrastructure protection and threat auditing" },
+    { id: "ethical_hacker", label: "Ethical Hacker", desc: "Penetration testing and vulnerability assessment" },
+    { id: "digital_marketer", label: "Digital Marketer", desc: "SEO campaigns, ad growth, and conversion funnels" },
+    { id: "graphics_designer", label: "Graphics Designer", desc: "UI/UX prototypes, branding, creative design" },
+    { id: "support", label: "Support Specialist", desc: "Client support inbox and inquiry management" },
+    { id: "editor", label: "Content Editor", desc: "Publications and case studies management" },
+  ];
+
+  const getAdminHeaders = useCallback(() => {
+    const stored = getStoredUser();
+    const isMainAdmin = [
+      "mdmahfuzulhaque3140@gmail.com",
+      "mdmahfuzulhaque314@gmail.com",
+    ].includes(stored?.email?.toLowerCase() || "");
+
+    const effectiveRole = isMainAdmin ? "superadmin" : (stored?.role || "superadmin");
+    const effectiveEmail = stored?.email || "mdmahfuzulhaque3140@gmail.com";
+
+    const headers: Record<string, string> = {
+      Accept: "application/json",
+      "x-user-email": effectiveEmail,
+      "x-user-role": effectiveRole,
+    };
+    if (stored?.id) headers["x-user-id"] = stored.id;
+    return headers;
+  }, []);
 
   const loadUsers = useCallback(async () => {
     setLoading(true);
     try {
-      const stored = getStoredUser();
-      const headers: Record<string, string> = {
-        Accept: "application/json",
-        "x-user-email": stored?.email || "mdmahfuzulhaque3140@gmail.com",
-        "x-user-role": stored?.role || "superadmin",
-      };
-      if (stored?.id) headers["x-user-id"] = stored.id;
-
-      const res = await fetch(`${API_BASE_URL}/api/admin/users?limit=100`, {
+      const headers = getAdminHeaders();
+      const res = await apiFetch("/api/admin/users?limit=100", {
         credentials: "include",
         headers,
       });
+
       if (res.ok) {
         const json = await res.json();
         setUsers(json.data || []);
@@ -59,7 +91,7 @@ export default function AdminUsersPage() {
       toast("error", "Load Error", "Failed to fetch users.");
     }
     setLoading(false);
-  }, [toast]);
+  }, [getAdminHeaders, toast]);
 
   useEffect(() => {
     setUser(getStoredUser());
@@ -71,6 +103,45 @@ export default function AdminUsersPage() {
       setConfirmModal({ open: true, type: "block", targetUser: row });
     } else if (action === "delete") {
       setConfirmModal({ open: true, type: "delete", targetUser: row });
+    } else if (action === "change_role") {
+      setSelectedUserForRole(row);
+      setNewRoleSelection(row.role || "user");
+      setRoleModalOpen(true);
+    }
+  };
+
+  const handleSaveRole = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUserForRole) return;
+
+    setRoleLoading(true);
+    try {
+      const headers = {
+        ...getAdminHeaders(),
+        "Content-Type": "application/json",
+      };
+
+      const res = await apiFetch(`/api/admin/users/${selectedUserForRole.id}/role`, {
+        method: "PATCH",
+        credentials: "include",
+        headers,
+        body: JSON.stringify({ role: newRoleSelection }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.success) {
+        toast("success", "Role Updated! 🛡️", `Assigned "${newRoleSelection}" role to ${selectedUserForRole.name}.`);
+        setUsers((prev) =>
+          prev.map((u) => (u.id === selectedUserForRole.id ? { ...u, role: newRoleSelection } : u))
+        );
+        setRoleModalOpen(false);
+      } else {
+        toast("error", "Update Failed", json.message || "Could not update user role.");
+      }
+    } catch {
+      toast("error", "Network Error", "Failed to communicate with authentication service.");
+    } finally {
+      setRoleLoading(false);
     }
   };
 
@@ -78,20 +149,14 @@ export default function AdminUsersPage() {
     if (!confirmModal.targetUser) return;
     setActionLoading(true);
     try {
-      const stored = getStoredUser();
-      const headers: Record<string, string> = {
-        "x-user-email": stored?.email || "mdmahfuzulhaque3140@gmail.com",
-        "x-user-role": stored?.role || "superadmin",
-      };
-      if (stored?.id) headers["x-user-id"] = stored.id;
-
+      const headers = getAdminHeaders();
       const { id } = confirmModal.targetUser;
       const endpoint =
         confirmModal.type === "delete"
-          ? `${API_BASE_URL}/api/admin/users/${id}`
-          : `${API_BASE_URL}/api/admin/users/${id}/block`;
+          ? `/api/admin/users/${id}`
+          : `/api/admin/users/${id}/block`;
       const method = confirmModal.type === "delete" ? "DELETE" : "PATCH";
-      const res = await fetch(endpoint, { method, credentials: "include", headers });
+      const res = await apiFetch(endpoint, { method, credentials: "include", headers });
       if (res.ok) {
         toast(
           "success",
@@ -215,6 +280,11 @@ export default function AdminUsersPage() {
           onRowAction={handleRowAction}
           rowActions={(row) => [
             {
+              label: "Assign Role 🛡️",
+              action: "change_role",
+              variant: "normal",
+            },
+            {
               label: row.isBlocked ? "Unblock" : "Block",
               action: "block",
               variant: row.isBlocked ? "normal" : "danger",
@@ -223,6 +293,104 @@ export default function AdminUsersPage() {
           ]}
         />
       </div>
+
+      {/* Change Role Modal */}
+      {roleModalOpen && selectedUserForRole && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-in fade-in duration-200">
+          <div
+            className="fixed inset-0"
+            onClick={() => !roleLoading && setRoleModalOpen(false)}
+          />
+          <div className="relative w-full max-w-lg p-6 sm:p-7 rounded-2xl bg-surface-1 dark:bg-[#0c1322] border border-border dark:border-white/[0.1] shadow-2xl z-10 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-start justify-between">
+              <div>
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-primary-500/15 text-primary-400 border border-primary-500/30">
+                  🛡️ Role-Based Access Control (RBAC)
+                </span>
+                <h3 className="text-lg font-bold text-foreground mt-2">
+                  Assign Role to {selectedUserForRole.name}
+                </h3>
+                <p className="text-xs text-muted-fg mt-0.5 font-mono">
+                  {selectedUserForRole.email} • Current Role: <span className="text-primary-400 font-bold capitalize">{selectedUserForRole.role}</span>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => !roleLoading && setRoleModalOpen(false)}
+                className="text-muted-fg hover:text-foreground text-sm p-1 rounded-lg hover:bg-surface-2 transition-colors cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleSaveRole} className="space-y-4">
+              <div className="space-y-2">
+                <label className="block text-xs font-semibold text-foreground">
+                  Select User Role:
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-64 overflow-y-auto pr-1">
+                  {AVAILABLE_ROLES.map((r) => {
+                    const isSelected = newRoleSelection === r.id;
+                    return (
+                      <div
+                        key={r.id}
+                        onClick={() => setNewRoleSelection(r.id)}
+                        className={`p-3 rounded-xl border cursor-pointer transition-all ${
+                          isSelected
+                            ? "bg-primary-500/15 border-primary-500 text-foreground ring-1 ring-primary-500/50"
+                            : "bg-surface-2/60 border-border hover:border-primary-500/30 text-muted-fg hover:text-foreground"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-bold text-foreground capitalize">
+                            {r.label}
+                          </span>
+                          {isSelected && <span className="text-xs text-primary-400">✓</span>}
+                        </div>
+                        <p className="text-[10px] text-muted-fg mt-1 line-clamp-2 leading-relaxed">
+                          {r.desc}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-300 text-[11px] leading-relaxed">
+                💡 <strong>Important:</strong> Assigning a staff role (such as Super Admin, Admin, Manager, or Developer) grants dashboard permissions and automatically syncs the user into the agency team roster.
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-2 border-t border-border">
+                <button
+                  type="button"
+                  onClick={() => setRoleModalOpen(false)}
+                  disabled={roleLoading}
+                  className="px-4 py-2.5 rounded-xl border border-border bg-surface-2 hover:bg-surface-3 text-xs font-semibold text-muted-fg hover:text-foreground transition-all cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={roleLoading}
+                  className="px-5 py-2.5 rounded-xl bg-primary-500 hover:bg-primary-600 disabled:opacity-50 text-white text-xs font-semibold shadow-lg shadow-primary-500/25 flex items-center gap-2 cursor-pointer transition-all"
+                >
+                  {roleLoading ? (
+                    <>
+                      <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Saving Role…</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Apply Role</span>
+                      <span>✓</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
 
       {/* Block Confirm Modal */}
       <ConfirmModal

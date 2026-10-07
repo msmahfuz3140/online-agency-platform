@@ -30,6 +30,27 @@ export default function ClientDashboardPage() {
     setMounted(true);
 
     async function verifyAuth() {
+      // 0. Check if returning from OAuth with session_token in URL
+      let tokenFromUrl: string | undefined = undefined;
+      if (typeof window !== "undefined") {
+        const params = new URLSearchParams(window.location.search);
+        tokenFromUrl = params.get("session_token") || params.get("token") || undefined;
+      }
+
+      if (tokenFromUrl) {
+        try {
+          const sessionUser = await getSession(tokenFromUrl);
+          if (sessionUser && sessionUser.id && sessionUser.email) {
+            setUser(sessionUser);
+            setStoredUser(sessionUser);
+            setCheckingAuth(false);
+            return;
+          }
+        } catch (err) {
+          console.warn("OAuth session check error on dashboard:", err);
+        }
+      }
+
       // 1. Check local session storage first
       const stored = getStoredUser();
       if (stored && stored.id && stored.email) {

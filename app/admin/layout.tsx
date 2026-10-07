@@ -7,7 +7,23 @@ import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminLayoutProvider, useAdminLayout } from "@/components/admin/AdminLayoutContext";
 import { Logo } from "@/components/ui/Logo";
 
-const ALLOWED_STAFF_ROLES = ["superadmin", "admin", "manager", "support", "developer", "editor"];
+const ALLOWED_STAFF_ROLES = [
+  "superadmin",
+  "admin",
+  "manager",
+  "support",
+  "developer",
+  "editor",
+  "cyber_security",
+  "ethical_hacker",
+  "digital_marketer",
+  "graphics_designer",
+];
+
+const MAIN_ADMIN_EMAILS = [
+  "mdmahfuzulhaque3140@gmail.com",
+  "mdmahfuzulhaque314@gmail.com",
+];
 
 const DEFAULT_FOUNDER_SESSION: UserSession = {
   id: "6a9c78c7a8b5f6b1bb042fb6",
@@ -29,16 +45,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       const stored = getStoredUser();
       if (stored) {
         const storedRole = (stored.role || "").toLowerCase();
-        const isFounder = stored.email?.toLowerCase().includes("mahfuz");
+        const emailLower = stored.email?.toLowerCase() || "";
+        const isMainAdmin = MAIN_ADMIN_EMAILS.includes(emailLower);
 
-        if (isFounder || ALLOWED_STAFF_ROLES.includes(storedRole)) {
+        if (isMainAdmin || ALLOWED_STAFF_ROLES.includes(storedRole)) {
           const effectiveUser: UserSession = {
             ...stored,
-            role: isFounder ? "superadmin" : storedRole,
+            role: isMainAdmin ? "superadmin" : storedRole,
           };
           setUser(effectiveUser);
           setStoredUser(effectiveUser);
           setChecking(false);
+          return;
+        } else {
+          // Logged in user has normal "user" role — forbidden from admin hub
+          router.replace("/dashboard?denied=admin");
           return;
         }
       }
@@ -48,41 +69,30 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         const sessionUser = await getSession();
         if (sessionUser) {
           const sessionRole = (sessionUser.role || "").toLowerCase();
-          const isFounder = sessionUser.email?.toLowerCase().includes("mahfuz");
+          const emailLower = sessionUser.email?.toLowerCase() || "";
+          const isMainAdmin = MAIN_ADMIN_EMAILS.includes(emailLower);
 
-          if (isFounder || ALLOWED_STAFF_ROLES.includes(sessionRole)) {
+          if (isMainAdmin || ALLOWED_STAFF_ROLES.includes(sessionRole)) {
             const effectiveUser: UserSession = {
               ...sessionUser,
-              role: isFounder ? "superadmin" : sessionRole,
+              role: isMainAdmin ? "superadmin" : sessionRole,
             };
             setUser(effectiveUser);
             setStoredUser(effectiveUser);
             setChecking(false);
             return;
+          } else {
+            // Normal user role returned by session
+            router.replace("/dashboard?denied=admin");
+            return;
           }
         }
       } catch (e) {
-        console.warn("Session check error, evaluating dev preview mode:", e);
+        console.warn("Session check error:", e);
       }
 
-      // 3. Graceful Dev / Local Preview Mode:
-      // In local development, never kick the user out of /admin so they can always inspect and test the design!
-      const isLocalHost =
-        typeof window !== "undefined" &&
-        (window.location.hostname === "localhost" ||
-          window.location.hostname === "127.0.0.1" ||
-          process.env.NODE_ENV === "development");
-
-      if (isLocalHost) {
-        setUser(DEFAULT_FOUNDER_SESSION);
-        setStoredUser(DEFAULT_FOUNDER_SESSION);
-        setIsPreviewMode(true);
-        setChecking(false);
-        return;
-      }
-
-      // 4. Production fallback for unauthorized guests
-      router.replace("/login?error=Unauthorized");
+      // 3. Unauthenticated guest fallback
+      router.replace("/login?error=AdminAccessOnly");
     }
 
     checkAuth();
