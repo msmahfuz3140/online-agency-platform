@@ -14,6 +14,9 @@ import {
 } from "@/lib/team-data";
 import { fetchTeamMemberBySlug } from "@/lib/api-client";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }

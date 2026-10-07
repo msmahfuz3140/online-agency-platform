@@ -30,38 +30,41 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
     });
   }, []);
 
-  const getMemberCategory = (slug: string) => {
-    switch (slug) {
-      case "md-mahfuzul-haque":
-        return "fullstack";
-      case "jahidul-islam":
-        return "design";
-      case "sakib-al-hasan":
-        return "marketing";
-      case "mehedi-hasan-saim":
-      case "mehedi":
-      case "saif-khan":
-        return "security";
-      case "koushik-komar-paul":
-      case "koushik-roy":
-        return "offensive";
-      default:
-        return "all";
+  const getMemberCategory = (m: TeamMemberDetails) => {
+    const slug = (m.slug || "").toLowerCase();
+    const roleText = `${m.role || ""} ${m.shortRole || ""} ${m.department || ""}`.toLowerCase();
+
+    if (slug === "md-mahfuzul-haque" || roleText.includes("fullstack") || roleText.includes("developer") || roleText.includes("engineer") || roleText.includes("architect")) {
+      return "fullstack";
     }
+    if (slug === "jahidul-islam" || roleText.includes("design") || roleText.includes("ui") || roleText.includes("ux") || roleText.includes("graphic")) {
+      return "design";
+    }
+    if (slug === "sakib-al-hasan" || roleText.includes("market") || roleText.includes("growth") || roleText.includes("seo") || roleText.includes("ads")) {
+      return "marketing";
+    }
+    if (slug === "koushik-komar-paul" || slug === "koushik-roy" || roleText.includes("offensive") || roleText.includes("hacker") || roleText.includes("penetration") || roleText.includes("audit")) {
+      return "offensive";
+    }
+    if (slug === "saif-khan" || slug === "mehedi" || slug === "mehedi-hasan-saim" || roleText.includes("security") || roleText.includes("cyber") || roleText.includes("defense")) {
+      return "security";
+    }
+    return "fullstack";
   };
 
   const filteredMembers = members.filter((m) => {
     if (activeCategory === "all") return true;
-    return getMemberCategory(m.slug) === activeCategory;
+    return getMemberCategory(m) === activeCategory;
   });
 
-  const getRoleAccent = (slug: string) => {
+  const getRoleAccent = (member: TeamMemberDetails) => {
+    const slug = member.slug || "";
     switch (slug) {
       case "md-mahfuzul-haque":
         return {
           glow: "rgba(20, 184, 160, 0.35)",
           border: "border-primary-500/40 hover:border-primary-400",
-          tagBg: "bg-primary-500/15 text-primary-300 border-primary-500/30",
+          tagBg: "bg-primary-500/15 text-primary-700 dark:text-primary-300 border-primary-500/30",
           badgeColor: "primary" as const,
           crown: true,
           topStat: "100/100 Core Web Vitals",
@@ -70,7 +73,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(245, 158, 11, 0.35)",
           border: "border-amber-500/40 hover:border-amber-400",
-          tagBg: "bg-amber-500/15 text-amber-300 border-amber-500/30",
+          tagBg: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",
           badgeColor: "warning" as const,
           crown: false,
           topStat: "+38% Avg Conversion Uplift",
@@ -79,7 +82,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(16, 185, 129, 0.35)",
           border: "border-emerald-500/40 hover:border-emerald-400",
-          tagBg: "bg-emerald-500/15 text-emerald-300 border-emerald-500/30",
+          tagBg: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
           badgeColor: "success" as const,
           crown: false,
           topStat: "0 Breaches • 100% Zero-Trust",
@@ -89,7 +92,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(168, 85, 247, 0.35)",
           border: "border-purple-500/40 hover:border-purple-400",
-          tagBg: "bg-purple-500/15 text-purple-300 border-purple-500/30",
+          tagBg: "bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30",
           badgeColor: "default" as const,
           crown: false,
           topStat: "70+ Vulnerabilities Uncovered",
@@ -98,7 +101,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(14, 165, 233, 0.35)",
           border: "border-sky-500/40 hover:border-sky-400",
-          tagBg: "bg-sky-500/15 text-sky-300 border-sky-500/30",
+          tagBg: "bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30",
           badgeColor: "primary" as const,
           crown: false,
           topStat: "4.8x Avg ROAS • Paid Media & Ads",
@@ -107,7 +110,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(20, 184, 166, 0.35)",
           border: "border-teal-500/40 hover:border-teal-400",
-          tagBg: "bg-teal-500/15 text-teal-300 border-teal-500/30",
+          tagBg: "bg-teal-500/15 text-teal-700 dark:text-teal-300 border-teal-500/30",
           badgeColor: "success" as const,
           crown: false,
           topStat: "Python SecOps • Automated Threat Intel",
@@ -116,20 +119,52 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
         return {
           glow: "rgba(59, 130, 246, 0.35)",
           border: "border-blue-500/40 hover:border-blue-400",
-          tagBg: "bg-blue-500/15 text-blue-300 border-blue-500/30",
+          tagBg: "bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30",
           badgeColor: "default" as const,
           crown: false,
           topStat: "Perimeter Defense • Zero-Trust",
         };
-      default:
+      default: {
+        const cat = getMemberCategory(member);
+        if (cat === "design") {
+          return {
+            glow: "rgba(245, 158, 11, 0.35)",
+            border: "border-amber-500/40 hover:border-amber-400",
+            tagBg: "bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/30",
+            badgeColor: "warning" as const,
+            crown: false,
+            topStat: member.stats?.[0]?.label ? `${member.stats[0].value} ${member.stats[0].label}` : "Design Specialist",
+          };
+        }
+        if (cat === "marketing") {
+          return {
+            glow: "rgba(14, 165, 233, 0.35)",
+            border: "border-sky-500/40 hover:border-sky-400",
+            tagBg: "bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30",
+            badgeColor: "primary" as const,
+            crown: false,
+            topStat: member.stats?.[0]?.label ? `${member.stats[0].value} ${member.stats[0].label}` : "Growth & Performance",
+          };
+        }
+        if (cat === "security" || cat === "offensive") {
+          return {
+            glow: "rgba(16, 185, 129, 0.35)",
+            border: "border-emerald-500/40 hover:border-emerald-400",
+            tagBg: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30",
+            badgeColor: "success" as const,
+            crown: false,
+            topStat: member.stats?.[0]?.label ? `${member.stats[0].value} ${member.stats[0].label}` : "Security Verified",
+          };
+        }
         return {
-          glow: "rgba(255, 255, 255, 0.15)",
-          border: "border-white/20 hover:border-white/40",
-          tagBg: "bg-white/10 text-white border-white/20",
+          glow: "rgba(20, 184, 160, 0.35)",
+          border: "border-primary-500/40 hover:border-primary-400",
+          tagBg: "bg-primary-500/15 text-primary-700 dark:text-primary-300 border-primary-500/30",
           badgeColor: "primary" as const,
           crown: false,
-          topStat: "Senior Specialist",
+          topStat: member.stats?.[0]?.label ? `${member.stats[0].value} ${member.stats[0].label}` : "Team Specialist",
         };
+      }
     }
   };
 
@@ -181,7 +216,7 @@ export function TeamSection({ initialMembers }: { initialMembers?: TeamMemberDet
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         <AnimatePresence mode="popLayout">
           {filteredMembers.map((member, idx) => {
-            const accent = getRoleAccent(member.slug);
+            const accent = getRoleAccent(member);
             const isFounder = accent.crown;
 
             return (

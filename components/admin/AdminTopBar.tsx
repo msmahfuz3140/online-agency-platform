@@ -151,9 +151,9 @@ export function AdminTopBar({
     : "MH";
 
   return (
-    <header className="sticky top-0 z-20 flex items-center justify-between gap-2.5 sm:gap-4 px-3 sm:px-6 py-2.5 sm:py-3 bg-surface-1/90 dark:bg-[#0a0f1a]/85 backdrop-blur-2xl border-b border-border dark:border-white/[0.06] min-h-[60px] sm:min-h-[65px]">
+    <header className="sticky top-0 z-20 flex items-center justify-between gap-1.5 sm:gap-4 px-2.5 sm:px-6 py-2 sm:py-3 bg-surface-1/90 dark:bg-[#0a0f1a]/85 backdrop-blur-2xl border-b border-border dark:border-white/[0.06] min-h-[58px] sm:min-h-[65px]">
       {/* Left: Title & Environment Switcher */}
-      <div className="flex items-center gap-2 sm:gap-3.5 min-w-0">
+      <div className="flex items-center gap-1.5 sm:gap-3.5 min-w-0">
         {/* Mobile Hamburger Toggle Button */}
         <button
           type="button"
@@ -169,7 +169,7 @@ export function AdminTopBar({
         </button>
 
         <div className="min-w-0">
-          <h1 className="font-heading text-sm sm:text-base font-bold text-foreground dark:text-white leading-tight truncate max-w-[160px] xs:max-w-[220px] sm:max-w-none">
+          <h1 className="font-heading text-xs xs:text-sm sm:text-base font-bold text-foreground dark:text-white leading-tight truncate max-w-[120px] xs:max-w-[180px] sm:max-w-none">
             {title}
           </h1>
           {subtitle && (
@@ -187,7 +187,7 @@ export function AdminTopBar({
       </div>
 
       {/* Right: Quick Switchers + Search + Time + ThemeToggle + Notifications + Profile Avatar */}
-      <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
         {/* Quick 1-click pills to Dashboard and Main Site */}
         <Link
           href="/dashboard"
@@ -222,14 +222,14 @@ export function AdminTopBar({
               placeholder="Search..."
               value={searchValue}
               onChange={handleSearch}
-              className="pl-8 pr-3 py-1.5 text-xs bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500/40 w-48 transition-all"
+              className="pl-8 pr-3 py-1.5 text-xs bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] rounded-xl text-foreground placeholder:text-muted-fg focus:outline-none focus:border-primary-500/40 w-36 md:w-48 transition-all"
             />
           </div>
         )}
 
         {/* Time */}
         <div className="hidden md:flex flex-col items-end leading-none">
-          <span className="text-[11px] font-mono text-muted-fg dark:text-white/70">{timeStr}</span>
+          <span className="text-[11px] font-mono text-foreground/80 dark:text-white/70">{timeStr}</span>
           <span className="text-[10px] text-muted-fg">{dateStr}</span>
         </div>
 
@@ -244,7 +244,7 @@ export function AdminTopBar({
             type="button"
             onClick={() => setNotifOpen(!notifOpen)}
             aria-label="Notifications"
-            className="relative h-8 w-8 rounded-xl border border-border dark:border-white/[0.08] bg-surface-2 dark:bg-white/[0.04] flex items-center justify-center text-muted-fg hover:text-foreground hover:border-amber-500/30 transition-all cursor-pointer shrink-0"
+            className="relative h-8 w-8 sm:h-8.5 sm:w-8.5 rounded-xl border border-border dark:border-white/[0.08] bg-surface-2 dark:bg-white/[0.04] flex items-center justify-center text-muted-fg hover:text-foreground hover:border-amber-500/30 transition-all cursor-pointer shrink-0"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
@@ -267,13 +267,13 @@ export function AdminTopBar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.96 }}
                   transition={{ duration: 0.15 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] rounded-2xl shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden z-50"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 bg-surface-1/95 dark:bg-[#0e1626]/95 backdrop-blur-2xl border border-border dark:border-white/[0.1] rounded-2xl shadow-2xl dark:shadow-[0_24px_64px_rgba(0,0,0,0.85)] overflow-hidden z-50"
                 >
-                  <div className="px-4 py-2.5 border-b border-white/[0.08] flex items-center justify-between">
+                  <div className="px-4 py-2.5 border-b border-border dark:border-white/[0.08] flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <p className="text-xs font-bold text-white">Live Notifications</p>
+                      <p className="text-xs font-bold text-foreground dark:text-white">Live Notifications</p>
                       {unreadCount > 0 && (
-                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold">
+                        <span className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-600 dark:text-amber-300 font-semibold">
                           {unreadCount} New
                         </span>
                       )}
@@ -282,7 +282,7 @@ export function AdminTopBar({
                       <button
                         type="button"
                         onClick={handleMarkAllRead}
-                        className="text-[10px] text-primary-400 hover:text-primary-300 underline cursor-pointer transition-colors"
+                        className="text-[10px] text-primary-500 dark:text-primary-400 hover:underline cursor-pointer transition-colors"
                       >
                         Mark all read
                       </button>
@@ -290,7 +290,7 @@ export function AdminTopBar({
                   </div>
                   <div className="p-2 space-y-1 max-h-80 overflow-y-auto [scrollbar-width:thin]">
                     {notifications.length === 0 ? (
-                      <div className="py-8 text-center text-xs text-neutral-400">
+                      <div className="py-8 text-center text-xs text-muted-fg">
                         <span className="text-2xl block mb-1">🎉</span>
                         All caught up! No notifications.
                       </div>
@@ -301,21 +301,21 @@ export function AdminTopBar({
                           onClick={() => handleNotificationClick(n)}
                           className={`flex items-start gap-2.5 p-2.5 rounded-xl cursor-pointer transition-all ${
                             !n.read
-                              ? "bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1]"
-                              : "hover:bg-white/[0.03] opacity-75 hover:opacity-100"
+                              ? "bg-surface-2 dark:bg-white/[0.06] border border-border dark:border-white/[0.08] hover:bg-surface-3 dark:hover:bg-white/[0.1]"
+                              : "hover:bg-surface-2 dark:hover:bg-white/[0.03] opacity-75 hover:opacity-100"
                           }`}
                         >
                           <span className="text-base shrink-0 mt-0.5">{notifIconMap[n.type] || "🔔"}</span>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-1">
-                              <p className={`text-[11px] font-semibold leading-snug truncate ${!n.read ? "text-white" : "text-neutral-300"}`}>
+                              <p className={`text-[11px] font-semibold leading-snug truncate ${!n.read ? "text-foreground dark:text-white" : "text-muted-fg dark:text-neutral-300"}`}>
                                 {n.title}
                               </p>
-                              <span className="text-[9px] text-neutral-500 font-mono shrink-0">
+                              <span className="text-[9px] text-muted-fg font-mono shrink-0">
                                 {formatTimeAgo(n.createdAt)}
                               </span>
                             </div>
-                            <p className="text-[11px] text-neutral-400 mt-0.5 line-clamp-2 leading-relaxed">
+                            <p className="text-[11px] text-muted-fg mt-0.5 line-clamp-2 leading-relaxed">
                               {n.message}
                             </p>
                           </div>
@@ -337,25 +337,25 @@ export function AdminTopBar({
           <button
             type="button"
             onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center gap-2 pl-1 pr-2 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-amber-500/40 hover:bg-white/[0.08] transition-all cursor-pointer group shrink-0"
+            className="flex items-center gap-2 pl-1 pr-1.5 sm:pr-2 py-1 rounded-full bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:border-amber-500/40 hover:bg-surface-3 dark:hover:bg-white/[0.08] transition-all cursor-pointer group shrink-0"
             aria-label="Admin Profile Menu"
             aria-expanded={profileOpen}
           >
-            <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-amber-400/30 to-primary-500/20 border border-amber-400/40 flex items-center justify-center font-bold text-xs text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]">
+            <div className="relative h-8 w-8 rounded-full bg-gradient-to-br from-amber-400/30 to-primary-500/20 border border-amber-400/40 flex items-center justify-center font-bold text-xs text-amber-500 dark:text-amber-300 shadow-[0_0_12px_rgba(245,158,11,0.25)]">
               {initials}
-              <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-[#0a0f1a]" />
+              <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-2 ring-background dark:ring-[#0a0f1a]" />
             </div>
 
             <div className="hidden lg:flex flex-col text-left leading-none">
-              <span className="text-xs font-semibold text-white group-hover:text-amber-300 transition-colors truncate max-w-[130px]">
+              <span className="text-xs font-semibold text-foreground dark:text-white group-hover:text-amber-500 dark:group-hover:text-amber-300 transition-colors truncate max-w-[130px]">
                 {user?.name || "MD.MAHFUZUL HAQUE"}
               </span>
-              <span className="text-[10px] text-amber-400 font-mono capitalize mt-0.5">
+              <span className="text-[10px] text-amber-500 dark:text-amber-400 font-mono capitalize mt-0.5">
                 {user?.role || "superadmin"}
               </span>
             </div>
 
-            <span className="text-[10px] text-neutral-400 group-hover:text-white transition-colors">
+            <span className="text-[10px] text-muted-fg group-hover:text-foreground transition-colors">
               ▾
             </span>
           </button>
@@ -372,27 +372,27 @@ export function AdminTopBar({
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-80 mx-auto sm:mx-0 rounded-2xl bg-[#0c1322]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_70px_rgba(0,0,0,0.85)] p-2.5 z-50 overflow-hidden"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-80 mx-auto sm:mx-0 rounded-2xl bg-surface-1/95 dark:bg-[#0c1322]/95 backdrop-blur-2xl border border-border dark:border-white/[0.1] shadow-2xl dark:shadow-[0_24px_70px_rgba(0,0,0,0.85)] p-2.5 z-50 overflow-hidden"
                 >
                 {/* User Info Header */}
-                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/10 via-white/[0.03] to-transparent border border-amber-500/20 mb-2">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/10 via-surface-2/60 to-transparent border border-amber-500/20 mb-2">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-bold text-white truncate">
+                    <p className="text-xs font-bold text-foreground dark:text-white truncate">
                       {user?.name || "MD.MAHFUZUL HAQUE"}
                     </p>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full border border-amber-400/30 bg-amber-400/15 text-amber-300 font-mono capitalize">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full border border-amber-400/30 bg-amber-400/15 text-amber-600 dark:text-amber-300 font-mono capitalize">
                       👑 {user?.role || "Super Admin"}
                     </span>
                   </div>
-                  <p className="text-[11px] text-neutral-400 truncate mt-0.5">
+                  <p className="text-[11px] text-muted-fg truncate mt-0.5">
                     {user?.email || "mdmahfuzulhaque3140@gmail.com"}
                   </p>
-                  <div className="mt-2 pt-1.5 border-t border-white/[0.06] flex items-center justify-between text-[10px]">
-                    <span className="text-emerald-400 font-medium flex items-center gap-1">
+                  <div className="mt-2 pt-1.5 border-t border-border dark:border-white/[0.06] flex items-center justify-between text-[10px]">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-medium flex items-center gap-1">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       Executive Session Active
                     </span>
-                    <span className="text-neutral-500 font-mono">Full RBAC Rights</span>
+                    <span className="text-muted-fg font-mono">Full RBAC Rights</span>
                   </div>
                 </div>
 
@@ -401,58 +401,58 @@ export function AdminTopBar({
                   <Link
                     href="/admin/workspace"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                   >
                     <span className="text-sm">⚡</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white">Personal Workspace</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Your role-based cockpit & daily sprints</p>
+                      <p className="font-semibold text-foreground dark:text-white">Personal Workspace</p>
+                      <p className="text-[10px] text-muted-fg truncate">Your role-based cockpit & daily sprints</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/admin/team"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                   >
                     <span className="text-sm">👥</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white">Team Members & Access</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Manage staff roles & granular permissions</p>
+                      <p className="font-semibold text-foreground dark:text-white">Team Members & Access</p>
+                      <p className="text-[10px] text-muted-fg truncate">Manage staff roles & granular permissions</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/dashboard"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-primary-300 hover:text-white hover:bg-primary-500/15 transition-colors border border-primary-500/20"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-primary-600 dark:text-primary-300 hover:bg-primary-500/15 transition-colors border border-primary-500/20"
                   >
                     <span className="text-sm">📊</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-primary-300">Client Dashboard Portal</p>
-                      <p className="text-[10px] text-neutral-400 truncate">View deliverables, milestones & AI generator</p>
+                      <p className="font-semibold text-primary-600 dark:text-primary-300">Client Dashboard Portal</p>
+                      <p className="text-[10px] text-muted-fg truncate">View deliverables, milestones & AI generator</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                   >
                     <span className="text-sm">🌐</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white">Main Agency Website</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Browse public portfolios & services</p>
+                      <p className="font-semibold text-foreground dark:text-white">Main Agency Website</p>
+                      <p className="text-[10px] text-muted-fg truncate">Browse public portfolios & services</p>
                     </div>
                   </Link>
                 </div>
 
                 {/* Sign Out Button */}
-                <div className="mt-2 pt-2 border-t border-white/[0.08]">
+                <div className="mt-2 pt-2 border-t border-border dark:border-white/[0.08]">
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-red-500 dark:text-red-400 hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer"
                   >
                     <span>🚪</span>
                     <span>Sign Out</span>

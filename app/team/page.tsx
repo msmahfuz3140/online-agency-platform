@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/Button";
 import { getAllTeamMembers } from "@/lib/team-data";
 import { fetchTeamMembers } from "@/lib/api-client";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: "Engineering Team & Founders — Leadership Core | Nexora Agency",
   description:

@@ -376,15 +376,15 @@ export function Navbar() {
                             ))}
                           </div>
                           {item.label === "Services" && (
-                            <div className="mt-2 pt-2 border-t border-neutral-800/80 px-1">
+                            <div className="mt-2 pt-2 border-t border-border dark:border-neutral-800/80 px-1">
                               <Link
                                 href="/services"
                                 onClick={() => setActiveDropdown(null)}
-                                className="flex items-center justify-between p-2.5 rounded-xl bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/25 text-primary-400 text-xs font-semibold transition-all group"
+                                className="flex items-center justify-between p-2.5 rounded-xl bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/25 text-primary-500 dark:text-primary-400 text-xs font-semibold transition-all group"
                               >
                                 <span className="flex items-center gap-2">
                                   <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
-                                  <span>View Complete 13 Services Page</span>
+                                  <span>View All 16 Specialized Services</span>
                                 </span>
                                 <span className="group-hover:translate-x-1 transition-transform">→</span>
                               </Link>
@@ -608,29 +608,15 @@ export function Navbar() {
           </div>
 
           {/* Mobile & Tablet Right Cluster (< 1024px) */}
-          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2">
+          <div className="flex lg:hidden items-center gap-1.5 sm:gap-2 shrink-0">
             <ThemeToggle className="h-8 w-8 rounded-full text-xs" />
 
             {isAuthenticated && user ? (
-              <>
-                <WorkspaceSwitcher current="website" compact={true} align="right" />
-
-                <button
-                  type="button"
-                  onClick={() => setMobileOpen(!mobileOpen)}
-                  className="relative flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-br from-primary-500/30 to-surface-1 border border-primary-500/40 text-primary-300 font-bold text-xs shadow-sm hover:scale-105 transition-transform"
-                  aria-label="User Account Menu"
-                >
-                  {user.name
-                    ? user.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)
-                    : "MH"}
-                  <span className="absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-400 ring-1 ring-black" />
-                </button>
-              </>
+              <WorkspaceSwitcher current="website" compact={true} align="right" />
             ) : (
               <Link
                 href="/request-project"
-                className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-primary-500/15 border border-primary-500/30 text-primary-400 dark:text-primary-300 hover:bg-primary-500/25 transition-all shadow-sm"
+                className="text-[11px] font-semibold px-2.5 py-1 rounded-full bg-primary-500/15 border border-primary-500/30 text-primary-500 dark:text-primary-300 hover:bg-primary-500/25 transition-all shadow-sm shrink-0"
               >
                 Brief ↗
               </Link>
@@ -641,7 +627,7 @@ export function Navbar() {
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="p-2 text-foreground/80 hover:text-foreground rounded-xl bg-surface-2 border border-border hover:bg-surface-3 transition-all cursor-pointer"
+              className="p-2 text-foreground/80 hover:text-foreground rounded-xl bg-surface-2 border border-border hover:bg-surface-3 transition-all cursor-pointer shrink-0"
             >
               <div className="w-4 h-4 flex flex-col justify-center gap-[4px]">
                 <motion.span

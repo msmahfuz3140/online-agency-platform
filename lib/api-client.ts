@@ -104,7 +104,7 @@ export async function fetchPortfolio(category?: string): Promise<any[]> {
 export async function fetchTeamMembers(): Promise<TeamMemberDetails[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/team`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: { Accept: "application/json" },
     });
 
@@ -129,7 +129,7 @@ export async function fetchTeamMemberBySlug(
 ): Promise<TeamMemberDetails | null> {
   try {
     const res = await fetch(`${API_BASE_URL}/api/team/${slug}`, {
-      next: { revalidate: 60 },
+      cache: "no-store",
       headers: { Accept: "application/json" },
     });
 

@@ -169,7 +169,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
   return (
     <header className="sticky top-0 z-30 border-b border-border dark:border-white/[0.07] bg-surface-1/90 dark:bg-[#080e1a]/95 backdrop-blur-2xl transition-all shrink-0 w-full">
       {/* Top Navbar Row */}
-      <div className="h-14 sm:h-16 px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-2 max-w-full">
+      <div className="h-14 sm:h-16 px-2.5 sm:px-6 lg:px-8 flex items-center justify-between gap-1.5 sm:gap-2 max-w-full">
         {/* Left: Hamburger & Brand Identity & Environment Switcher */}
         <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
           {/* Mobile Hamburger Toggle Button */}
@@ -178,7 +178,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
               type="button"
               onClick={onOpenMobileSidebar}
               aria-label="Open sidebar menu"
-              className="md:hidden p-2 rounded-xl text-neutral-300 hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08] active:scale-95 transition-all cursor-pointer shrink-0"
+              className="md:hidden p-2 rounded-xl text-muted-fg hover:text-foreground bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 active:scale-95 transition-all cursor-pointer shrink-0"
             >
               <div className="w-4 h-4 flex flex-col justify-center gap-[3.5px]">
                 <span className="block h-0.5 w-4 bg-current rounded-full" />
@@ -191,8 +191,8 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           {/* Adaptive Logo */}
           <Link href="/" className="flex items-center gap-2 group shrink-0">
             <div className="sm:hidden flex items-center gap-1.5">
-              <Logo variant="mark" size={26} />
-              <span className="font-heading font-bold text-sm text-foreground group-hover:text-primary-400 transition-colors">
+              <Logo variant="mark" size={24} />
+              <span className="font-heading font-bold text-xs xs:text-sm text-foreground group-hover:text-primary-400 transition-colors">
                 Nexora<span className="text-primary-400">.</span>
               </span>
             </div>
@@ -201,7 +201,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
             </div>
           </Link>
 
-          <div className="h-4 w-px bg-white/[0.1] hidden sm:block shrink-0" />
+          <div className="h-4 w-px bg-border dark:bg-white/[0.1] hidden sm:block shrink-0" />
 
           {/* Dedicated Environment Switcher */}
           <div className="shrink-0">
@@ -218,11 +218,11 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
         </div>
 
         {/* Right: Quick actions, notifications, and profile */}
-        <div className="flex items-center gap-1 sm:gap-2.5 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
         {/* Quick link to main site */}
         <Link
           href="/"
-          className="hidden lg:flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white transition-colors px-2.5 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:bg-white/[0.06]"
+          className="hidden lg:flex items-center gap-1.5 text-xs text-muted-fg hover:text-foreground transition-colors px-2.5 py-1.5 rounded-xl bg-surface-2 dark:bg-white/[0.03] border border-border dark:border-white/[0.06] hover:bg-surface-3"
         >
           <span>🌐</span>
           <span>Main Site</span>
@@ -233,8 +233,8 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           <div
             className={`hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold font-mono tracking-wider shadow-sm shrink-0 ${
               user.plan === "business"
-                ? "bg-amber-500/20 text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]"
-                : "bg-teal-500/20 text-teal-300 border border-teal-500/40 shadow-[0_0_12px_rgba(20,184,160,0.2)]"
+                ? "bg-amber-500/20 text-amber-500 dark:text-amber-300 border border-amber-500/40 shadow-[0_0_12px_rgba(245,158,11,0.2)]"
+                : "bg-teal-500/20 text-teal-600 dark:text-teal-300 border border-teal-500/40 shadow-[0_0_12px_rgba(20,184,160,0.2)]"
             }`}
           >
             <span>{user.plan === "business" ? "💎" : "👑"}</span>
@@ -243,25 +243,25 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
         ) : (
           <Link
             href="/pricing"
-            className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-primary-500/30 text-xs text-neutral-300 hover:text-white transition-all shrink-0"
+            className="hidden sm:flex items-center gap-1 px-2.5 py-1 rounded-xl bg-surface-2 dark:bg-white/[0.04] hover:bg-surface-3 dark:hover:bg-white/[0.08] border border-border dark:border-white/[0.08] hover:border-primary-500/30 text-xs text-muted-fg hover:text-foreground transition-all shrink-0"
           >
             <span>Upgrade</span>
-            <span className="text-primary-400">⚡</span>
+            <span className="text-primary-500">⚡</span>
           </Link>
         )}
 
         {/* AI Credits Pill */}
-        <div className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-300 text-xs font-mono font-medium shadow-[0_0_12px_rgba(20,184,160,0.15)] shrink-0">
+        <div className="flex items-center gap-1 px-2 sm:px-2.5 py-1 rounded-xl bg-primary-500/15 border border-primary-500/30 text-primary-600 dark:text-primary-300 text-xs font-mono font-medium shadow-[0_0_12px_rgba(20,184,160,0.15)] shrink-0">
           <span>⚡</span>
           <span>{user?.aiCreditsRemaining ?? 5}</span>
-          <span className="text-primary-500 hidden sm:inline">Credits</span>
+          <span className="text-primary-600 dark:text-primary-400 hidden sm:inline">Credits</span>
         </div>
 
         {/* Staff / Admin executive link if applicable */}
         {isStaff && (
           <Link
             href="/admin"
-            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 hover:bg-amber-500/25 hover:border-amber-400 text-xs font-semibold shadow-[0_0_16px_rgba(245,158,11,0.2)] transition-all shrink-0"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-600 dark:text-amber-300 hover:bg-amber-500/25 hover:border-amber-400 text-xs font-semibold shadow-[0_0_16px_rgba(245,158,11,0.2)] transition-all shrink-0"
           >
             <span>🛡️</span>
             <span>Admin Hub</span>
@@ -276,7 +276,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           <button
             type="button"
             onClick={() => setNotifOpen(!notifOpen)}
-            className="relative h-9 w-9 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 hover:border-primary-500/40 text-muted-fg hover:text-foreground flex items-center justify-center transition-all cursor-pointer shrink-0"
+            className="relative h-8 w-8 sm:h-9 sm:w-9 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:bg-surface-3 hover:border-primary-500/40 text-muted-fg hover:text-foreground flex items-center justify-center transition-all cursor-pointer shrink-0"
             aria-label="Notifications"
           >
             <span className="text-sm">🔔</span>
@@ -299,15 +299,15 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 rounded-2xl bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_64px_rgba(0,0,0,0.85)] p-3 z-50 overflow-hidden"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-84 mx-auto sm:mx-0 rounded-2xl bg-surface-1/95 dark:bg-[#0e1626]/95 backdrop-blur-2xl border border-border dark:border-white/[0.1] shadow-2xl dark:shadow-[0_24px_64px_rgba(0,0,0,0.85)] p-3 z-50 overflow-hidden"
                 >
-                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-white/[0.08]">
+                  <div className="flex items-center justify-between pb-2 mb-2 border-b border-border dark:border-white/[0.08]">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-foreground dark:text-white flex items-center gap-1.5">
                         <span>🔔</span> Live Notifications
                       </span>
                       {unreadCount > 0 && (
-                        <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-primary-500/20 border border-primary-500/40 text-primary-300 font-mono font-semibold">
+                        <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-primary-500/20 border border-primary-500/40 text-primary-600 dark:text-primary-300 font-mono font-semibold">
                           {unreadCount} New
                         </span>
                       )}
@@ -316,7 +316,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                       <button
                         type="button"
                         onClick={handleMarkAllRead}
-                        className="text-[10px] text-primary-400 hover:text-primary-300 underline cursor-pointer transition-colors"
+                        className="text-[10px] text-primary-500 dark:text-primary-400 hover:underline cursor-pointer transition-colors"
                       >
                         Mark all read
                       </button>
@@ -324,7 +324,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   </div>
                   <div className="space-y-1 text-xs max-h-80 overflow-y-auto [scrollbar-width:thin]">
                     {notifications.length === 0 ? (
-                      <div className="py-8 text-center text-xs text-neutral-400">
+                      <div className="py-8 text-center text-xs text-muted-fg">
                         <span className="text-2xl block mb-1">🎉</span>
                         All caught up! No notifications yet.
                       </div>
@@ -335,8 +335,8 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                           onClick={() => handleNotificationClick(n)}
                           className={`flex items-start gap-2.5 p-2.5 rounded-xl cursor-pointer transition-all ${
                             !n.read
-                              ? "bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1]"
-                              : "hover:bg-white/[0.03] opacity-75 hover:opacity-100"
+                              ? "bg-surface-2 dark:bg-white/[0.06] border border-border dark:border-white/[0.08] hover:bg-surface-3 dark:hover:bg-white/[0.1]"
+                              : "hover:bg-surface-2 dark:hover:bg-white/[0.03] opacity-75 hover:opacity-100"
                           }`}
                         >
                           <span className="text-base shrink-0 mt-0.5">
@@ -346,16 +346,16 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                             <div className="flex items-center justify-between gap-1">
                               <p
                                 className={`text-[11px] font-semibold leading-snug truncate ${
-                                  !n.read ? "text-white" : "text-neutral-300"
+                                  !n.read ? "text-foreground dark:text-white" : "text-muted-fg dark:text-neutral-300"
                                 }`}
                               >
                                 {n.title}
                               </p>
-                              <span className="text-[9px] text-neutral-500 font-mono shrink-0">
+                              <span className="text-[9px] text-muted-fg font-mono shrink-0">
                                 {formatTimeAgo(n.createdAt)}
                               </span>
                             </div>
-                            <p className="text-[11px] text-neutral-400 mt-0.5 line-clamp-2 leading-relaxed">
+                            <p className="text-[11px] text-muted-fg mt-0.5 line-clamp-2 leading-relaxed">
                               {n.message}
                             </p>
                           </div>
@@ -377,9 +377,9 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
           <button
             type="button"
             onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center gap-2 pl-1.5 pr-2 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] hover:border-primary-500/40 hover:bg-white/[0.08] transition-all cursor-pointer group shrink-0"
+            className="flex items-center gap-1.5 sm:gap-2 pl-1.5 pr-1.5 sm:pr-2 py-1 rounded-full bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] hover:border-primary-500/40 hover:bg-surface-3 dark:hover:bg-white/[0.08] transition-all cursor-pointer group shrink-0"
           >
-            <div className="h-7 w-7 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 via-primary-500/10 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.2)] shrink-0">
+            <div className="h-7 w-7 rounded-full overflow-hidden bg-gradient-to-br from-primary-500/30 via-primary-500/10 to-surface-2 border border-primary-500/40 flex items-center justify-center font-bold text-xs text-primary-500 dark:text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.2)] shrink-0">
               {user?.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img src={user.image} alt={user.name || "User"} className="w-full h-full object-cover" />
@@ -388,14 +388,14 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
               )}
             </div>
             <div className="hidden md:flex flex-col text-left">
-              <span className="text-xs font-semibold text-white leading-tight truncate max-w-[120px]">
+              <span className="text-xs font-semibold text-foreground dark:text-white leading-tight truncate max-w-[120px]">
                 {user?.name || "Client"}
               </span>
-              <span className="text-[10px] text-neutral-400 font-mono capitalize leading-tight">
+              <span className="text-[10px] text-muted-fg font-mono capitalize leading-tight">
                 {user?.role || "VIP Client"}
               </span>
             </div>
-            <span className="text-[10px] text-neutral-400 group-hover:text-white transition-colors">
+            <span className="text-[10px] text-muted-fg group-hover:text-foreground transition-colors">
               ▾
             </span>
           </button>
@@ -412,30 +412,30 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.96 }}
                   transition={{ duration: 0.16 }}
-                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-72 mx-auto sm:mx-0 rounded-2xl bg-[#0e1626]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_70px_rgba(0,0,0,0.85)] p-2.5 z-50 overflow-hidden"
+                  className="fixed sm:absolute top-16 sm:top-full mt-0 sm:mt-2 left-3 right-3 sm:left-auto sm:right-0 max-w-sm sm:w-72 mx-auto sm:mx-0 rounded-2xl bg-surface-1/95 dark:bg-[#0e1626]/95 backdrop-blur-2xl border border-border dark:border-white/[0.1] shadow-2xl dark:shadow-[0_24px_70px_rgba(0,0,0,0.85)] p-2.5 z-50 overflow-hidden"
                 >
                 {/* User Info Header */}
-                <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-2">
+                <div className="p-3 rounded-xl bg-surface-2/60 dark:bg-white/[0.03] border border-border dark:border-white/[0.06] mb-2">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-bold text-white truncate">
+                    <p className="text-xs font-bold text-foreground dark:text-white truncate">
                       {user?.name || "Client"}
                     </p>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full border border-primary-500/30 bg-primary-500/15 text-primary-300 font-mono capitalize">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full border border-primary-500/30 bg-primary-500/15 text-primary-600 dark:text-primary-300 font-mono capitalize">
                       {user?.role || "Client Pro"}
                     </span>
                   </div>
-                  <p className="text-[11px] text-neutral-400 truncate mt-0.5">
+                  <p className="text-[11px] text-muted-fg truncate mt-0.5">
                     {user?.email || "user@nexora.agency"}
                   </p>
                 </div>
 
                 <div className="space-y-1 text-xs">
                   {isStaff && (
-                    <div className="mb-2 pb-2 border-b border-white/[0.08] space-y-1">
+                    <div className="mb-2 pb-2 border-b border-border dark:border-white/[0.08] space-y-1">
                       <Link
                         href="/admin"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold text-amber-600 dark:text-amber-300 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 transition-colors"
                       >
                         <span className="text-sm">🛡️</span>
                         <span>Admin Executive Hub</span>
@@ -443,7 +443,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                       <Link
                         href="/admin/team"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                       >
                         <span className="text-sm">👥</span>
                         <span>Team Members & Roles</span>
@@ -451,7 +451,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                       <Link
                         href="/admin/workspace"
                         onClick={() => setProfileOpen(false)}
-                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs text-muted-fg hover:text-foreground hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                       >
                         <span className="text-sm">⚡</span>
                         <span>Personal Workspace</span>
@@ -462,7 +462,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   <Link
                     href="/dashboard/settings"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-300 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                   >
                     <span className="text-sm">⚙️</span>
                     <span>Account Settings</span>
@@ -471,7 +471,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   <Link
                     href="/request-project"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-300 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                   >
                     <span className="text-sm">💼</span>
                     <span>Submit Project Brief</span>
@@ -479,18 +479,18 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
                   <Link
                     href="/contact"
                     onClick={() => setProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-300 hover:text-white hover:bg-white/[0.04] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-300 hover:bg-surface-2 dark:hover:bg-white/[0.04] transition-colors"
                   >
                     <span className="text-sm">💬</span>
                     <span>Contact Engineering Core</span>
                   </Link>
                 </div>
 
-                <div className="mt-2 pt-2 border-t border-white/[0.08]">
+                <div className="mt-2 pt-2 border-t border-border dark:border-white/[0.08]">
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs text-red-500 dark:text-red-400 hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer"
                   >
                     <span>🚪</span>
                     <span className="font-semibold">Sign Out</span>
@@ -506,7 +506,7 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
 
     {/* Mobile Horizontal Quick-Tab Navigator */}
     {onSelectTab && (
-      <div className="md:hidden border-t border-white/[0.06] bg-[#070c18]/95 px-2.5 py-1.5 flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+      <div className="md:hidden border-t border-border dark:border-white/[0.06] bg-surface-1/95 dark:bg-[#070c18]/95 px-2.5 py-1.5 flex items-center gap-1.5 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
         {[
           { id: "overview", label: "Overview", icon: "📊" },
           { id: "projects", label: "Sprints", icon: "💼" },
@@ -522,8 +522,8 @@ export function ClientTopBar({ user, activeTab, onSelectTab, onOpenMobileSidebar
               onClick={() => onSelectTab(tab.id)}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all shrink-0 cursor-pointer ${
                 isActive
-                  ? "bg-primary-500/20 text-primary-300 border border-primary-500/40 shadow-[0_0_10px_rgba(20,184,160,0.25)]"
-                  : "bg-white/[0.03] text-neutral-400 border border-white/[0.06] hover:text-white"
+                  ? "bg-primary-500/20 text-primary-600 dark:text-primary-300 border border-primary-500/40 shadow-[0_0_10px_rgba(20,184,160,0.25)]"
+                  : "bg-surface-2 dark:bg-white/[0.03] text-muted-fg border border-border dark:border-white/[0.06] hover:text-foreground"
               }`}
             >
               <span className="text-xs">{tab.icon}</span>
