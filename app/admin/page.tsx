@@ -145,22 +145,22 @@ export default function AdminDashboardPage() {
 
       <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-6">
         {/* Role Identity & Personal Dashboard Banner */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/10 via-[#0e1626]/80 to-primary-500/5 border border-white/[0.08] p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/10 via-surface-1/90 dark:via-[#0e1626]/80 to-primary-500/5 border border-border dark:border-white/[0.08] p-4 sm:p-6 shadow-xl dark:shadow-2xl backdrop-blur-xl">
           {/* Ambient Glows */}
           <div className="pointer-events-none absolute -top-16 -right-16 w-56 h-56 rounded-full bg-amber-500/10 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-primary-500/10 blur-3xl" />
 
           {/* Top Row: Role Badge & Edge Status */}
-          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 sm:mb-4 border-b border-white/[0.06]">
+          <div className="relative z-10 flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 sm:mb-4 border-b border-border dark:border-white/[0.06]">
             <div className="flex flex-wrap items-center gap-2">
-              <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold bg-amber-400/15 text-amber-300 border border-amber-400/30 flex items-center gap-1.5 shadow-sm">
+              <span className="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] font-mono font-semibold bg-amber-400/15 text-amber-700 dark:text-amber-300 border border-amber-400/30 flex items-center gap-1.5 shadow-sm">
                 <span>👑</span>
                 <span>{isSuperAdmin ? "Executive Super Admin Tier" : "Admin Staff Tier"}</span>
               </span>
               <StatusBadge status={userRole} />
             </div>
 
-            <span className="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono flex items-center gap-1.5">
+            <span className="text-[10px] sm:text-[11px] px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-mono flex items-center gap-1.5">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               <span>Edge SLA Active</span>
             </span>
@@ -170,22 +170,22 @@ export default function AdminDashboardPage() {
           <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
             <div className="flex items-start sm:items-center gap-3.5 min-w-0 w-full lg:w-auto">
               {/* Luxury Monogram Avatar */}
-              <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-gradient-to-br from-amber-400/30 via-primary-500/20 to-surface-2 border border-amber-400/40 flex items-center justify-center font-heading font-extrabold text-amber-300 text-sm sm:text-base shadow-[0_0_20px_rgba(245,158,11,0.25)] shrink-0 mt-0.5 sm:mt-0">
+              <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-gradient-to-br from-amber-400/30 via-primary-500/20 to-surface-2 border border-amber-400/40 flex items-center justify-center font-heading font-extrabold text-amber-600 dark:text-amber-300 text-sm sm:text-base shadow-[0_0_20px_rgba(245,158,11,0.25)] shrink-0 mt-0.5 sm:mt-0">
                 {user?.name?.slice(0, 2).toUpperCase() || "MH"}
-                <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-400 border-2 border-[#0e1626] flex items-center justify-center text-[9px] text-black font-black">
+                <span className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-emerald-400 border-2 border-background dark:border-[#0e1626] flex items-center justify-center text-[9px] text-black font-black">
                   ✓
                 </span>
               </div>
 
               <div className="min-w-0 flex-1">
-                <h2 className="font-heading font-extrabold text-white text-base sm:text-2xl tracking-tight leading-snug">
+                <h2 className="font-heading font-extrabold text-foreground dark:text-white text-base sm:text-2xl tracking-tight leading-snug">
                   Welcome back,{" "}
-                  <span className="bg-gradient-to-r from-amber-200 via-primary-300 to-amber-400 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-amber-500 via-primary-500 to-amber-600 dark:from-amber-200 dark:via-primary-300 dark:to-amber-400 bg-clip-text text-transparent">
                     {user?.name || "MD.MAHFUZUL HAQUE"}
                   </span>{" "}
                   <span className="inline-block hover:scale-125 transition-transform origin-bottom-right">👋</span>
                 </h2>
-                <p className="text-[11px] sm:text-xs text-neutral-400 mt-1 leading-relaxed max-w-2xl break-words">
+                <p className="text-[11px] sm:text-xs text-muted-fg mt-1 leading-relaxed max-w-2xl break-words">
                   {isSuperAdmin
                     ? "Executive Command Center: Full operational authority to manage team permissions, inspect incoming client requests, and oversee platform analytics."
                     : `Active Session: Authenticated with ${userRole} operational permissions.`}
@@ -196,21 +196,21 @@ export default function AdminDashboardPage() {
             {/* Action Buttons: Responsive Grid / Wrap */}
             <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full lg:w-auto shrink-0 pt-1 lg:pt-0">
               <Link href="/admin/workspace" className="flex-1 sm:flex-initial">
-                <button className="w-full sm:w-auto px-4 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                <button className="w-full sm:w-auto px-4 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-surface-2 dark:bg-white/[0.06] hover:bg-surface-3 dark:hover:bg-white/[0.1] text-foreground dark:text-white border border-border dark:border-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm">
                   <span>⚡</span>
                   <span>My Workspace</span>
                 </button>
               </Link>
               {isSuperAdmin && (
                 <Link href="/admin/team" className="flex-1 sm:flex-initial">
-                  <button className="w-full sm:w-auto px-4 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-primary-500 hover:bg-primary-400 text-black font-heading transition-all shadow-[0_0_16px_rgba(20,184,160,0.35)] flex items-center justify-center gap-2 cursor-pointer">
+                  <button className="w-full sm:w-auto px-4 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-primary-500 hover:bg-primary-600 text-white font-heading transition-all shadow-[0_0_16px_rgba(20,184,160,0.35)] flex items-center justify-center gap-2 cursor-pointer">
                     <span>👥</span>
                     <span>Manage Team</span>
                   </button>
                 </Link>
               )}
               <Link href="/dashboard" className="hidden sm:inline-flex flex-1 sm:flex-initial">
-                <button className="w-full sm:w-auto px-3.5 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-white/[0.03] hover:bg-white/[0.06] text-neutral-300 hover:text-white border border-white/[0.06] transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                <button className="w-full sm:w-auto px-3.5 py-2 sm:py-2.5 rounded-xl text-xs font-semibold bg-surface-2 dark:bg-white/[0.03] hover:bg-surface-3 dark:hover:bg-white/[0.06] text-muted-fg hover:text-foreground dark:hover:text-white border border-border dark:border-white/[0.06] transition-all flex items-center justify-center gap-1.5 cursor-pointer">
                   <span>📊</span>
                   <span>Client Dashboard</span>
                 </button>
@@ -307,30 +307,30 @@ export default function AdminDashboardPage() {
         {/* Middle Row: Recent Activity + Quick Actions */}
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
           {/* Recent Activity Feed */}
-          <div className="xl:col-span-2 rounded-2xl border border-white/[0.07] bg-[#111827] overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.06]">
+          <div className="xl:col-span-2 rounded-2xl border border-border dark:border-white/[0.07] bg-surface-1 dark:bg-[#111827] overflow-hidden shadow-sm">
+            <div className="flex items-center justify-between px-5 py-4 border-b border-border dark:border-white/[0.06]">
               <div>
-                <h2 className="text-sm font-bold text-white">Recent Activity</h2>
-                <p className="text-[11px] text-neutral-500 mt-0.5">Latest requests and messages across the platform</p>
+                <h2 className="text-sm font-bold text-foreground dark:text-white">Recent Activity</h2>
+                <p className="text-[11px] text-muted-fg mt-0.5">Latest requests and messages across the platform</p>
               </div>
-              <Link href="/admin/requests" className="text-[11px] text-primary-400 hover:text-primary-300 font-semibold transition-colors">
+              <Link href="/admin/requests" className="text-[11px] text-primary-500 hover:text-primary-600 dark:text-primary-400 font-semibold transition-colors">
                 View All →
               </Link>
             </div>
-            <div className="divide-y divide-white/[0.04]">
+            <div className="divide-y divide-border/60 dark:divide-white/[0.04]">
               {loading ? (
                 Array.from({ length: 5 }).map((_, i) => (
                   <div key={i} className="flex items-center gap-3 px-5 py-3.5">
-                    <div className="h-8 w-8 rounded-full bg-white/[0.05] animate-pulse shrink-0" />
+                    <div className="h-8 w-8 rounded-full bg-surface-2 dark:bg-white/[0.05] animate-pulse shrink-0" />
                     <div className="flex-1 space-y-1.5">
-                      <div className="h-2.5 bg-white/[0.05] rounded animate-pulse w-2/3" />
-                      <div className="h-2 bg-white/[0.04] rounded animate-pulse w-1/2" />
+                      <div className="h-2.5 bg-surface-2 dark:bg-white/[0.05] rounded animate-pulse w-2/3" />
+                      <div className="h-2 bg-surface-3 dark:bg-white/[0.04] rounded animate-pulse w-1/2" />
                     </div>
-                    <div className="h-5 w-16 bg-white/[0.05] rounded-full animate-pulse" />
+                    <div className="h-5 w-16 bg-surface-2 dark:bg-white/[0.05] rounded-full animate-pulse" />
                   </div>
                 ))
               ) : recent.length === 0 ? (
-                <div className="px-5 py-10 text-center text-neutral-600 text-xs">No recent activity yet.</div>
+                <div className="px-5 py-10 text-center text-muted-fg text-xs">No recent activity yet.</div>
               ) : (
                 recent.map((item, i) => (
                   <motion.div
@@ -338,18 +338,18 @@ export default function AdminDashboardPage() {
                     initial={{ opacity: 0, x: -8 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: i * 0.05, duration: 0.25 }}
-                    className="flex items-center gap-3 px-5 py-3.5 hover:bg-white/[0.02] transition-colors"
+                    className="flex items-center gap-3 px-5 py-3.5 hover:bg-surface-2 dark:hover:bg-white/[0.02] transition-colors"
                   >
-                    <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${item.type === "request" ? "bg-amber-500/15 text-amber-400" : "bg-blue-500/15 text-blue-400"}`}>
+                    <div className={`h-8 w-8 rounded-full flex items-center justify-center shrink-0 text-xs font-bold ${item.type === "request" ? "bg-amber-500/15 text-amber-500" : "bg-blue-500/15 text-blue-500"}`}>
                       {item.type === "request" ? "💼" : "✉️"}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-white truncate">{item.name}</p>
-                      <p className="text-[11px] text-neutral-500 truncate">{item.email} • {item.type === "request" ? "Project Request" : "Contact Message"}</p>
+                      <p className="text-xs font-semibold text-foreground dark:text-white truncate">{item.name}</p>
+                      <p className="text-[11px] text-muted-fg truncate">{item.email} • {item.type === "request" ? "Project Request" : "Contact Message"}</p>
                     </div>
                     <div className="flex flex-col items-end gap-1 shrink-0">
                       <StatusBadge status={item.status} />
-                      <span className="text-[10px] text-neutral-600">{formatRelativeTime(item.createdAt)}</span>
+                      <span className="text-[10px] text-muted-fg">{formatRelativeTime(item.createdAt)}</span>
                     </div>
                   </motion.div>
                 ))
@@ -358,10 +358,10 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Quick Actions Panel */}
-          <div className="rounded-2xl border border-white/[0.07] bg-[#111827] overflow-hidden">
-            <div className="px-5 py-4 border-b border-white/[0.06]">
-              <h2 className="text-sm font-bold text-white">Quick Actions</h2>
-              <p className="text-[11px] text-neutral-500 mt-0.5">Jump to any admin section</p>
+          <div className="rounded-2xl border border-border dark:border-white/[0.07] bg-surface-1 dark:bg-[#111827] overflow-hidden shadow-sm">
+            <div className="px-5 py-4 border-b border-border dark:border-white/[0.06]">
+              <h2 className="text-sm font-bold text-foreground dark:text-white">Quick Actions</h2>
+              <p className="text-[11px] text-muted-fg mt-0.5">Jump to any admin section</p>
             </div>
             <div className="p-4 space-y-2">
               {[
@@ -374,14 +374,14 @@ export default function AdminDashboardPage() {
                 <Link
                   key={action.href}
                   href={action.href}
-                  className={`flex items-center gap-3 p-3 rounded-xl border border-white/[0.06] bg-white/[0.02] ${action.color} transition-all duration-200 group`}
+                  className={`flex items-center gap-3 p-3 rounded-xl border border-border dark:border-white/[0.06] bg-surface-2/50 dark:bg-white/[0.02] ${action.color} transition-all duration-200 group`}
                 >
                   <span className="text-lg shrink-0">{action.icon}</span>
                   <div className="min-w-0">
-                    <p className="text-xs font-semibold text-white leading-none mb-0.5">{action.label}</p>
-                    <p className="text-[10px] text-neutral-500 truncate">{action.sub}</p>
+                    <p className="text-xs font-semibold text-foreground dark:text-white leading-none mb-0.5">{action.label}</p>
+                    <p className="text-[10px] text-muted-fg truncate">{action.sub}</p>
                   </div>
-                  <svg className="w-3.5 h-3.5 text-neutral-600 group-hover:text-neutral-400 shrink-0 ml-auto transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-3.5 h-3.5 text-muted-fg group-hover:text-foreground shrink-0 ml-auto transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                   </svg>
                 </Link>

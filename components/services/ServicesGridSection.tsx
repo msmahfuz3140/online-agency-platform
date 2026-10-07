@@ -571,7 +571,7 @@ export function ServicesGridSection({
                 <h3 className="font-heading font-bold text-xl text-foreground">
                   {service.title}
                 </h3>
-                <p className="text-xs font-medium text-neutral-300 mt-1">
+                <p className="text-xs font-medium text-muted-fg mt-1">
                   {service.tagline}
                 </p>
               </div>
@@ -588,7 +588,7 @@ export function ServicesGridSection({
                 </p>
                 <ul className="space-y-2">
                   {service.deliverables.map((d, i) => (
-                    <li key={i} className="flex items-start gap-2 text-xs text-neutral-300">
+                    <li key={i} className="flex items-start gap-2 text-xs text-foreground/90 dark:text-neutral-300">
                       <span className="h-4 w-4 rounded-full bg-primary-500/20 text-primary-400 flex items-center justify-center text-[10px] shrink-0 mt-0.5">
                         ✓
                       </span>

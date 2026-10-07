@@ -368,8 +368,8 @@ export default function AdminRequestsPage() {
               onClick={() => setFilterStatus("all")}
               className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all cursor-pointer ${
                 filterStatus === "all"
-                  ? "border-primary-500/40 bg-primary-500/15 text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
-                  : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.12]"
+                  ? "border-primary-500/40 bg-primary-500/15 text-primary-600 dark:text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
+                  : "border-border dark:border-white/[0.07] bg-surface-2 dark:bg-white/[0.03] text-muted-fg hover:text-foreground dark:hover:text-white hover:border-primary-500/30"
               }`}
             >
               All Requests ({requests.length})
@@ -380,8 +380,8 @@ export default function AdminRequestsPage() {
                 onClick={() => setFilterStatus(s.value)}
                 className={`px-3 py-1.5 rounded-xl text-[11px] font-semibold border transition-all flex items-center gap-1.5 cursor-pointer ${
                   filterStatus === s.value
-                    ? "border-primary-500/40 bg-primary-500/15 text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
-                    : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.12]"
+                    ? "border-primary-500/40 bg-primary-500/15 text-primary-600 dark:text-primary-300 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
+                    : "border-border dark:border-white/[0.07] bg-surface-2 dark:bg-white/[0.03] text-muted-fg hover:text-foreground dark:hover:text-white hover:border-primary-500/30"
                 }`}
               >
                 <span>{s.label}</span>
@@ -399,13 +399,13 @@ export default function AdminRequestsPage() {
               }}
               disabled={loading}
               title="Refresh project requests"
-              className="flex items-center gap-1.5 text-xs font-semibold text-neutral-200 hover:text-white px-3.5 py-1.5 rounded-xl bg-surface-2/80 border border-border hover:border-primary-500/40 hover:bg-surface-2 transition-all cursor-pointer disabled:opacity-50 shadow-sm"
+              className="flex items-center gap-1.5 text-xs font-semibold text-foreground dark:text-neutral-200 hover:text-foreground dark:hover:text-white px-3.5 py-1.5 rounded-xl bg-surface-2 border border-border hover:border-primary-500/40 hover:bg-surface-3 transition-all cursor-pointer disabled:opacity-50 shadow-sm"
             >
               <span className={`text-xs ${loading ? "animate-spin inline-block" : ""}`}>🔄</span>
               <span>{loading ? "Refreshing..." : "Refresh"}</span>
             </button>
 
-            <span className="text-[11px] text-neutral-400 font-mono hidden md:inline">
+            <span className="text-[11px] text-muted-fg font-mono hidden md:inline">
               Active Workspace: Nexora CST Core
             </span>
           </div>

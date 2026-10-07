@@ -133,14 +133,14 @@ function AdminLayoutInner({
       />
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
         {isPreviewMode && (
-          <div className="bg-gradient-to-r from-amber-500/15 via-primary-500/15 to-emerald-500/15 border-b border-amber-500/20 px-3 sm:px-4 py-1.5 flex items-center justify-between text-xs text-amber-200 z-20 shrink-0">
+          <div className="bg-gradient-to-r from-amber-500/15 via-primary-500/10 to-emerald-500/15 border-b border-amber-500/25 px-3 sm:px-4 py-1.5 flex items-center justify-between text-xs text-amber-800 dark:text-amber-200 z-20 shrink-0">
             <div className="flex items-center gap-2 truncate">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping shrink-0" />
-              <span className="font-semibold text-amber-300 truncate">🛡️ Admin Executive Mode</span>
-              <span className="text-neutral-400 hidden sm:inline">— Founder &amp; Super Admin (MD Mahfuzul Haque)</span>
+              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping shrink-0" />
+              <span className="font-semibold text-amber-900 dark:text-amber-300 truncate">🛡️ Admin Executive Mode</span>
+              <span className="text-muted-fg hidden sm:inline">— Founder &amp; Super Admin (MD Mahfuzul Haque)</span>
             </div>
             <div className="flex items-center gap-2 shrink-0">
-              <span className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 font-mono">
+              <span className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 font-mono font-bold">
                 Full RBAC
               </span>
             </div>

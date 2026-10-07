@@ -53,7 +53,7 @@ export function MissionVisionSection() {
                 Our Mission
               </h3>
 
-              <p className="mt-4 text-base text-neutral-300 leading-relaxed font-medium">
+              <p className="mt-4 text-base text-foreground/90 dark:text-neutral-300 leading-relaxed font-medium">
                 To liberate high-growth businesses and innovators from exorbitant agency fees and technical inertia by delivering world-class, hardened, high-converting digital flagships in days.
               </p>
 
@@ -104,7 +104,7 @@ export function MissionVisionSection() {
                 Our Vision
               </h3>
 
-              <p className="mt-4 text-base text-neutral-300 leading-relaxed font-medium">
+              <p className="mt-4 text-base text-foreground/90 dark:text-neutral-300 leading-relaxed font-medium">
                 To pioneer the next-generation symbiotic agency model—where human design taste and AI generative precision fuse to build the most sophisticated digital experiences on earth.
               </p>
 

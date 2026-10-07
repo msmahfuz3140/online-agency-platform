@@ -90,24 +90,24 @@ export function DataTable<T extends object>({
   };
 
   return (
-    <div className="flex flex-col gap-0 rounded-xl border border-white/[0.07] bg-[#111827] overflow-hidden">
+    <div className="flex flex-col gap-0 rounded-xl border border-border bg-surface-1 dark:bg-[#111827] overflow-hidden">
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px] text-xs">
           <thead>
-            <tr className="border-b border-white/[0.06] bg-white/[0.02]">
+            <tr className="border-b border-border bg-surface-2/60 dark:bg-white/[0.02]">
               {columns.map((col) => (
                 <th
                   key={String(col.key)}
                   onClick={() => col.sortable && handleSort(String(col.key))}
-                  className={`px-4 py-3 text-left font-semibold text-neutral-500 uppercase tracking-wider select-none ${
-                    col.sortable ? "cursor-pointer hover:text-white transition-colors" : ""
+                  className={`px-4 py-3 text-left font-semibold text-muted-fg uppercase tracking-wider select-none ${
+                    col.sortable ? "cursor-pointer hover:text-foreground dark:hover:text-white transition-colors" : ""
                   } ${col.className ?? ""}`}
                 >
                   <span className="inline-flex items-center gap-1.5">
                     {col.label}
                     {col.sortable && (
-                      <span className={`flex flex-col gap-[1px] ${sortKey === String(col.key) ? "text-primary-400" : "text-neutral-700"}`}>
+                      <span className={`flex flex-col gap-[1px] ${sortKey === String(col.key) ? "text-primary-500 dark:text-primary-400" : "text-muted-fg/40"}`}>
                         <svg className={`w-2.5 h-2.5 transition-transform ${sortKey === String(col.key) && sortDir === "desc" ? "rotate-180" : ""}`} fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M10 3a.75.75 0 0 1 .55.24l3.25 3.5a.75.75 0 1 1-1.1 1.02L10 4.852 7.3 7.76a.75.75 0 0 1-1.1-1.02l3.25-3.5A.75.75 0 0 1 10 3Zm-3.76 9.2a.75.75 0 0 1 1.06.04l2.7 2.908 2.7-2.908a.75.75 0 1 1 1.1 1.02l-3.25 3.5a.75.75 0 0 1-1.1 0l-3.25-3.5a.75.75 0 0 1 .04-1.06Z" clipRule="evenodd" />
                         </svg>
@@ -116,7 +116,7 @@ export function DataTable<T extends object>({
                   </span>
                 </th>
               ))}
-              {rowActions && <th className="px-4 py-3 text-right font-semibold text-neutral-500 uppercase tracking-wider">Actions</th>}
+              {rowActions && <th className="px-4 py-3 text-right font-semibold text-muted-fg uppercase tracking-wider">Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -124,9 +124,9 @@ export function DataTable<T extends object>({
               Array.from({ length: 5 }).map((_, i) => <SkeletonRow key={i} cols={columns.length + (rowActions ? 1 : 0)} />)
             ) : paged.length === 0 ? (
               <tr>
-                <td colSpan={columns.length + (rowActions ? 1 : 0)} className="px-4 py-12 text-center text-neutral-600">
+                <td colSpan={columns.length + (rowActions ? 1 : 0)} className="px-4 py-12 text-center text-muted-fg">
                   <div className="flex flex-col items-center gap-2">
-                    <svg className="w-8 h-8 text-neutral-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <svg className="w-8 h-8 text-muted-fg/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0 1 12 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h.008v.008h-.008V8.25Zm-7.5 0h.008v.008H12V8.25Z" />
                     </svg>
                     <span className="text-[11px]">{emptyMessage}</span>
@@ -143,14 +143,14 @@ export function DataTable<T extends object>({
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.18, delay: idx * 0.03 }}
                     onClick={() => onRowClick?.(row)}
-                    className={`border-b border-white/[0.04] transition-all group ${
+                    className={`border-b border-border/60 dark:border-white/[0.04] transition-all group ${
                       onRowClick
-                        ? "cursor-pointer hover:bg-primary-500/[0.04] hover:border-primary-500/20 active:bg-white/[0.06]"
-                        : "hover:bg-white/[0.025]"
+                        ? "cursor-pointer hover:bg-primary-500/[0.04] hover:border-primary-500/20 active:bg-surface-2 dark:active:bg-white/[0.06]"
+                        : "hover:bg-surface-2/50 dark:hover:bg-white/[0.025]"
                     }`}
                   >
                     {columns.map((col) => (
-                      <td key={String(col.key)} className={`px-4 py-3 text-neutral-300 ${col.className ?? ""}`}>
+                      <td key={String(col.key)} className={`px-4 py-3 text-foreground dark:text-neutral-300 ${col.className ?? ""}`}>
                         {col.render ? col.render(row) : String((row as Record<string, unknown>)[String(col.key)] ?? "—")}
                       </td>
                     ))}
@@ -166,8 +166,8 @@ export function DataTable<T extends object>({
                               }}
                               className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold border transition-all ${
                                 action.variant === "danger"
-                                  ? "border-red-500/30 bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:border-red-500/50"
-                                  : "border-white/[0.08] bg-white/[0.04] text-neutral-300 hover:bg-white/[0.08] hover:text-white"
+                                  ? "border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400 hover:bg-red-500/20 hover:border-red-500/50"
+                                  : "border-border bg-surface-2 text-foreground hover:bg-surface-3 hover:text-foreground dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-neutral-300 dark:hover:bg-white/[0.08] dark:hover:text-white"
                               }`}
                             >
                               {action.label}
@@ -186,15 +186,15 @@ export function DataTable<T extends object>({
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex items-center justify-between px-4 py-3 border-t border-white/[0.06] bg-white/[0.01]">
-          <span className="text-[11px] text-neutral-600">
+        <div className="flex items-center justify-between px-4 py-3 border-t border-border bg-surface-2/40 dark:bg-white/[0.01]">
+          <span className="text-[11px] text-muted-fg">
             Showing {(page - 1) * pageSize + 1}–{Math.min(page * pageSize, sorted.length)} of {sorted.length}
           </span>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setPage(Math.max(1, page - 1))}
               disabled={page === 1}
-              className="h-7 w-7 rounded-lg border border-white/[0.07] bg-white/[0.03] flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="h-7 w-7 rounded-lg border border-border bg-surface-2 flex items-center justify-center text-muted-fg hover:text-foreground dark:text-neutral-400 dark:hover:text-white hover:border-primary-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" /></svg>
             </button>
@@ -211,8 +211,8 @@ export function DataTable<T extends object>({
                   onClick={() => setPage(p)}
                   className={`h-7 w-7 rounded-lg text-[11px] font-semibold border transition-all ${
                     page === p
-                      ? "border-primary-500/40 bg-primary-500/15 text-primary-300"
-                      : "border-white/[0.07] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-primary-500/20"
+                      ? "border-primary-500/40 bg-primary-500/15 text-primary-600 dark:text-primary-300 font-bold"
+                      : "border-border bg-surface-2 text-muted-fg hover:text-foreground dark:border-white/[0.07] dark:bg-white/[0.03] dark:text-neutral-400 dark:hover:text-white hover:border-primary-500/20"
                   }`}
                 >
                   {p}
@@ -222,7 +222,7 @@ export function DataTable<T extends object>({
             <button
               onClick={() => setPage(Math.min(totalPages, page + 1))}
               disabled={page === totalPages}
-              className="h-7 w-7 rounded-lg border border-white/[0.07] bg-white/[0.03] flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+              className="h-7 w-7 rounded-lg border border-border bg-surface-2 flex items-center justify-center text-muted-fg hover:text-foreground dark:text-neutral-400 dark:hover:text-white hover:border-primary-500/30 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" /></svg>
             </button>

@@ -155,8 +155,8 @@ export function ServiceInquiryModal({
               <span className="text-primary-400 font-semibold">{service?.title}</span> has been logged directly to our executive inbox.
             </p>
 
-            <div className="mt-4 sm:mt-5 p-3 sm:p-3.5 rounded-xl bg-surface-2 border border-border/80 text-xs text-neutral-300 max-w-sm mx-auto">
-              <span className="font-mono text-primary-400 font-semibold">⚡ Guaranteed SLA:</span> We will review your scope and reply to <span className="font-mono text-white break-all">{formData.email}</span> within 2–4 hours.
+            <div className="mt-4 sm:mt-5 p-3 sm:p-3.5 rounded-xl bg-surface-2 border border-border/80 text-xs text-muted-fg max-w-sm mx-auto">
+              <span className="font-mono text-primary-600 dark:text-primary-400 font-semibold">⚡ Guaranteed SLA:</span> We will review your scope and reply to <span className="font-mono text-foreground font-semibold break-all">{formData.email}</span> within 2–4 hours.
             </div>
 
             <div className="mt-6 flex flex-col sm:flex-row gap-2.5 sm:gap-3 justify-center items-stretch sm:items-center">

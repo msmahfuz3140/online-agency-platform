@@ -304,12 +304,12 @@ export function AdminSidebar({
       </nav>
 
       {/* Bottom Section: Environment Switcher & Sign Out */}
-      <div className="border-t border-white/[0.06] px-2 py-3 space-y-1">
+      <div className="border-t border-border dark:border-white/[0.06] px-2 py-3 space-y-1">
         {/* Switch to Client Dashboard */}
         <Link
           href="/dashboard"
           title={collapsed ? "Client Dashboard" : undefined}
-          className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-primary-300 hover:text-white bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/25 transition-all duration-150 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-white bg-primary-500/10 hover:bg-primary-500/20 border border-primary-500/25 transition-all duration-150 shadow-[0_0_12px_rgba(20,184,160,0.15)]"
         >
           <span className="shrink-0 text-base leading-none">📊</span>
           <AnimatePresence>
@@ -325,9 +325,9 @@ export function AdminSidebar({
         <Link
           href="/"
           title={collapsed ? "Agency Main Site" : undefined}
-          className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-neutral-400 hover:text-white hover:bg-white/[0.05] transition-all duration-150"
+          className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-muted-fg hover:text-foreground dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.05] transition-all duration-150"
         >
-          <span className="shrink-0 text-neutral-400 text-sm leading-none">🌐</span>
+          <span className="shrink-0 text-muted-fg text-sm leading-none">🌐</span>
           <AnimatePresence>
             {!collapsed && (
               <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="whitespace-nowrap">
@@ -353,15 +353,15 @@ export function AdminSidebar({
         </button>
 
         {/* User Profile Chip with Interactive Dropdown Popover */}
-        <div className="relative mt-2 pt-2 border-t border-white/[0.06]" ref={sidebarProfileRef}>
+        <div className="relative mt-2 pt-2 border-t border-border dark:border-white/[0.06]" ref={sidebarProfileRef}>
           <button
             type="button"
             onClick={() => setSidebarProfileOpen(!sidebarProfileOpen)}
-            className={`w-full flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all cursor-pointer group text-left ${collapsed ? "justify-center" : ""}`}
+            className={`w-full flex items-center gap-2.5 px-2 py-1.5 rounded-xl hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-all cursor-pointer group text-left ${collapsed ? "justify-center" : ""}`}
             aria-label="User Profile Options"
             aria-expanded={sidebarProfileOpen}
           >
-            <div className="relative h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-primary-500/30 to-amber-500/20 border border-primary-500/30 flex items-center justify-center font-bold text-[10px] text-primary-300 shadow-inner group-hover:scale-105 transition-transform">
+            <div className="relative h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-primary-500/30 to-amber-500/20 border border-primary-500/30 flex items-center justify-center font-bold text-[10px] text-primary-600 dark:text-primary-300 shadow-inner group-hover:scale-105 transition-transform">
               {user?.name?.slice(0, 2).toUpperCase() || "MH"}
               {userRole === "superadmin" && (
                 <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-amber-400 border border-black flex items-center justify-center text-[8px] text-black font-black" title="Owner / Super Admin">
@@ -372,7 +372,7 @@ export function AdminSidebar({
             <AnimatePresence>
               {!collapsed && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="min-w-0 flex-1">
-                  <p className="text-[11px] font-semibold text-white truncate leading-none group-hover:text-primary-300 transition-colors">
+                  <p className="text-[11px] font-semibold text-foreground dark:text-white truncate leading-none group-hover:text-primary-500 dark:group-hover:text-primary-300 transition-colors">
                     {user?.name || "Admin"}
                   </p>
                   <div className="flex items-center gap-1 mt-1">
@@ -408,27 +408,27 @@ export function AdminSidebar({
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 10, scale: 0.95 }}
                 transition={{ duration: 0.15 }}
-                className={`absolute bottom-full mb-2 ${collapsed ? "left-12" : "left-0"} w-72 bg-[#0c1322]/95 backdrop-blur-2xl border border-white/[0.1] shadow-[0_24px_70px_rgba(0,0,0,0.85)] rounded-2xl p-2.5 z-50 overflow-hidden`}
+                className={`absolute bottom-full mb-2 ${collapsed ? "left-12" : "left-0"} w-72 bg-surface-1/95 dark:bg-[#0c1322]/95 backdrop-blur-2xl border border-border dark:border-white/[0.1] shadow-xl dark:shadow-[0_24px_70px_rgba(0,0,0,0.85)] rounded-2xl p-2.5 z-50 overflow-hidden`}
               >
                 {/* User Info Header */}
-                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/10 via-white/[0.03] to-transparent border border-amber-500/20 mb-2">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-amber-500/10 via-surface-2/60 to-transparent border border-amber-500/20 mb-2">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-xs font-bold text-white truncate">
+                    <p className="text-xs font-bold text-foreground dark:text-white truncate">
                       {user?.name || "MD.MAHFUZUL HAQUE"}
                     </p>
-                    <span className="text-[9px] px-2 py-0.5 rounded-full border border-amber-400/30 bg-amber-400/15 text-amber-300 font-mono capitalize">
+                    <span className="text-[9px] px-2 py-0.5 rounded-full border border-amber-400/30 bg-amber-400/15 text-amber-600 dark:text-amber-300 font-mono capitalize">
                       👑 {userRole === "superadmin" ? "Super Admin" : userRole}
                     </span>
                   </div>
-                  <p className="text-[11px] text-neutral-400 truncate mt-0.5">
+                  <p className="text-[11px] text-muted-fg truncate mt-0.5">
                     {user?.email || "mdmahfuzulhaque3140@gmail.com"}
                   </p>
-                  <div className="mt-2 pt-1.5 border-t border-white/[0.06] flex items-center justify-between text-[10px]">
-                    <span className="text-emerald-400 font-medium flex items-center gap-1">
+                  <div className="mt-2 pt-1.5 border-t border-border dark:border-white/[0.06] flex items-center justify-between text-[10px]">
+                    <span className="text-emerald-500 dark:text-emerald-400 font-medium flex items-center gap-1">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                       Active Session
                     </span>
-                    <span className="text-neutral-500 font-mono">RBAC Active</span>
+                    <span className="text-muted-fg font-mono">RBAC Active</span>
                   </div>
                 </div>
 
@@ -437,12 +437,12 @@ export function AdminSidebar({
                   <Link
                     href="/admin/workspace"
                     onClick={() => setSidebarProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:text-foreground dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                   >
                     <span className="text-sm">⚡</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white">Personal Workspace</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Your tasks & sprint tracker</p>
+                      <p className="font-semibold text-foreground dark:text-white">Personal Workspace</p>
+                      <p className="text-[10px] text-muted-fg truncate">Your tasks & sprint tracker</p>
                     </div>
                   </Link>
 
@@ -450,12 +450,12 @@ export function AdminSidebar({
                     <Link
                       href="/admin/team"
                       onClick={() => setSidebarProfileOpen(false)}
-                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                      className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:text-foreground dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                     >
                       <span className="text-sm">👥</span>
                       <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-white">Team Members & Access</p>
-                        <p className="text-[10px] text-neutral-400 truncate">Manage staff roles & permissions</p>
+                        <p className="font-semibold text-foreground dark:text-white">Team Members & Access</p>
+                        <p className="text-[10px] text-muted-fg truncate">Manage staff roles & permissions</p>
                       </div>
                     </Link>
                   )}
@@ -463,34 +463,34 @@ export function AdminSidebar({
                   <Link
                     href="/dashboard"
                     onClick={() => setSidebarProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-primary-300 hover:text-white hover:bg-primary-500/15 transition-colors border border-primary-500/20"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-primary-600 dark:text-primary-300 hover:text-primary-700 dark:hover:text-white hover:bg-primary-500/15 transition-colors border border-primary-500/20"
                   >
                     <span className="text-sm">📊</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-primary-300">Client Dashboard Portal</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Deliverables, milestones & generator</p>
+                      <p className="font-semibold text-primary-600 dark:text-primary-300">Client Dashboard Portal</p>
+                      <p className="text-[10px] text-muted-fg truncate">Deliverables, milestones & generator</p>
                     </div>
                   </Link>
 
                   <Link
                     href="/"
                     onClick={() => setSidebarProfileOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-neutral-200 hover:text-white hover:bg-white/[0.06] transition-colors"
+                    className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-foreground dark:text-neutral-200 hover:text-foreground dark:hover:text-white hover:bg-surface-2 dark:hover:bg-white/[0.06] transition-colors"
                   >
                     <span className="text-sm">🌐</span>
                     <div className="flex-1 min-w-0">
-                      <p className="font-semibold text-white">Main Agency Website</p>
-                      <p className="text-[10px] text-neutral-400 truncate">Public website & case studies</p>
+                      <p className="font-semibold text-foreground dark:text-white">Main Agency Website</p>
+                      <p className="text-[10px] text-muted-fg truncate">Public website & case studies</p>
                     </div>
                   </Link>
                 </div>
 
                 {/* Sign Out Button */}
-                <div className="mt-2 pt-2 border-t border-white/[0.08]">
+                <div className="mt-2 pt-2 border-t border-border dark:border-white/[0.08]">
                   <button
                     type="button"
                     onClick={handleSignOut}
-                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                    className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold text-red-500 dark:text-red-400 hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer"
                   >
                     <span>🚪</span>
                     <span>Sign Out</span>
@@ -505,7 +505,7 @@ export function AdminSidebar({
       {/* Collapse Toggle Button */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="absolute -right-3 top-[72px] h-6 w-6 rounded-full bg-[#111827] border border-white/10 flex items-center justify-center text-neutral-400 hover:text-white hover:border-primary-500/40 shadow-lg transition-all hover:scale-110 z-50"
+        className="absolute -right-3 top-[72px] h-6 w-6 rounded-full bg-surface-1 dark:bg-[#111827] border border-border dark:border-white/10 flex items-center justify-center text-muted-fg hover:text-foreground dark:hover:text-white hover:border-primary-500/40 shadow-lg transition-all hover:scale-110 z-50"
         aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       >
         <motion.span animate={{ rotate: collapsed ? 180 : 0 }} transition={{ duration: 0.25 }}>
@@ -587,11 +587,11 @@ export function AdminSidebar({
             </nav>
 
             {/* Mobile Quick Navigation Actions */}
-            <div className="border-t border-white/[0.06] px-3 py-3 space-y-1">
+            <div className="border-t border-border dark:border-white/[0.06] px-3 py-3 space-y-1">
               <Link
                 href="/dashboard"
                 onClick={onCloseMobile}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-primary-300 bg-primary-500/10 border border-primary-500/25 transition-all shadow-sm"
+                className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-primary-600 dark:text-primary-300 bg-primary-500/10 border border-primary-500/25 transition-all shadow-sm"
               >
                 <span className="text-base">📊</span>
                 <span>Client Dashboard Portal →</span>
@@ -599,7 +599,7 @@ export function AdminSidebar({
               <Link
                 href="/"
                 onClick={onCloseMobile}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-neutral-400 hover:text-white transition-all"
+                className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-muted-fg hover:text-foreground dark:hover:text-white transition-all"
               >
                 <span className="text-base">🌐</span>
                 <span>Agency Main Website</span>
@@ -611,7 +611,7 @@ export function AdminSidebar({
                   onCloseMobile?.();
                   await handleSignOut();
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors cursor-pointer"
+                className="w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-red-500 dark:text-red-400 hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors cursor-pointer"
               >
                 <PowerIcon />
                 <span>Sign Out</span>
@@ -619,9 +619,9 @@ export function AdminSidebar({
             </div>
 
             {/* Mobile Profile Card */}
-            <div className="p-3 border-t border-white/[0.06] bg-white/[0.02]">
+            <div className="p-3 border-t border-border dark:border-white/[0.06] bg-surface-2/40 dark:bg-white/[0.02]">
               <div className="flex items-center gap-2.5">
-                <div className="relative h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-primary-500/30 to-amber-500/20 border border-primary-500/30 flex items-center justify-center font-bold text-[10px] text-primary-300">
+                <div className="relative h-8 w-8 shrink-0 rounded-full bg-gradient-to-br from-primary-500/30 to-amber-500/20 border border-primary-500/30 flex items-center justify-center font-bold text-[10px] text-primary-600 dark:text-primary-300">
                   {user?.name?.slice(0, 2).toUpperCase() || "MH"}
                   {userRole === "superadmin" && (
                     <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-amber-400 border border-black flex items-center justify-center text-[8px] text-black font-black">
@@ -630,8 +630,8 @@ export function AdminSidebar({
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold text-white truncate leading-none">{user?.name || "Admin"}</p>
-                  <p className="text-[10px] text-amber-300 font-mono capitalize mt-1 truncate">
+                  <p className="text-xs font-semibold text-foreground dark:text-white truncate leading-none">{user?.name || "Admin"}</p>
+                  <p className="text-[10px] text-amber-600 dark:text-amber-300 font-mono capitalize mt-1 truncate">
                     {userRole === "superadmin" ? "Owner / Super Admin" : userRole}
                   </p>
                 </div>

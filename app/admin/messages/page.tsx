@@ -347,19 +347,19 @@ export default function AdminMessagesPage() {
       sortable: true,
       render: (row) => (
         <div className="flex items-center gap-2.5">
-          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary-500/20 to-blue-500/20 border border-primary-500/30 flex items-center justify-center text-xs font-bold text-primary-300 shrink-0 shadow-[0_0_10px_rgba(20,184,160,0.15)]">
+          <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary-500/20 to-blue-500/20 border border-primary-500/30 flex items-center justify-center text-xs font-bold text-primary-500 dark:text-primary-300 shrink-0 shadow-sm">
             {row.name.slice(0, 2).toUpperCase()}
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <p className="text-xs font-semibold text-white leading-none">{row.name}</p>
+              <p className="text-xs font-semibold text-foreground dark:text-white leading-none">{row.name}</p>
               {row.replies && row.replies.length > 0 && (
-                <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-primary-500/15 text-primary-400 border border-primary-500/30 font-mono">
+                <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30 font-mono font-bold">
                   {row.replies.length} {row.replies.length === 1 ? "reply" : "replies"}
                 </span>
               )}
             </div>
-            <p className="text-[10px] text-neutral-400 mt-0.5">{row.email}</p>
+            <p className="text-[10px] text-muted-fg mt-0.5">{row.email}</p>
           </div>
         </div>
       ),
@@ -386,10 +386,10 @@ export default function AdminMessagesPage() {
       sortable: true,
       render: (row) => (
         <div className="max-w-[260px] truncate">
-          <span className="text-xs font-medium text-neutral-200 block truncate">
+          <span className="text-xs font-medium text-foreground dark:text-neutral-200 block truncate">
             {row.subject || "(General Inquiry)"}
           </span>
-          <span className="text-[10px] text-neutral-500 block truncate mt-0.5">
+          <span className="text-[10px] text-muted-fg block truncate mt-0.5">
             {row.message}
           </span>
         </div>
@@ -399,7 +399,7 @@ export default function AdminMessagesPage() {
       key: "company",
       label: "Company",
       render: (row) => (
-        <span className="text-[11px] text-neutral-400">{row.company || "—"}</span>
+        <span className="text-[11px] text-muted-fg">{row.company || "—"}</span>
       ),
     },
     {
@@ -446,14 +446,14 @@ export default function AdminMessagesPage() {
             className="mb-4 flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-amber-500/10 border border-amber-500/25 shadow-[0_0_20px_rgba(251,191,36,0.1)]"
           >
             <div className="flex items-center gap-2.5">
-              <span className="h-2.5 w-2.5 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.8)] shrink-0 animate-pulse" />
-              <p className="text-xs text-amber-200 font-medium">
-                <strong className="font-semibold text-white">{unreadCount} unread message{unreadCount > 1 ? "s" : ""}</strong> requiring attention or replies.
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(251,191,36,0.8)] shrink-0 animate-pulse" />
+              <p className="text-xs text-amber-800 dark:text-amber-200 font-medium">
+                <strong className="font-semibold text-foreground dark:text-white">{unreadCount} unread message{unreadCount > 1 ? "s" : ""}</strong> requiring attention or replies.
               </p>
             </div>
             <button
               onClick={() => setFilterStatus("unread")}
-              className="text-[11px] text-amber-300 hover:text-white font-semibold underline underline-offset-2 transition-colors cursor-pointer"
+              className="text-[11px] text-amber-700 dark:text-amber-300 hover:text-foreground dark:hover:text-white font-semibold underline underline-offset-2 transition-colors cursor-pointer"
             >
               View Unread →
             </button>
@@ -475,7 +475,7 @@ export default function AdminMessagesPage() {
                 className={`p-3 sm:p-3.5 rounded-2xl border transition-all text-left flex flex-col justify-between cursor-pointer group ${
                   isActive
                     ? "bg-primary-500/15 border-primary-500/60 shadow-[0_0_20px_rgba(20,184,160,0.25)] ring-1 ring-primary-400/30"
-                    : "bg-white/[0.02] border-white/[0.07] hover:bg-white/[0.05] hover:border-white/[0.15]"
+                    : "bg-surface-1 dark:bg-white/[0.02] border-border dark:border-white/[0.07] hover:bg-surface-2 hover:border-primary-500/30 dark:hover:bg-white/[0.05] dark:hover:border-white/[0.15]"
                 }`}
               >
                 <div className="flex items-center justify-between gap-1 mb-2">
@@ -483,16 +483,16 @@ export default function AdminMessagesPage() {
                     {cat.icon}
                   </span>
                   {counts.unread > 0 && (
-                    <span className="px-1.5 py-0.2 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-mono font-bold animate-pulse border border-amber-400/30">
+                    <span className="px-1.5 py-0.2 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-300 text-[10px] font-mono font-bold animate-pulse border border-amber-500/30">
                       {counts.unread} new
                     </span>
                   )}
                 </div>
                 <div>
-                  <span className="text-xs font-bold text-white truncate block">
+                  <span className="text-xs font-bold text-foreground dark:text-white truncate block">
                     {cat.shortName}
                   </span>
-                  <span className="text-[10px] text-neutral-400 font-mono mt-0.5 block">
+                  <span className="text-[10px] text-muted-fg font-mono mt-0.5 block">
                     {counts.total} {counts.total === 1 ? "inquiry" : "inquiries"}
                   </span>
                 </div>
@@ -514,13 +514,13 @@ export default function AdminMessagesPage() {
                   onClick={() => setFilterStatus(s)}
                   className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                     filterStatus === s
-                      ? "border-primary-500/50 bg-primary-500/15 text-primary-300 shadow-[0_0_14px_rgba(20,184,160,0.25)]"
-                      : "border-white/[0.08] bg-white/[0.03] text-neutral-400 hover:text-white hover:border-white/[0.15]"
+                      ? "border-primary-500/50 bg-primary-500/15 text-primary-600 dark:text-primary-300 font-bold shadow-[0_0_14px_rgba(20,184,160,0.25)]"
+                      : "border-border dark:border-white/[0.08] bg-surface-1 dark:bg-white/[0.03] text-muted-fg hover:text-foreground dark:hover:text-white hover:border-primary-500/30"
                   }`}
                 >
                   {s === "all" ? "All Inquiries" : s.charAt(0).toUpperCase() + s.slice(1)}
                   {s === "unread" && unreadCount > 0 && (
-                    <span className="ml-1.5 h-4 min-w-4 px-1 rounded-full bg-amber-500/30 text-amber-300 text-[10px] font-bold inline-flex items-center justify-center">
+                    <span className="ml-1.5 h-4 min-w-4 px-1 rounded-full bg-amber-500/30 text-amber-700 dark:text-amber-300 text-[10px] font-bold inline-flex items-center justify-center">
                       {unreadCount}
                     </span>
                   )}
@@ -531,14 +531,14 @@ export default function AdminMessagesPage() {
             {/* View Mode Toggle + Refresh Button */}
             <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-end">
               {/* View Switcher: Grouped vs Table */}
-              <div className="flex items-center bg-white/[0.03] p-0.5 rounded-xl border border-white/[0.08]">
+              <div className="flex items-center bg-surface-1 dark:bg-white/[0.03] p-0.5 rounded-xl border border-border dark:border-white/[0.08]">
                 <button
                   type="button"
                   onClick={() => setViewMode("grouped")}
                   className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                     viewMode === "grouped"
-                      ? "bg-primary-500/20 text-primary-300 border border-primary-500/40 shadow-sm"
-                      : "text-neutral-400 hover:text-white"
+                      ? "bg-primary-500/20 text-primary-600 dark:text-primary-300 border border-primary-500/40 shadow-sm"
+                      : "text-muted-fg hover:text-foreground dark:hover:text-white"
                   }`}
                 >
                   <span>📁</span>
@@ -549,8 +549,8 @@ export default function AdminMessagesPage() {
                   onClick={() => setViewMode("table")}
                   className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
                     viewMode === "table"
-                      ? "bg-primary-500/20 text-primary-300 border border-primary-500/40 shadow-sm"
-                      : "text-neutral-400 hover:text-white"
+                      ? "bg-primary-500/20 text-primary-600 dark:text-primary-300 border border-primary-500/40 shadow-sm"
+                      : "text-muted-fg hover:text-foreground dark:hover:text-white"
                   }`}
                 >
                   <span>📋</span>
@@ -563,7 +563,7 @@ export default function AdminMessagesPage() {
                 type="button"
                 onClick={() => loadMessages()}
                 disabled={loading}
-                className="flex items-center gap-1.5 text-xs font-semibold text-neutral-200 hover:text-white px-3 py-1.5 rounded-xl bg-surface-2 border border-border hover:border-primary-500/40 transition-all cursor-pointer disabled:opacity-50 shrink-0"
+                className="flex items-center gap-1.5 text-xs font-semibold text-foreground px-3 py-1.5 rounded-xl bg-surface-2 border border-border hover:border-primary-500/40 transition-all cursor-pointer disabled:opacity-50 shrink-0"
                 title="Refresh messages"
               >
                 <span className={loading ? "animate-spin inline-block" : ""}>🔄</span>
@@ -579,8 +579,8 @@ export default function AdminMessagesPage() {
               onClick={() => setFilterCategory("all")}
               className={`px-3 py-1 rounded-xl text-xs font-semibold border transition-all shrink-0 cursor-pointer ${
                 filterCategory === "all"
-                  ? "bg-primary-500/20 border-primary-500/50 text-primary-300"
-                  : "bg-white/[0.02] border-white/[0.06] text-neutral-400 hover:text-white"
+                  ? "bg-primary-500/20 border-primary-500/50 text-primary-600 dark:text-primary-300 font-bold"
+                  : "bg-surface-1 dark:bg-white/[0.02] border-border dark:border-white/[0.06] text-muted-fg hover:text-foreground dark:hover:text-white"
               }`}
             >
               All Services ({messages.length})
@@ -597,13 +597,13 @@ export default function AdminMessagesPage() {
                   }
                   className={`px-3 py-1 rounded-xl text-xs font-semibold border transition-all shrink-0 cursor-pointer flex items-center gap-1.5 ${
                     isSelected
-                      ? `${cat.badgeBg} ${cat.badgeBorder} ${cat.badgeText} shadow-sm`
-                      : "bg-white/[0.02] border-white/[0.06] text-neutral-400 hover:text-white"
+                      ? `${cat.badgeBg} ${cat.badgeBorder} ${cat.badgeText} shadow-sm font-bold`
+                      : "bg-surface-1 dark:bg-white/[0.02] border-border dark:border-white/[0.06] text-muted-fg hover:text-foreground dark:hover:text-white"
                   }`}
                 >
                   <span>{cat.icon}</span>
                   <span>{cat.shortName}</span>
-                  <span className="px-1.5 py-0.1 rounded-full bg-white/[0.06] text-[10px] font-mono">
+                  <span className="px-1.5 py-0.1 rounded-full bg-surface-2 dark:bg-white/[0.06] text-[10px] font-mono">
                     {count}
                   </span>
                 </button>
@@ -636,14 +636,14 @@ export default function AdminMessagesPage() {
               return (
                 <div key={cat.id} className="space-y-3.5">
                   {/* Category Division Section Banner */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-[#0c1527] via-[#0a1120] to-[#070c17] border border-white/[0.08] shadow-[0_4px_20px_rgba(0,0,0,0.3)] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <div className="p-4 sm:p-5 rounded-2xl bg-surface-2 dark:bg-gradient-to-r dark:from-[#0c1527] dark:via-[#0a1120] dark:to-[#070c17] border border-border dark:border-white/[0.08] shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <div className="h-11 w-11 rounded-2xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-2xl shadow-inner shrink-0">
+                      <div className="h-11 w-11 rounded-2xl bg-surface-1 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] flex items-center justify-center text-2xl shadow-inner shrink-0">
                         {cat.icon}
                       </div>
                       <div className="min-w-0">
                         <div className="flex items-center gap-2 flex-wrap">
-                          <h3 className="font-heading font-bold text-sm sm:text-base text-white">
+                          <h3 className="font-heading font-bold text-sm sm:text-base text-foreground dark:text-white">
                             {cat.name}
                           </h3>
                           <span
@@ -652,31 +652,31 @@ export default function AdminMessagesPage() {
                             {catMessages.length} {catMessages.length === 1 ? "Inquiry" : "Inquiries"}
                           </span>
                           {unreadInCat > 0 && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-amber-500/20 text-amber-700 dark:text-amber-300 border border-amber-500/30">
                               ⚡ {unreadInCat} Unread
                             </span>
                           )}
                         </div>
-                        <p className="text-[11px] text-neutral-400 mt-0.5 truncate">
-                          <span>Division: <strong className="text-neutral-300">{cat.department}</strong></span>
+                        <p className="text-[11px] text-muted-fg mt-0.5 truncate">
+                          <span>Division: <strong className="text-foreground dark:text-neutral-300">{cat.department}</strong></span>
                           <span className="hidden md:inline"> • {cat.description}</span>
                         </p>
                       </div>
                     </div>
 
-                    <div className="text-[11px] font-mono text-neutral-500 shrink-0 hidden sm:block">
+                    <div className="text-[11px] font-mono text-muted-fg shrink-0 hidden sm:block">
                       Click any message to open Messenger
                     </div>
                   </div>
 
                   {/* Inquiry Messages List under this Category */}
                   {catMessages.length === 0 ? (
-                    <div className="p-8 rounded-2xl bg-white/[0.02] border border-white/[0.05] text-center space-y-1 text-xs text-neutral-500">
-                      <p className="text-neutral-400 font-medium">No inquiries found in this category.</p>
+                    <div className="p-8 rounded-2xl bg-surface-1 dark:bg-white/[0.02] border border-border dark:border-white/[0.05] text-center space-y-1 text-xs text-muted-fg">
+                      <p className="text-foreground font-medium">No inquiries found in this category.</p>
                       <p className="text-[11px]">Messages sent by clients under {cat.name} will appear here.</p>
                     </div>
                   ) : (
-                    <div className="rounded-2xl border border-border dark:border-white/[0.08] bg-surface-1/90 dark:bg-[#080d19]/90 backdrop-blur-sm divide-y divide-border dark:divide-white/[0.06] overflow-hidden shadow-lg">
+                    <div className="rounded-2xl border border-border dark:border-white/[0.08] bg-surface-1/95 dark:bg-[#080d19]/90 backdrop-blur-sm divide-y divide-border dark:divide-white/[0.06] overflow-hidden shadow-sm">
                       {catMessages.map((msg) => {
                         const replyCount = msg.replies?.length || 0;
                         const lastReply =
@@ -692,11 +692,11 @@ export default function AdminMessagesPage() {
                             <div className="flex items-start md:items-center gap-3.5 min-w-0 flex-1">
                               {/* Avatar */}
                               <div className="relative shrink-0 mt-0.5 md:mt-0">
-                                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-primary-500/20 to-blue-500/20 border border-primary-500/30 flex items-center justify-center text-xs sm:text-sm font-bold text-primary-300 shadow-[0_0_10px_rgba(20,184,160,0.15)]">
+                                <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-gradient-to-br from-primary-500/20 to-blue-500/20 border border-primary-500/30 flex items-center justify-center text-xs sm:text-sm font-bold text-primary-600 dark:text-primary-300 shadow-sm">
                                   {msg.name.slice(0, 2).toUpperCase()}
                                 </div>
                                 {msg.status === "unread" && (
-                                  <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-amber-400 border-2 border-[#080d19] animate-pulse" />
+                                  <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-amber-400 border-2 border-surface-1 dark:border-[#080d19] animate-pulse" />
                                 )}
                               </div>
 
@@ -705,38 +705,38 @@ export default function AdminMessagesPage() {
                                 {/* Sender Name & Email */}
                                 <div className="md:w-44 lg:w-52 shrink-0 min-w-0">
                                   <div className="flex items-center gap-1.5">
-                                    <h4 className="text-xs sm:text-sm font-bold text-white group-hover:text-primary-300 transition-colors truncate">
+                                    <h4 className="text-xs sm:text-sm font-bold text-foreground dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-300 transition-colors truncate">
                                       {msg.name}
                                     </h4>
                                     {msg.company && (
-                                      <span className="text-[10px] text-neutral-400 font-mono hidden lg:inline truncate">
+                                      <span className="text-[10px] text-muted-fg font-mono hidden lg:inline truncate">
                                         ({msg.company})
                                       </span>
                                     )}
                                   </div>
-                                  <p className="text-[11px] text-neutral-400 truncate font-mono">
+                                  <p className="text-[11px] text-muted-fg truncate font-mono">
                                     {msg.email}
                                   </p>
                                 </div>
 
                                 {/* Subject & Preview */}
                                 <div className="min-w-0 flex-1">
-                                  <h5 className="text-xs sm:text-sm font-semibold text-neutral-200 group-hover:text-white transition-colors truncate">
+                                  <h5 className="text-xs sm:text-sm font-semibold text-foreground dark:text-neutral-200 group-hover:text-primary-600 dark:group-hover:text-white transition-colors truncate">
                                     {msg.subject || "(General Inquiry)"}
                                   </h5>
-                                  <p className="text-[11px] sm:text-xs text-neutral-400 truncate mt-0.5 leading-normal">
+                                  <p className="text-[11px] sm:text-xs text-muted-fg truncate mt-0.5 leading-normal">
                                     {lastReply ? (
                                       <>
                                         <span
                                           className={
-                                            lastReply.sender === "admin"
-                                              ? "text-primary-300 font-semibold"
-                                              : "text-amber-300 font-semibold"
+                                             lastReply.sender === "admin"
+                                              ? "text-primary-600 dark:text-primary-300 font-semibold"
+                                              : "text-amber-700 dark:text-amber-300 font-semibold"
                                           }
                                         >
                                           {lastReply.sender === "admin" ? "Admin: " : "Client: "}
                                         </span>
-                                        <span className="text-neutral-300">{lastReply.message}</span>
+                                        <span className="text-foreground dark:text-neutral-300">{lastReply.message}</span>
                                       </>
                                     ) : (
                                       <span>{msg.message}</span>
@@ -836,23 +836,23 @@ export default function AdminMessagesPage() {
         size="xl"
       >
         {activeThread && (
-          <div className="flex flex-col h-full sm:h-[85vh] max-h-[100dvh] sm:max-h-[780px] w-full overflow-hidden bg-[#0a101d]">
+          <div className="flex flex-col h-full sm:h-[85vh] max-h-[100dvh] sm:max-h-[780px] w-full overflow-hidden bg-surface-1 dark:bg-[#0a101d]">
             {/* Service Category & Division Header Banner */}
             {(() => {
               const cat = getInquiryCategory(activeThread.subject, activeThread.category);
               return (
-                <div className="px-3 sm:px-6 py-2 sm:py-2.5 bg-gradient-to-r from-primary-500/15 via-[#0c1527] to-[#09101d] border-b border-white/[0.08] flex items-center justify-between gap-2 shrink-0">
+                <div className="px-3 sm:px-6 py-2 sm:py-2.5 bg-primary-500/10 border-b border-border dark:border-white/[0.08] flex items-center justify-between gap-2 shrink-0">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="text-base sm:text-lg shrink-0">{cat.icon}</span>
-                    <span className="font-bold text-xs sm:text-sm text-white truncate">
+                    <span className="font-bold text-xs sm:text-sm text-foreground dark:text-white truncate">
                       {cat.name}
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary-500/20 text-primary-300 font-mono border border-primary-500/30 hidden sm:inline-block">
+                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-primary-500/20 text-primary-700 dark:text-primary-300 font-mono font-bold border border-primary-500/30 hidden sm:inline-block">
                       {cat.department}
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1 shrink-0">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400 flex items-center gap-1 shrink-0 font-bold">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="hidden xs:inline">Live Channel</span>
                   </span>
                 </div>
@@ -860,7 +860,7 @@ export default function AdminMessagesPage() {
             })()}
 
             {/* Messenger Header */}
-            <div className="px-3 sm:px-5 py-2.5 sm:py-3 border-b border-white/[0.08] bg-[#0c1424] flex items-center justify-between gap-2 sm:gap-3 shrink-0">
+            <div className="px-3 sm:px-5 py-2.5 sm:py-3 border-b border-border dark:border-white/[0.08] bg-surface-2 dark:bg-[#0c1424] flex items-center justify-between gap-2 sm:gap-3 shrink-0">
               <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
                 {/* Client Avatar */}
                 <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-gradient-to-tr from-slate-500 to-slate-400 flex items-center justify-center font-bold text-white text-xs sm:text-sm shadow-md shrink-0">
@@ -868,20 +868,20 @@ export default function AdminMessagesPage() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap">
-                    <h3 className="text-xs sm:text-sm font-bold text-white leading-tight truncate max-w-[110px] xs:max-w-[160px] sm:max-w-none">
+                    <h3 className="text-xs sm:text-sm font-bold text-foreground dark:text-white leading-tight truncate max-w-[110px] xs:max-w-[160px] sm:max-w-none">
                       {activeThread.name}
                     </h3>
-                    <span className="text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 font-mono">
+                    <span className="text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full bg-slate-500/20 text-slate-700 dark:text-slate-300 border border-slate-500/30 font-mono font-bold">
                       CLIENT
                     </span>
                     <StatusBadge status={activeThread.status || "unread"} />
                     {activeThread.company && (
-                      <span className="text-[9px] px-1.5 py-0.1 rounded-full bg-white/[0.06] text-neutral-300 border border-white/[0.08] font-mono hidden md:inline truncate">
+                      <span className="text-[9px] px-1.5 py-0.1 rounded-full bg-surface-3 dark:bg-white/[0.06] text-muted-fg font-mono hidden md:inline truncate border border-border">
                         🏢 {activeThread.company}
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 truncate">
+                  <div className="flex items-center gap-2 text-[10px] sm:text-[11px] text-muted-fg mt-0.5 truncate">
                     <span className="truncate">{activeThread.email}</span>
                     {activeThread.phone && (
                       <span className="hidden sm:inline font-mono">• {activeThread.phone}</span>
@@ -893,15 +893,15 @@ export default function AdminMessagesPage() {
               {/* Status Quick Changer & Close Button */}
               <div className="flex items-center gap-1 sm:gap-2 shrink-0">
                 <div className="flex items-center gap-1">
-                  <span className="text-[10px] text-neutral-400 uppercase font-mono hidden lg:inline">Status:</span>
+                  <span className="text-[10px] text-muted-fg uppercase font-mono hidden lg:inline">Status:</span>
                   <select
                     value={statusUpdate}
                     onChange={(e) => handleSaveStatus(e.target.value)}
                     disabled={savingStatus}
-                    className="bg-surface-2 text-white text-[11px] sm:text-xs rounded-lg sm:rounded-xl px-1.5 py-1 sm:px-2.5 sm:py-1.5 border border-white/[0.12] focus:border-primary-500 outline-none cursor-pointer"
+                    className="bg-surface-1 dark:bg-surface-2 text-foreground dark:text-white text-[11px] sm:text-xs rounded-lg sm:rounded-xl px-1.5 py-1 sm:px-2.5 sm:py-1.5 border border-border dark:border-white/[0.12] focus:border-primary-500 outline-none cursor-pointer"
                   >
                     {STATUS_OPTIONS.map((opt) => (
-                      <option key={opt} value={opt} className="bg-[#0b1220] text-white">
+                      <option key={opt} value={opt} className="bg-surface-1 dark:bg-[#0b1220] text-foreground dark:text-white">
                         {opt.charAt(0).toUpperCase() + opt.slice(1)}
                       </option>
                     ))}
@@ -914,7 +914,7 @@ export default function AdminMessagesPage() {
                     setModalOpen(false);
                     setActiveThread(null);
                   }}
-                  className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl text-neutral-400 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer"
+                  className="p-1 sm:p-1.5 rounded-lg sm:rounded-xl text-muted-fg hover:text-foreground hover:bg-surface-3 dark:hover:text-white dark:hover:bg-white/[0.08] transition-colors cursor-pointer"
                   title="Close modal"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -930,12 +930,12 @@ export default function AdminMessagesPage() {
                 <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-gradient-to-br from-primary-400 to-teal-400 flex items-center justify-center text-black font-bold text-[8px] sm:text-[9px] shrink-0">
                   {(user?.name || "AD").slice(0, 2).toUpperCase()}
                 </div>
-                <span className="text-primary-300 font-semibold truncate">
-                  Replying as: <strong className="text-white">{user?.name || "Admin Support"}</strong>
+                <span className="text-primary-700 dark:text-primary-300 font-semibold truncate">
+                  Replying as: <strong className="text-foreground dark:text-white">{user?.name || "Admin Support"}</strong>
                 </span>
-                <span className="hidden sm:inline text-[9px] px-1.5 py-0.1 rounded-full bg-primary-500/20 text-primary-300 border border-primary-500/30 font-mono">ADMIN</span>
+                <span className="hidden sm:inline text-[9px] px-1.5 py-0.1 rounded-full bg-primary-500/20 text-primary-700 dark:text-primary-300 border border-primary-500/30 font-mono font-bold">ADMIN</span>
               </div>
-              <span className="text-neutral-400 font-mono text-[9px] sm:text-[10px] truncate shrink-0 max-w-[40%] sm:max-w-none">
+              <span className="text-muted-fg font-mono text-[9px] sm:text-[10px] truncate shrink-0 max-w-[40%] sm:max-w-none">
                 {activeThread.subject || "General Inquiry"}
               </span>
             </div>
@@ -948,15 +948,15 @@ export default function AdminMessagesPage() {
                   <div className="h-4 w-4 sm:h-5 sm:w-5 rounded-full bg-slate-600 flex items-center justify-center text-white font-bold text-[8px] sm:text-[9px] shrink-0">
                     {activeThread.name.slice(0, 1).toUpperCase()}
                   </div>
-                  <span className="text-[10px] sm:text-[11px] font-semibold text-neutral-300">{activeThread.name}</span>
-                  <span className="text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full bg-slate-500/20 text-slate-300 border border-slate-500/30 font-mono">
+                  <span className="text-[10px] sm:text-[11px] font-semibold text-foreground dark:text-neutral-300">{activeThread.name}</span>
+                  <span className="text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full bg-slate-500/20 text-slate-700 dark:text-slate-300 border border-slate-500/30 font-mono font-bold">
                     CLIENT
                   </span>
-                  <span className="text-[9px] sm:text-[10px] text-neutral-400">
+                  <span className="text-[9px] sm:text-[10px] text-muted-fg">
                     {new Date(activeThread.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                   </span>
                 </div>
-                <div className="rounded-2xl rounded-tl-sm px-3.5 py-2.5 sm:px-4 sm:py-3 bg-[#131b2e] border border-white/[0.08] text-neutral-200 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-sm">
+                <div className="rounded-2xl rounded-tl-sm px-3.5 py-2.5 sm:px-4 sm:py-3 bg-surface-2 dark:bg-[#131b2e] border border-border dark:border-white/[0.08] text-foreground dark:text-neutral-200 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-sm">
                   {activeThread.message}
                 </div>
               </div>
@@ -965,11 +965,11 @@ export default function AdminMessagesPage() {
               {activeThread.replies && activeThread.replies.length > 0 && (
                 <div className="space-y-3.5 sm:space-y-4 pt-1 sm:pt-2">
                   <div className="flex items-center justify-center my-2">
-                    <span className="h-[1px] bg-white/[0.06] flex-1" />
-                    <span className="px-3 text-[9px] sm:text-[10px] font-mono text-neutral-400 uppercase tracking-wider">
+                    <span className="h-[1px] bg-border dark:bg-white/[0.06] flex-1" />
+                    <span className="px-3 text-[9px] sm:text-[10px] font-mono text-muted-fg uppercase tracking-wider">
                       Conversation History
                     </span>
-                    <span className="h-[1px] bg-white/[0.06] flex-1" />
+                    <span className="h-[1px] bg-border dark:bg-white/[0.06] flex-1" />
                   </div>
 
                   {activeThread.replies.map((reply, idx) => {
@@ -1004,7 +1004,7 @@ export default function AdminMessagesPage() {
 
                           <span
                             className={`text-[10px] sm:text-[11px] font-semibold ${
-                              isAdmin ? "text-primary-300" : "text-neutral-300"
+                              isAdmin ? "text-primary-700 dark:text-primary-300" : "text-foreground dark:text-neutral-300"
                             }`}
                           >
                             {isAdmin
@@ -1013,16 +1013,16 @@ export default function AdminMessagesPage() {
                           </span>
 
                           <span
-                            className={`text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full font-mono ${
+                            className={`text-[8px] sm:text-[9px] px-1.5 py-0.1 rounded-full font-mono font-bold ${
                               isAdmin
-                                ? "bg-primary-500/20 text-primary-300 border border-primary-500/30"
-                                : "bg-slate-500/20 text-slate-300 border border-slate-500/30"
+                                ? "bg-primary-500/20 text-primary-700 dark:text-primary-300 border border-primary-500/30"
+                                : "bg-slate-500/20 text-slate-700 dark:text-slate-300 border border-slate-500/30"
                             }`}
                           >
                             {isAdmin ? "YOU (Admin)" : "CLIENT"}
                           </span>
 
-                          <span className="text-[9px] sm:text-[10px] text-neutral-400">
+                          <span className="text-[9px] sm:text-[10px] text-muted-fg">
                             {new Date(reply.createdAt).toLocaleTimeString([], {
                               hour: "2-digit",
                               minute: "2-digit",
@@ -1031,10 +1031,10 @@ export default function AdminMessagesPage() {
                         </div>
 
                         <div
-                          className={`rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-md ${
+                          className={`rounded-2xl px-3.5 py-2.5 sm:px-4 sm:py-3 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow-sm ${
                             isAdmin
                               ? "rounded-tr-sm bg-gradient-to-r from-primary-600 to-teal-500 text-white font-normal shadow-[0_4px_16px_rgba(20,184,160,0.25)]"
-                              : "rounded-tl-sm bg-[#131b2e] border border-white/[0.08] text-neutral-200"
+                              : "rounded-tl-sm bg-surface-2 dark:bg-[#131b2e] border border-border dark:border-white/[0.08] text-foreground dark:text-neutral-200"
                           }`}
                         >
                           {reply.message}
@@ -1047,8 +1047,8 @@ export default function AdminMessagesPage() {
             </div>
 
             {/* Quick Reply Suggestions */}
-            <div className="px-3 sm:px-4 py-1.5 bg-[#090f1d] border-t border-white/[0.06] overflow-x-auto flex items-center gap-1.5 sm:gap-2 shrink-0 [scrollbar-width:none]">
-              <span className="text-[10px] text-neutral-400 font-mono shrink-0 hidden sm:inline">Quick reply:</span>
+            <div className="px-3 sm:px-4 py-1.5 bg-surface-2 dark:bg-[#090f1d] border-t border-border dark:border-white/[0.06] overflow-x-auto flex items-center gap-1.5 sm:gap-2 shrink-0 [scrollbar-width:none]">
+              <span className="text-[10px] text-muted-fg font-mono shrink-0 hidden sm:inline">Quick reply:</span>
               {QUICK_REPLIES.map((text, i) => (
                 <button
                   key={i}
@@ -1057,7 +1057,7 @@ export default function AdminMessagesPage() {
                     setReplyText(text);
                     textareaRef.current?.focus({ preventScroll: true });
                   }}
-                  className="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-primary-500/30 text-neutral-300 hover:text-white transition-all whitespace-nowrap shrink-0 cursor-pointer"
+                  className="px-2.5 py-1 rounded-full text-[10px] sm:text-[11px] bg-surface-1 dark:bg-white/[0.03] hover:bg-surface-3 dark:hover:bg-white/[0.08] border border-border dark:border-white/[0.06] hover:border-primary-500/30 text-muted-fg hover:text-foreground dark:text-neutral-300 dark:hover:text-white transition-all whitespace-nowrap shrink-0 cursor-pointer"
                 >
                   {text.length > 32 ? text.slice(0, 32) + "…" : text}
                 </button>
@@ -1065,12 +1065,12 @@ export default function AdminMessagesPage() {
             </div>
 
             {/* Reply Input Bar — Admin sending to Client */}
-            <div className="p-2.5 sm:p-4 bg-[#0c1424] border-t border-primary-500/20 flex items-end gap-2 sm:gap-2.5 shrink-0">
+            <div className="p-2.5 sm:p-4 bg-surface-2 dark:bg-[#0c1424] border-t border-border dark:border-primary-500/20 flex items-end gap-2 sm:gap-2.5 shrink-0">
               {/* Admin Avatar in input area - visible on sm+ screens */}
               <div className="hidden sm:flex h-8 w-8 rounded-full bg-gradient-to-br from-primary-400 to-teal-400 items-center justify-center font-bold text-black text-[10px] shrink-0 shadow-[0_0_12px_rgba(20,184,160,0.4)] mb-0.5">
                 {(user?.name || "AD").slice(0, 2).toUpperCase()}
               </div>
-              <div className="flex-1 relative rounded-xl sm:rounded-2xl bg-white/[0.04] border border-primary-500/20 focus-within:border-primary-500/60 focus-within:bg-white/[0.06] transition-all">
+              <div className="flex-1 relative rounded-xl sm:rounded-2xl bg-surface-1 dark:bg-white/[0.04] border border-border dark:border-primary-500/20 focus-within:border-primary-500/60 focus-within:bg-surface-2 dark:focus-within:bg-white/[0.06] transition-all">
                 <textarea
                   ref={textareaRef}
                   value={replyText}
@@ -1078,7 +1078,7 @@ export default function AdminMessagesPage() {
                   onKeyDown={handleKeyDown}
                   placeholder={`Reply as ${user?.name || "Admin"}... (Enter to send)`}
                   rows={2}
-                  className="w-full bg-transparent text-white text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2.5 outline-none resize-none placeholder:text-neutral-400 leading-relaxed"
+                  className="w-full bg-transparent text-foreground dark:text-white text-xs sm:text-sm px-3 py-2 sm:px-3.5 sm:py-2.5 outline-none resize-none placeholder:text-muted-fg leading-relaxed"
                 />
               </div>
 

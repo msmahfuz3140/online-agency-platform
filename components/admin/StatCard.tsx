@@ -69,7 +69,7 @@ export function StatCard({
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay, ease: "easeOut" }}
-      className={`relative rounded-2xl border ${colors.border} bg-[#111827] ${colors.glow} p-5 overflow-hidden group hover:border-opacity-50 transition-all duration-300`}
+      className={`relative rounded-2xl border ${colors.border} bg-surface-1 dark:bg-[#111827] ${colors.glow} p-5 overflow-hidden group hover:border-opacity-50 transition-all duration-300 shadow-sm`}
     >
       {/* Subtle hover glow backdrop */}
       <div className={`absolute inset-0 ${colors.bg} opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl`} />
@@ -81,7 +81,7 @@ export function StatCard({
             {icon}
           </div>
           {trend && (
-            <div className={`flex items-center gap-1 text-[11px] font-semibold ${trend.value >= 0 ? "text-emerald-400" : "text-red-400"}`}>
+            <div className={`flex items-center gap-1 text-[11px] font-semibold ${trend.value >= 0 ? "text-emerald-500 dark:text-emerald-400" : "text-red-500 dark:text-red-400"}`}>
               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d={trend.value >= 0 ? "M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" : "M2.25 6 9 12.75l4.306-4.306a11.95 11.95 0 0 1 5.814 5.518l2.74 1.22m0 0-5.94 2.281m5.94-2.28-2.28-5.941"} />
               </svg>
@@ -102,9 +102,9 @@ export function StatCard({
         </div>
 
         {/* Label */}
-        <p className="text-xs text-neutral-500 font-medium">{label}</p>
+        <p className="text-xs text-muted-fg font-medium">{label}</p>
         {trend && (
-          <p className="text-[10px] text-neutral-600 mt-0.5">{trend.label}</p>
+          <p className="text-[10px] text-muted-fg/80 mt-0.5">{trend.label}</p>
         )}
 
         {/* Sparkline mini bars */}

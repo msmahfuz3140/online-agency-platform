@@ -211,7 +211,7 @@ export function ContactFormSection() {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="text-xs px-2.5 py-1 rounded-md border border-border bg-surface-2 hover:bg-surface-3 text-neutral-300 transition-colors"
+                  className="text-xs px-2.5 py-1 rounded-md border border-border bg-surface-2 hover:bg-surface-3 text-foreground transition-colors"
                 >
                   {copiedEmail ? "✓ Copied" : "Copy"}
                 </button>
@@ -401,7 +401,7 @@ export function ContactFormSection() {
                     className="w-full px-3.5 py-2.5 rounded-xl border border-border bg-surface-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary-500/50 transition-all disabled:opacity-50 cursor-pointer"
                   >
                     {projectTopics.map((topic) => (
-                      <option key={topic} value={topic} className="bg-neutral-900 text-foreground">
+                      <option key={topic} value={topic} className="bg-background text-foreground">
                         {topic}
                       </option>
                     ))}

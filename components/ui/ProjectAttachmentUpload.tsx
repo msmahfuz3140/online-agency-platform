@@ -216,7 +216,7 @@ export function ProjectAttachmentUpload({
             ${
               isDragging
                 ? "border-primary-400 bg-primary-500/10 shadow-[0_0_24px_rgba(20,184,160,0.25)]"
-                : "border-neutral-700/60 bg-neutral-900/30 hover:border-primary-500/50"
+                : "border-border bg-surface-2/60 dark:bg-neutral-900/30 hover:border-primary-500/50"
             }`}
         >
           <input
@@ -311,12 +311,12 @@ export function ProjectAttachmentUpload({
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="flex items-center justify-between gap-3 p-3 rounded-xl bg-neutral-900/60 border border-neutral-800 hover:border-neutral-700/80 transition-all duration-200 group"
+                  className="flex items-center justify-between gap-3 p-3 rounded-xl bg-surface-2 dark:bg-neutral-900/60 border border-border dark:border-neutral-800 hover:border-primary-500/30 dark:hover:border-neutral-700/80 transition-all duration-200 group"
                 >
                   <div className="flex items-center gap-3 min-w-0">
                     {/* Badge / thumbnail */}
                     {badge.type === "image" ? (
-                      <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-neutral-950 border border-white/10 shrink-0">
+                      <div className="relative w-10 h-10 rounded-lg overflow-hidden bg-surface-3 dark:bg-neutral-950 border border-border dark:border-white/10 shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src={file.url}

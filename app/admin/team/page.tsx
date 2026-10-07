@@ -347,24 +347,24 @@ export default function AdminTeamPage() {
 
       <div className="p-3.5 sm:p-6 space-y-4 sm:space-y-6">
         {/* Superadmin Ownership Banner */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/15 via-[#0e1626]/80 to-primary-500/5 border border-amber-500/25 p-4 sm:p-6 shadow-2xl backdrop-blur-xl">
+        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-500/15 via-surface-1 dark:via-[#0e1626]/80 to-primary-500/5 border border-amber-500/25 p-4 sm:p-6 shadow-xl backdrop-blur-xl">
           <div className="pointer-events-none absolute -top-14 -right-14 w-52 h-52 rounded-full bg-amber-500/10 blur-3xl" />
 
           <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-start sm:items-center gap-3.5 min-w-0 w-full md:w-auto">
-              <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-gradient-to-br from-amber-400/30 via-primary-500/20 to-surface-2 border border-amber-400/40 flex items-center justify-center text-amber-300 text-lg sm:text-xl font-bold shadow-[0_0_20px_rgba(245,158,11,0.25)] shrink-0 mt-0.5 sm:mt-0">
+              <div className="relative h-11 w-11 sm:h-12 sm:w-12 rounded-2xl bg-gradient-to-br from-amber-400/30 via-primary-500/20 to-surface-2 border border-amber-400/40 flex items-center justify-center text-amber-500 dark:text-amber-300 text-lg sm:text-xl font-bold shadow-[0_0_20px_rgba(245,158,11,0.25)] shrink-0 mt-0.5 sm:mt-0">
                 👑
               </div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                  <h2 className="font-heading font-extrabold text-white text-base sm:text-xl tracking-tight leading-snug break-words">
+                  <h2 className="font-heading font-extrabold text-foreground dark:text-white text-base sm:text-xl tracking-tight leading-snug break-words">
                     Primary Access & Role-Based Control Center
                   </h2>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono font-semibold shrink-0 shadow-sm">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 font-mono font-semibold shrink-0 shadow-sm">
                     🛡️ Owner Protected
                   </span>
                 </div>
-                <p className="text-[11px] sm:text-xs text-neutral-400 mt-1 leading-relaxed max-w-2xl break-words">
+                <p className="text-[11px] sm:text-xs text-muted-fg mt-1 leading-relaxed max-w-2xl break-words">
                   Main access remains with you (Super Admin). Team members (Managers, Developers, Support) receive tailored personal dashboards and access restricted to their assigned tasks.
                 </p>
               </div>
@@ -386,34 +386,34 @@ export default function AdminTeamPage() {
 
         {/* Top Metric Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Total Staff Members</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-white mt-0.5 sm:mt-1">{team.length}</p>
-            <p className="text-[10px] sm:text-[11px] text-emerald-400 mt-0.5 sm:mt-1 truncate">● All Active Staff</p>
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-1 dark:bg-[#0f172a]/70 border border-border dark:border-white/[0.08] backdrop-blur-md shadow-sm">
+            <p className="text-[11px] sm:text-xs text-muted-fg font-medium truncate">Total Staff Members</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-foreground dark:text-white mt-0.5 sm:mt-1">{team.length}</p>
+            <p className="text-[10px] sm:text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5 sm:mt-1 truncate">● All Active Staff</p>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Developers</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-emerald-300 mt-0.5 sm:mt-1">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-1 dark:bg-[#0f172a]/70 border border-border dark:border-white/[0.08] backdrop-blur-md shadow-sm">
+            <p className="text-[11px] sm:text-xs text-muted-fg font-medium truncate">Developers</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-emerald-600 dark:text-emerald-300 mt-0.5 sm:mt-1">
               {team.filter((t) => t.role === "developer").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Full-Stack & Systems</p>
+            <p className="text-[10px] sm:text-[11px] text-muted-fg mt-0.5 sm:mt-1 truncate">Full-Stack & Systems</p>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Cyber & Ethical Hacker</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-cyan-300 mt-0.5 sm:mt-1">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-1 dark:bg-[#0f172a]/70 border border-border dark:border-white/[0.08] backdrop-blur-md shadow-sm">
+            <p className="text-[11px] sm:text-xs text-muted-fg font-medium truncate">Cyber & Ethical Hacker</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-cyan-600 dark:text-cyan-300 mt-0.5 sm:mt-1">
               {team.filter((t) => t.role === "cyber_security" || t.role === "ethical_hacker").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Security & Penetration</p>
+            <p className="text-[10px] sm:text-[11px] text-muted-fg mt-0.5 sm:mt-1 truncate">Security & Penetration</p>
           </div>
 
-          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-[#0f172a]/70 border border-white/[0.08] backdrop-blur-md shadow-sm">
-            <p className="text-[11px] sm:text-xs text-neutral-400 font-medium truncate">Marketing & Graphics</p>
-            <p className="text-xl sm:text-2xl font-bold font-heading text-amber-300 mt-0.5 sm:mt-1">
+          <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-surface-1 dark:bg-[#0f172a]/70 border border-border dark:border-white/[0.08] backdrop-blur-md shadow-sm">
+            <p className="text-[11px] sm:text-xs text-muted-fg font-medium truncate">Marketing & Graphics</p>
+            <p className="text-xl sm:text-2xl font-bold font-heading text-amber-600 dark:text-amber-300 mt-0.5 sm:mt-1">
               {team.filter((t) => t.role === "digital_marketer" || t.role === "graphics_designer" || t.role === "editor").length}
             </p>
-            <p className="text-[10px] sm:text-[11px] text-neutral-400 mt-0.5 sm:mt-1 truncate">Ads & UI/UX Design</p>
+            <p className="text-[10px] sm:text-[11px] text-muted-fg mt-0.5 sm:mt-1 truncate">Ads & UI/UX Design</p>
           </div>
         </div>
 
@@ -448,7 +448,7 @@ export default function AdminTeamPage() {
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all shrink-0 cursor-pointer border ${
                     isSelected
                       ? "bg-primary-500 text-black border-primary-400 font-bold shadow-[0_0_14px_rgba(20,184,160,0.35)]"
-                      : "bg-white/[0.04] text-neutral-300 border-white/[0.08] hover:text-white hover:bg-white/[0.08]"
+                      : "bg-surface-2 dark:bg-white/[0.04] text-muted-fg dark:text-neutral-300 border-border dark:border-white/[0.08] hover:text-foreground dark:hover:text-white hover:bg-surface-3"
                   }`}
                 >
                   <span className="text-sm">{cat.icon}</span>
@@ -457,7 +457,7 @@ export default function AdminTeamPage() {
                     className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                       isSelected
                         ? "bg-black/20 text-neutral-950 font-bold"
-                        : "bg-white/10 text-neutral-400"
+                        : "bg-surface-3 dark:bg-white/10 text-muted-fg dark:text-neutral-400"
                     }`}
                   >
                     {count}
@@ -470,7 +470,7 @@ export default function AdminTeamPage() {
           {/* Search box */}
           <div className="relative w-full md:w-64">
             <svg
-              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-500"
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-fg"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -483,7 +483,7 @@ export default function AdminTeamPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search team members…"
-              className="w-full pl-9 pr-3 py-2 sm:py-1.5 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs text-white placeholder:text-neutral-500 focus:outline-none focus:border-primary-500/50 transition-colors"
+              className="w-full pl-9 pr-3 py-2 sm:py-1.5 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/[0.08] text-xs text-foreground dark:text-white placeholder:text-muted-fg focus:outline-none focus:border-primary-500/50 transition-colors"
             />
           </div>
         </div>
@@ -492,12 +492,12 @@ export default function AdminTeamPage() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-48 rounded-2xl bg-white/[0.02] border border-white/[0.06] animate-pulse" />
+              <div key={i} className="h-48 rounded-2xl bg-surface-2 dark:bg-white/[0.02] border border-border dark:border-white/[0.06] animate-pulse" />
             ))}
           </div>
         ) : filteredTeam.length === 0 ? (
-          <div className="p-12 text-center rounded-2xl bg-white/[0.02] border border-white/[0.06]">
-            <p className="text-sm text-neutral-400">No team members match your search.</p>
+          <div className="p-12 text-center rounded-2xl bg-surface-2 dark:bg-white/[0.02] border border-border dark:border-white/[0.06]">
+            <p className="text-sm text-muted-fg">No team members match your search.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -510,12 +510,12 @@ export default function AdminTeamPage() {
                   key={member.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`relative p-5 rounded-2xl bg-gradient-to-br ${theme.bg} border ${theme.border} backdrop-blur-md transition-all duration-200 hover:border-white/20`}
+                  className={`relative p-5 rounded-2xl bg-surface-1/95 dark:bg-surface-1/60 bg-gradient-to-br ${theme.bg} border border-border dark:${theme.border} backdrop-blur-md transition-all duration-200 hover:border-primary-500/30 dark:hover:border-white/20 shadow-sm`}
                 >
                   {/* Card Header */}
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-center gap-3">
-                      <div className="relative h-12 w-12 rounded-xl bg-white/[0.08] border border-white/10 flex items-center justify-center font-heading font-black text-white text-base shadow-lg">
+                      <div className="relative h-12 w-12 rounded-xl bg-surface-2 dark:bg-white/[0.08] border border-border dark:border-white/10 flex items-center justify-center font-heading font-black text-foreground dark:text-white text-base shadow-sm">
                         {member.avatar || member.name.slice(0, 2).toUpperCase()}
                         {isOwner && (
                           <span className="absolute -top-1.5 -right-1.5 h-5 w-5 rounded-full bg-amber-400 text-black border border-black flex items-center justify-center text-[10px] font-bold shadow-md">
@@ -525,13 +525,13 @@ export default function AdminTeamPage() {
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className="font-heading font-bold text-white text-sm">
+                          <h4 className="font-heading font-bold text-foreground dark:text-white text-sm">
                             {member.name}
                           </h4>
                           <StatusBadge status={member.status} />
                         </div>
-                        <p className="text-xs text-neutral-300 font-medium mt-0.5">{member.title}</p>
-                        <p className="text-[11px] text-neutral-400 font-mono">{member.email}</p>
+                        <p className="text-xs text-muted-fg dark:text-neutral-300 font-medium mt-0.5">{member.title}</p>
+                        <p className="text-[11px] text-muted-fg/80 dark:text-neutral-400 font-mono">{member.email}</p>
                       </div>
                     </div>
 
@@ -541,11 +541,11 @@ export default function AdminTeamPage() {
                   </div>
 
                   {/* Department & Info */}
-                  <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-neutral-400">
+                  <div className="mt-4 pt-3 border-t border-border dark:border-white/[0.06] flex items-center justify-between text-xs text-muted-fg dark:text-neutral-400">
                     <span className="truncate max-w-[220px]">
                       🏢 {member.department}
                     </span>
-                    <span className="text-[10px] text-neutral-500 font-mono">
+                    <span className="text-[10px] text-muted-fg/70 dark:text-neutral-500 font-mono">
                       Joined {new Date(member.createdAt).toLocaleDateString()}
                     </span>
                   </div>
@@ -556,23 +556,23 @@ export default function AdminTeamPage() {
                       member.permissions.map((perm) => (
                         <span
                           key={perm}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/[0.06] text-neutral-300 border border-white/[0.06]"
+                          className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-surface-2 dark:bg-white/[0.06] text-muted-fg dark:text-neutral-300 border border-border dark:border-white/[0.06]"
                         >
                           ✓ {perm.replace("_", " ")}
                         </span>
                       ))
                     ) : (
-                      <span className="text-[10px] text-neutral-500 italic">No custom permissions</span>
+                      <span className="text-[10px] text-muted-fg italic">No custom permissions</span>
                     )}
                   </div>
 
                   {/* Action Bar (Superadmin only) */}
                   {isSuperAdminOrAdmin && (
-                    <div className="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between gap-2">
+                    <div className="mt-4 pt-3 border-t border-border dark:border-white/[0.06] flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => setEditMember(member)}
-                          className="px-3 py-1 rounded-lg text-xs font-medium bg-white/[0.05] hover:bg-white/[0.1] text-white border border-white/10 transition-colors flex items-center gap-1.5"
+                          className="px-3 py-1 rounded-lg text-xs font-medium bg-surface-2 dark:bg-white/[0.05] hover:bg-surface-3 dark:hover:bg-white/[0.1] text-foreground dark:text-white border border-border dark:border-white/10 transition-colors flex items-center gap-1.5 cursor-pointer"
                         >
                           <span>🔑</span>
                           <span>Give / Edit Access</span>
@@ -580,10 +580,10 @@ export default function AdminTeamPage() {
                         {!isOwner && (
                           <button
                             onClick={() => handleToggleStatus(member)}
-                            className={`px-3 py-1 rounded-lg text-xs font-medium border transition-colors ${
+                            className={`px-3 py-1 rounded-lg text-xs font-medium border transition-colors cursor-pointer ${
                               member.status === "active"
-                                ? "text-orange-400 hover:bg-orange-500/10 border-orange-500/20"
-                                : "text-emerald-400 hover:bg-emerald-500/10 border-emerald-500/20"
+                                ? "text-orange-600 dark:text-orange-400 hover:bg-orange-500/10 border-orange-500/20"
+                                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 border-emerald-500/20"
                             }`}
                           >
                             {member.status === "active" ? "Suspend" : "Activate"}
@@ -594,7 +594,7 @@ export default function AdminTeamPage() {
                       {!isOwner && (
                         <button
                           onClick={() => setDeleteConfirm({ open: true, member })}
-                          className="px-2.5 py-1 rounded-lg text-xs font-medium text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-colors"
+                          className="px-2.5 py-1 rounded-lg text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-colors cursor-pointer"
                           title="Revoke team access"
                         >
                           Revoke
@@ -629,36 +629,36 @@ export default function AdminTeamPage() {
       >
         <form onSubmit={handleAddMember} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 mb-1">Full Name</label>
+            <label className="block text-xs font-semibold text-foreground mb-1">Full Name</label>
             <input
               type="text"
               required
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               placeholder="e.g. Jahidul Islam"
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+              className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white placeholder:text-muted-fg focus:outline-none focus:border-primary-500/50"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 mb-1">Work Email</label>
+            <label className="block text-xs font-semibold text-foreground mb-1">Work Email</label>
             <input
               type="email"
               required
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               placeholder="e.g. jahidul@nexora.agency"
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+              className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white placeholder:text-muted-fg focus:outline-none focus:border-primary-500/50"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">Assigned Role / Access Category</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Assigned Role / Access Category</label>
               <select
                 value={formData.role}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value as TeamStaff["role"] })}
-                className="w-full px-3 py-2 rounded-xl bg-[#1e293b] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                className="w-full px-3 py-2 rounded-xl bg-surface-1 dark:bg-[#1e293b] border border-border dark:border-white/10 text-xs text-foreground dark:text-white focus:outline-none focus:border-primary-500/50"
               >
                 <option value="developer">⚡ Developer (Full-Stack & Systems)</option>
                 <option value="cyber_security">🛡️ Cyber Security Specialist</option>
@@ -672,37 +672,37 @@ export default function AdminTeamPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">Department</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Department</label>
               <input
                 type="text"
                 value={formData.department}
                 onChange={(e) => setFormData({ ...formData, department: e.target.value })}
                 placeholder="e.g. Computer Science & Tech"
-                className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white placeholder:text-muted-fg focus:outline-none focus:border-primary-500/50"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 mb-1">Job Title</label>
+            <label className="block text-xs font-semibold text-foreground mb-1">Job Title</label>
             <input
               type="text"
               value={formData.title}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g. Lead UI/UX Designer"
-              className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+              className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white placeholder:text-muted-fg focus:outline-none focus:border-primary-500/50"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-neutral-300 mb-2">Granular Permissions</label>
+            <label className="block text-xs font-semibold text-foreground mb-2">Granular Permissions</label>
             <div className="space-y-2">
               {ALL_PERMISSIONS.map((perm) => {
                 const checked = formData.permissions.includes(perm.id);
                 return (
                   <label
                     key={perm.id}
-                    className="flex items-start gap-2.5 p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] cursor-pointer"
+                    className="flex items-start gap-2.5 p-2 rounded-xl bg-surface-2/60 dark:bg-white/[0.02] border border-border dark:border-white/[0.06] hover:bg-surface-3 dark:hover:bg-white/[0.05] cursor-pointer"
                   >
                     <input
                       type="checkbox"
@@ -713,11 +713,11 @@ export default function AdminTeamPage() {
                           : [...formData.permissions, perm.id];
                         setFormData({ ...formData, permissions: next });
                       }}
-                      className="mt-0.5 rounded border-white/20 text-primary-500 focus:ring-0"
+                      className="mt-0.5 rounded border-border text-primary-500 focus:ring-0 cursor-pointer"
                     />
                     <div>
-                      <p className="text-xs font-medium text-white">{perm.label}</p>
-                      <p className="text-[10px] text-neutral-400">{perm.desc}</p>
+                      <p className="text-xs font-medium text-foreground dark:text-white">{perm.label}</p>
+                      <p className="text-[10px] text-muted-fg dark:text-neutral-400">{perm.desc}</p>
                     </div>
                   </label>
                 );
@@ -749,13 +749,13 @@ export default function AdminTeamPage() {
           <form onSubmit={handleUpdateMember} className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 mb-1">Assigned Role / Access Category</label>
+                <label className="block text-xs font-semibold text-foreground mb-1">Assigned Role / Access Category</label>
                 <select
                   value={editMember.role}
                   onChange={(e) =>
                     setEditMember({ ...editMember, role: e.target.value as TeamStaff["role"] })
                   }
-                  className="w-full px-3 py-2 rounded-xl bg-[#1e293b] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                  className="w-full px-3 py-2 rounded-xl bg-surface-1 dark:bg-[#1e293b] border border-border dark:border-white/10 text-xs text-foreground dark:text-white focus:outline-none focus:border-primary-500/50"
                 >
                   <option value="developer">⚡ Developer (Full-Stack & Systems)</option>
                   <option value="cyber_security">🛡️ Cyber Security Specialist</option>
@@ -770,7 +770,7 @@ export default function AdminTeamPage() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-neutral-300 mb-1">Status</label>
+                <label className="block text-xs font-semibold text-foreground mb-1">Status</label>
                 <select
                   value={editMember.status}
                   onChange={(e) =>
@@ -779,7 +779,7 @@ export default function AdminTeamPage() {
                       status: e.target.value as "active" | "suspended",
                     })
                   }
-                  className="w-full px-3 py-2 rounded-xl bg-[#1e293b] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                  className="w-full px-3 py-2 rounded-xl bg-surface-1 dark:bg-[#1e293b] border border-border dark:border-white/10 text-xs text-foreground dark:text-white focus:outline-none focus:border-primary-500/50"
                 >
                   <option value="active">Active</option>
                   <option value="suspended">Suspended</option>
@@ -788,34 +788,34 @@ export default function AdminTeamPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">Department</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Department</label>
               <input
                 type="text"
                 value={editMember.department}
                 onChange={(e) => setEditMember({ ...editMember, department: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white focus:outline-none focus:border-primary-500/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-1">Job Title</label>
+              <label className="block text-xs font-semibold text-foreground mb-1">Job Title</label>
               <input
                 type="text"
                 value={editMember.title}
                 onChange={(e) => setEditMember({ ...editMember, title: e.target.value })}
-                className="w-full px-3 py-2 rounded-xl bg-white/[0.04] border border-white/10 text-xs text-white focus:outline-none focus:border-primary-500/50"
+                className="w-full px-3 py-2 rounded-xl bg-surface-2 dark:bg-white/[0.04] border border-border dark:border-white/10 text-xs text-foreground dark:text-white focus:outline-none focus:border-primary-500/50"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-neutral-300 mb-2">Permissions</label>
+              <label className="block text-xs font-semibold text-foreground mb-2">Permissions</label>
               <div className="space-y-2">
                 {ALL_PERMISSIONS.map((perm) => {
                   const checked = editMember.permissions?.includes(perm.id);
                   return (
                     <label
                       key={perm.id}
-                      className="flex items-start gap-2.5 p-2 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:bg-white/[0.05] cursor-pointer"
+                      className="flex items-start gap-2.5 p-2 rounded-xl bg-surface-2/60 dark:bg-white/[0.02] border border-border dark:border-white/[0.06] hover:bg-surface-3 dark:hover:bg-white/[0.05] cursor-pointer"
                     >
                       <input
                         type="checkbox"
@@ -827,11 +827,11 @@ export default function AdminTeamPage() {
                             : [...currentPerms, perm.id];
                           setEditMember({ ...editMember, permissions: next });
                         }}
-                        className="mt-0.5 rounded border-white/20 text-primary-500 focus:ring-0"
+                        className="mt-0.5 rounded border-border text-primary-500 focus:ring-0 cursor-pointer"
                       />
                       <div>
-                        <p className="text-xs font-medium text-white">{perm.label}</p>
-                        <p className="text-[10px] text-neutral-400">{perm.desc}</p>
+                        <p className="text-xs font-medium text-foreground dark:text-white">{perm.label}</p>
+                        <p className="text-[10px] text-muted-fg dark:text-neutral-400">{perm.desc}</p>
                       </div>
                     </label>
                   );

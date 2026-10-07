@@ -129,7 +129,7 @@ export default async function TeamPage() {
                     </div>
 
                     {/* Bio */}
-                    <p className="mt-3 text-xs sm:text-sm text-neutral-300 leading-relaxed line-clamp-3">
+                    <p className="mt-3 text-xs sm:text-sm text-muted-fg leading-relaxed line-clamp-3">
                       {member.bio || member.tagline}
                     </p>
 
@@ -138,13 +138,13 @@ export default async function TeamPage() {
                       {member.skills.slice(0, 5).map((skill) => (
                         <span
                           key={skill}
-                          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-white/[0.05] border border-white/[0.08] text-neutral-300"
+                          className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-surface-2 border border-border text-foreground"
                         >
                           {skill}
                         </span>
                       ))}
                       {member.skills.length > 5 && (
-                        <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-white/[0.02] text-neutral-500">
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-mono bg-surface-2/40 text-muted-fg">
                           +{member.skills.length - 5} more
                         </span>
                       )}
@@ -154,8 +154,8 @@ export default async function TeamPage() {
                     {member.stats && member.stats.length > 0 && (
                       <div className="mt-5 pt-4 border-t border-white/[0.06] grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
                         {member.stats.map((s) => (
-                          <div key={s.label} className="p-2 rounded-xl bg-white/[0.03]">
-                            <p className="text-sm font-bold font-heading text-white">{s.value}</p>
+                          <div key={s.label} className="p-2 rounded-xl bg-surface-2/60 border border-border/50">
+                            <p className="text-sm font-bold font-heading text-foreground">{s.value}</p>
                             <p className="text-[9px] text-muted-fg truncate mt-0.5">{s.label}</p>
                           </div>
                         ))}
@@ -166,7 +166,7 @@ export default async function TeamPage() {
                     <div className="mt-5 pt-4 border-t border-white/[0.06] flex items-center justify-between">
                       <Link
                         href={`/team/${member.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-400 hover:text-primary-300 transition-colors group-hover:translate-x-1 transition-transform"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-500 transition-colors group-hover:translate-x-1 transition-transform"
                       >
                         <span>View Full Profile & Case Studies</span>
                         <span>→</span>
@@ -178,7 +178,7 @@ export default async function TeamPage() {
                             href={member.socialLinks.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 rounded-lg text-muted-fg hover:text-white hover:bg-white/[0.08] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
                             title="GitHub"
                           >
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -191,7 +191,7 @@ export default async function TeamPage() {
                             href={member.socialLinks.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-1.5 rounded-lg text-muted-fg hover:text-white hover:bg-white/[0.08] transition-colors"
+                            className="p-1.5 rounded-lg text-muted-fg hover:text-foreground hover:bg-surface-2 transition-colors"
                             title="LinkedIn"
                           >
                             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">

@@ -82,7 +82,7 @@ export function FounderProfileSection() {
             <div className="lg:col-span-4 flex flex-col items-center text-center">
               <Link href="/team/md-mahfuzul-haque" className="relative group cursor-pointer">
                 <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-primary-500 to-amber-500 opacity-40 blur-lg group-hover:opacity-75 transition duration-500" />
-                <div className="relative h-32 w-32 sm:h-36 sm:w-36 rounded-2xl bg-neutral-900 border-2 border-primary-500/40 flex items-center justify-center shadow-xl overflow-hidden">
+                <div className="relative h-32 w-32 sm:h-36 sm:w-36 rounded-2xl bg-surface-2 dark:bg-neutral-900 border-2 border-primary-500/40 flex items-center justify-center shadow-xl overflow-hidden">
                   <div className="h-full w-full bg-surface-2/70 flex items-center justify-center text-muted-fg/70 group-hover:text-primary-400 transition-colors duration-300">
                     <svg
                       className="w-16 h-16 transition-transform duration-300 group-hover:scale-105"
@@ -97,7 +97,7 @@ export function FounderProfileSection() {
                       />
                     </svg>
                   </div>
-                  <span className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-3 border-neutral-900 flex items-center justify-center" title="Active & Building">
+                  <span className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-emerald-500 border-3 border-background flex items-center justify-center" title="Active & Building">
                     <span className="h-2 w-2 rounded-full bg-white animate-pulse" />
                   </span>
                 </div>
